@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:tiktok/constants/gaps.dart';
 import 'package:tiktok/constants/sizes.dart';
 
-class SignUpScreen extends StatelessWidget {
-  const SignUpScreen({super.key});
+class LogInScreen extends StatelessWidget {
+  const LogInScreen({super.key});
+
+  void onSignupTap(BuildContext context) {
+    Navigator.of(context).pop();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +21,7 @@ class SignUpScreen extends StatelessWidget {
             children: [
               Gaps.v80,
               Text(
-                'SIgn up for TikTok',
+                'Log in to TikTok',
                 style: TextStyle(
                   fontSize: Sizes.size28,
                   fontWeight: FontWeight.w700,
@@ -25,7 +29,7 @@ class SignUpScreen extends StatelessWidget {
               ),
               Gaps.v20,
               Text(
-                'Create a profile, follow other accoutns, make your own videos, and more.',
+                'Manage your account, check notifications, comment on videos, and more.',
                 style: TextStyle(
                   fontSize: Sizes.size16,
                   fontWeight: FontWeight.w200,
@@ -44,25 +48,28 @@ class SignUpScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(
             vertical: Sizes.size16,
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                'Already havce an accoint?',
-                style: TextStyle(
-                  fontSize: Sizes.size16,
+          child: GestureDetector(
+            onTap: () => onSignupTap(context),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "Don't have an account?",
+                  style: TextStyle(
+                    fontSize: Sizes.size16,
+                  ),
                 ),
-              ),
-              Gaps.h5,
-              Text(
-                'Log in',
-                style: TextStyle(
-                  fontSize: Sizes.size16,
-                  fontWeight: FontWeight.w600,
-                  color: Theme.of(context).primaryColor,
+                Gaps.h5,
+                Text(
+                  'Sign up',
+                  style: TextStyle(
+                    fontSize: Sizes.size16,
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).primaryColor,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
