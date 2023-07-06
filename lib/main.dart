@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tiktok/constants/gaps.dart';
-import 'package:tiktok/constants/sizes.dart';
+import 'package:tiktok/screens/sign_up/sign_up_screen.dart';
 
 void main() {
   runApp(const TiktokApp());
@@ -14,19 +13,9 @@ class TiktokApp extends StatelessWidget {
     return MaterialApp(
       title: 'Tiktok',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        primaryColor: const Color(0xFFE9435A),
       ),
-      home: const Padding(
-        padding: EdgeInsets.all(Sizes.size14),
-        child: Row(
-          children: [
-            Text('hello'),
-            Gaps.h20,
-            Text('hello'),
-          ],
-        ),
-      ),
+      home: const SignUpScreen(),
     );
   }
 }
