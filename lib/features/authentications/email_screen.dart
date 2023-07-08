@@ -1,44 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:tiktok/constants/gaps.dart';
 import 'package:tiktok/constants/sizes.dart';
-import 'package:tiktok/features/authentications/email_screen.dart';
 import 'package:tiktok/features/authentications/widgets/form_button.dart';
 
-class UsernameScreen extends StatefulWidget {
-  const UsernameScreen({super.key});
+class EmailScreen extends StatefulWidget {
+  const EmailScreen({super.key});
 
   @override
-  State<UsernameScreen> createState() => _UsernameScreenState();
+  State<EmailScreen> createState() => _EmailScreenState();
 }
 
-class _UsernameScreenState extends State<UsernameScreen> {
-  final TextEditingController _usernameController = TextEditingController();
+class _EmailScreenState extends State<EmailScreen> {
+  final TextEditingController _emailController = TextEditingController();
 
-  String _username = '';
+  String _email = '';
 
   @override
   void initState() {
     super.initState();
-    _usernameController.addListener(() {
+    _emailController.addListener(() {
       setState(() {
-        _username = _usernameController.text;
+        _email = _emailController.text;
       });
     });
   }
 
   @override
   void dispose() {
-    _usernameController.dispose();
+    _emailController.dispose();
     super.dispose();
-  }
-
-  void _onTapNext() {
-    if (_username.isEmpty) return;
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const EmailScreen(),
-      ),
-    );
   }
 
   @override
@@ -58,26 +48,17 @@ class _UsernameScreenState extends State<UsernameScreen> {
           children: [
             Gaps.v40,
             const Text(
-              'Create username',
+              'What is your email?',
               style: TextStyle(
                 fontSize: Sizes.size24,
                 fontWeight: FontWeight.w700,
               ),
             ),
-            Gaps.v8,
-            const Text('You can always change this later.',
-                style: TextStyle(
-                  fontSize: Sizes.size16,
-                  fontWeight: FontWeight.w300,
-                  color: Colors.black54,
-                )),
             Gaps.v16,
             TextField(
-              controller: _usernameController,
+              controller: _emailController,
               decoration: InputDecoration(
-                hintStyle: TextStyle(
-                  color: Colors.grey.shade400,
-                ),
+                hintText: 'Email',
                 enabledBorder: UnderlineInputBorder(
                   borderSide: BorderSide(
                     color: Colors.grey.shade400,
@@ -88,14 +69,15 @@ class _UsernameScreenState extends State<UsernameScreen> {
                     color: Colors.grey.shade400,
                   ),
                 ),
-                hintText: 'Username',
               ),
               cursorColor: Theme.of(context).primaryColor,
             ),
-            Gaps.v32,
+            Gaps.v28,
             GestureDetector(
-              onTap: _onTapNext,
-              child: FormButton(disabled: _username.isEmpty),
+              onTap: () {},
+              child: FormButton(
+                disabled: _email.isEmpty,
+              ),
             )
           ],
         ),

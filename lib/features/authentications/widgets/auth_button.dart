@@ -6,6 +6,7 @@ class AuthButton extends StatelessWidget {
   final String text;
   final FaIcon icon;
   final void Function(BuildContext) onTapFunction;
+
   const AuthButton({
     super.key,
     required this.text,
