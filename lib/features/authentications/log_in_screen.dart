@@ -5,7 +5,7 @@ import 'package:tiktok/constants/sizes.dart';
 class LogInScreen extends StatelessWidget {
   const LogInScreen({super.key});
 
-  void onSignupTap(BuildContext context) {
+  void _onSignupTap(BuildContext context) {
     Navigator.of(context).pop();
   }
 
@@ -42,14 +42,14 @@ class LogInScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        color: Colors.grey.shade100,
+        color: Colors.grey.shade50,
         elevation: 2,
         child: Padding(
           padding: const EdgeInsets.symmetric(
             vertical: Sizes.size16,
           ),
           child: GestureDetector(
-            onTap: () => onSignupTap(context),
+            onTap: () => _onSignupTap(context),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
