@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tiktok/constants/sizes.dart';
-import 'package:tiktok/features/authentications/sign_up_screen.dart';
+import 'package:tiktok/features/authentications/signup_screen.dart';
 
 void main() {
   runApp(const TiktokApp());

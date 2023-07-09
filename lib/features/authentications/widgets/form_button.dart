@@ -3,9 +3,11 @@ import 'package:tiktok/constants/sizes.dart';
 
 class FormButton extends StatelessWidget {
   final bool disabled;
+  final String? text;
 
   const FormButton({
     super.key,
+    this.text,
     required this.disabled,
   });
 
@@ -34,8 +36,8 @@ class FormButton extends StatelessWidget {
             fontWeight: FontWeight.w600,
             color: disabled ? Colors.grey.shade400 : Colors.white,
           ),
-          child: const Text(
-            'Next',
+          child: Text(
+            text ?? 'Next',
             textAlign: TextAlign.center,
           ),
         ),

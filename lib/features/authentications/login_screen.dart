@@ -2,39 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok/constants/gaps.dart';
 import 'package:tiktok/constants/sizes.dart';
-import 'package:tiktok/features/authentications/username_screen.dart';
-import 'package:tiktok/features/authentications/log_in_screen.dart';
+import 'package:tiktok/features/authentications/login_form_screen.dart';
 import 'package:tiktok/features/authentications/widgets/auth_button.dart';
 
-class SignUpScreen extends StatelessWidget {
-  const SignUpScreen({super.key});
+class LogInScreen extends StatelessWidget {
+  const LogInScreen({super.key});
 
-  void onLoginTap(BuildContext context) {
+  void _onSignupTap(BuildContext context) {
+    Navigator.of(context).pop();
+  }
+
+  void _onEmailLoginTap(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const LogInScreen(),
+        builder: (context) => const LoginFormScreen(),
       ),
     );
-  }
-
-  void _onEmailTap(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const UsernameScreen(),
-      ),
-    );
-  }
-
-  void _onFacebookTap(BuildContext context) {
-    print('onFacebookTap');
-  }
-
-  void _onAppleTap(BuildContext context) {
-    print('onAppleTap');
-  }
-
-  void _onGoogleTap(BuildContext context) {
-    print('onGoogleTap');
   }
 
   @override
@@ -49,7 +32,7 @@ class SignUpScreen extends StatelessWidget {
             children: [
               Gaps.v80,
               const Text(
-                'Sign up for TikTok',
+                'Log in to TikTok',
                 style: TextStyle(
                   fontSize: Sizes.size28,
                   fontWeight: FontWeight.w700,
@@ -57,7 +40,7 @@ class SignUpScreen extends StatelessWidget {
               ),
               Gaps.v20,
               const Text(
-                'Create a profile, follow other accounts, make your own videos, and more.',
+                'Manage your account, check notifications, comment on videos, and more.',
                 style: TextStyle(
                   fontSize: Sizes.size16,
                   fontWeight: FontWeight.w200,
@@ -65,29 +48,17 @@ class SignUpScreen extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              Gaps.v32,
+              Gaps.v40,
               AuthButton(
                 icon: const FaIcon(FontAwesomeIcons.user),
-                text: 'Use phone or email',
-                onTapFunction: _onEmailTap,
-              ),
-              Gaps.v16,
-              AuthButton(
-                icon: const FaIcon(FontAwesomeIcons.facebook),
-                text: 'Continue with Facebook',
-                onTapFunction: _onFacebookTap,
+                text: 'Use email & password',
+                onTapFunction: _onEmailLoginTap,
               ),
               Gaps.v16,
               AuthButton(
                 icon: const FaIcon(FontAwesomeIcons.apple),
                 text: 'Continue with Apple',
-                onTapFunction: _onAppleTap,
-              ),
-              Gaps.v16,
-              AuthButton(
-                icon: const FaIcon(FontAwesomeIcons.google),
-                text: 'Continue with Google',
-                onTapFunction: _onGoogleTap,
+                onTapFunction: (context) {},
               ),
             ],
           ),
@@ -100,28 +71,28 @@ class SignUpScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(
             vertical: Sizes.size16,
           ),
-          child: GestureDetector(
-            onTap: () => onLoginTap(context),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'Already have an account?',
-                  style: TextStyle(
-                    fontSize: Sizes.size16,
-                  ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                "Don't have an account?",
+                style: TextStyle(
+                  fontSize: Sizes.size16,
                 ),
-                Gaps.h5,
-                Text(
-                  'Log in',
+              ),
+              Gaps.h5,
+              GestureDetector(
+                onTap: () => _onSignupTap(context),
+                child: Text(
+                  'Sign up',
                   style: TextStyle(
                     fontSize: Sizes.size16,
                     fontWeight: FontWeight.w600,
                     color: Theme.of(context).primaryColor,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
