@@ -48,8 +48,12 @@ class _EmailScreenState extends State<EmailScreen> {
 
   void _onSubmit() {
     if (_email.isEmpty || _isEmailValid() != null) return;
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const PasswordScreen()));
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const PasswordScreen(),
+      ),
+    );
   }
 
   @override
@@ -105,7 +109,7 @@ class _EmailScreenState extends State<EmailScreen> {
                 child: FormButton(
                   disabled: _email.isEmpty || _isEmailValid() != null,
                 ),
-              )
+              ),
             ],
           ),
         ),
