@@ -48,11 +48,17 @@ class _InterestButtonState extends State<InterestButton> {
             ),
           ],
         ),
-        child: Text(
-          widget.interest,
+        child: AnimatedDefaultTextStyle(
           style: TextStyle(
-            fontWeight: FontWeight.bold,
             color: _isSelected ? Colors.white : Colors.black87,
+            fontWeight: FontWeight.bold,
+          ),
+          duration: const Duration(
+            milliseconds: 100,
+          ),
+          child: Text(
+            widget.interest,
+            style: const TextStyle(),
           ),
         ),
       ),
