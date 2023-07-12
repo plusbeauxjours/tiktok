@@ -3,16 +3,19 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok/constants/gaps.dart';
 
 class NavTab extends StatelessWidget {
-  const NavTab(
-      {super.key,
-      required this.text,
-      required this.isSelected,
-      required this.icon,
-      required this.onTap});
+  const NavTab({
+    super.key,
+    required this.text,
+    required this.isSelected,
+    required this.icon,
+    required this.selectedIcon,
+    required this.onTap,
+  });
 
   final String text;
   final bool isSelected;
   final IconData icon;
+  final IconData selectedIcon;
   final Function onTap;
 
   @override
@@ -31,7 +34,7 @@ class NavTab extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 FaIcon(
-                  icon,
+                  isSelected ? selectedIcon : icon,
                   color: Colors.white,
                 ),
                 Gaps.v5,
