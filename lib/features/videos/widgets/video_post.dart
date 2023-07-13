@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok/constants/sizes.dart';
 import 'package:video_player/video_player.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 class VideoPost extends StatefulWidget {
   final Function onVideoFinished;
@@ -32,7 +35,6 @@ class _VideoPostState extends State<VideoPost> {
 
   void _initVideoPlayer() async {
     await _videoPlayerController.initialize();
-    await _videoPlayerController.play();
     _videoPlayerController.addListener(_onVideoChange);
     setState(() {});
   }
@@ -49,20 +51,55 @@ class _VideoPostState extends State<VideoPost> {
     super.dispose();
   }
 
+  void _onVisibilityChanged(VisibilityInfo info) {
+    print('Video: #${widget.index} is ${info.visibleFraction * 100}%');
+    if (info.visibleFraction == 1 && !_videoPlayerController.value.isPlaying) {
+      _videoPlayerController.play();
+    }
+  }
+
+  void _onTogglePause() {
+    if (_videoPlayerController.value.isPlaying) {
+      _videoPlayerController.pause();
+    } else {
+      _videoPlayerController.play();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned.fill(
-          child: _videoPlayerController.value.isInitialized
-              ? VideoPlayer(
-                  _videoPlayerController,
-                )
-              : Container(
-                  color: Colors.black,
+    return VisibilityDetector(
+      key: Key('${widget.index}'),
+      onVisibilityChanged: _onVisibilityChanged,
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: _videoPlayerController.value.isInitialized
+                ? VideoPlayer(
+                    _videoPlayerController,
+                  )
+                : Container(
+                    color: Colors.black,
+                  ),
+          ),
+          Positioned.fill(
+            child: GestureDetector(
+              onTap: _onTogglePause,
+            ),
+          ),
+          const Positioned.fill(
+            child: IgnorePointer(
+              child: Center(
+                child: FaIcon(
+                  FontAwesomeIcons.play,
+                  color: Colors.white,
+                  size: Sizes.size52,
                 ),
-        ),
-      ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
