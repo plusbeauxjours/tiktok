@@ -1,10 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:marquee/marquee.dart';
 import 'package:tiktok/constants/gaps.dart';
 import 'package:tiktok/constants/sizes.dart';
 import 'package:tiktok/features/videos/widgets/video_button.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+
+const keywords = [
+  "tag1",
+  "tag2",
+  "tag3",
+  "tag4",
+  "tag5",
+  "tag6",
+  "tag7",
+  "tag8",
+  "tag9",
+];
 
 class VideoPost extends StatefulWidget {
   final Function onVideoFinished;
@@ -29,6 +42,10 @@ class _VideoPostState extends State<VideoPost>
   late final AnimationController _animationController;
 
   bool _isPaused = false;
+  bool _isMoreTagsShowed = false;
+
+  final Iterable<String> _tags = keywords.map((tag) => "#tag");
+  late final String _tagsString;
 
   void _onVideoChange() {
     if (_videoPlayerController.value.isInitialized) {
@@ -52,6 +69,10 @@ class _VideoPostState extends State<VideoPost>
   void initState() {
     super.initState();
     _initVideoPlayer();
+
+    _tagsString = _tags.reduce((value, element) => "$value $element");
+    print(_tagsString);
+
     _animationController = AnimationController(
       vsync: this,
       lowerBound: 1.0,
@@ -84,6 +105,12 @@ class _VideoPostState extends State<VideoPost>
     }
     setState(() {
       _isPaused = !_isPaused;
+    });
+  }
+
+  void _onTapSeeMore() {
+    setState(() {
+      _isMoreTagsShowed = !_isMoreTagsShowed;
     });
   }
 
@@ -132,13 +159,13 @@ class _VideoPostState extends State<VideoPost>
               ),
             ),
           ),
-          const Positioned(
+          Positioned(
             bottom: Sizes.size20,
             left: Sizes.size10,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   '@MJ',
                   style: TextStyle(
                     fontSize: Sizes.size20,
@@ -147,13 +174,88 @@ class _VideoPostState extends State<VideoPost>
                   ),
                 ),
                 Gaps.v10,
-                Text(
+                const Text(
                   'This is the way how connect with metamask',
                   style: TextStyle(
                     fontSize: Sizes.size16,
                     color: Colors.white,
                   ),
                 ),
+                Gaps.v10,
+                SizedBox(
+                  width: 300,
+                  child: _isMoreTagsShowed
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              _tagsString,
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: Sizes.size16,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            GestureDetector(
+                              onTap: _onTapSeeMore,
+                              child: Text(
+                                'Folded',
+                                style: TextStyle(
+                                  color: Colors.grey.shade700,
+                                  fontSize: Sizes.size16,
+                                ),
+                              ),
+                            )
+                          ],
+                        )
+                      : Row(
+                          children: [
+                            Flexible(
+                              child: Text(
+                                _tagsString,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: Sizes.size16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: _onTapSeeMore,
+                              child: Text(
+                                'See more',
+                                style: TextStyle(
+                                  color: Colors.grey.shade700,
+                                  fontSize: Sizes.size16,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                ),
+                Gaps.v10,
+                Row(
+                  children: [
+                    const FaIcon(
+                      FontAwesomeIcons.music,
+                      size: Sizes.size16,
+                      color: Colors.white,
+                    ),
+                    Gaps.h8,
+                    SizedBox(
+                      width: 200,
+                      height: 16,
+                      child: Marquee(
+                        text:
+                            "This text is too long to be shown in just one line.",
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: Sizes.size16,
+                        ),
+                      ),
+                    )
+                  ],
+                )
               ],
             ),
           ),
