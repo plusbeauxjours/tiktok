@@ -17,7 +17,9 @@ class _VideoCommentsState extends State<VideoComments> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Container(
+      height: size.height * 0.75,
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(
@@ -29,7 +31,7 @@ class _VideoCommentsState extends State<VideoComments> {
         appBar: AppBar(
           backgroundColor: Colors.grey.shade50,
           automaticallyImplyLeading: false,
-          title: const Text('33294'),
+          title: const Text('33294 comments'),
           actions: [
             IconButton(
               onPressed: _onClosePressed,
@@ -39,71 +41,105 @@ class _VideoCommentsState extends State<VideoComments> {
             ),
           ],
         ),
-        body: ListView.separated(
-          padding: const EdgeInsets.symmetric(
-            horizontal: Sizes.size16,
-            vertical: Sizes.size10,
-          ),
-          separatorBuilder: (context, index) => Gaps.v20,
-          itemCount: 10,
-          itemBuilder: (context, index) => Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const CircleAvatar(
-                radius: Sizes.size20,
-                child: Text('DJ'),
+        body: Stack(
+          children: [
+            ListView.separated(
+              padding: const EdgeInsets.symmetric(
+                horizontal: Sizes.size16,
+                vertical: Sizes.size10,
               ),
-              Gaps.h10,
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'DJ',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: Sizes.size14,
-                        color: Colors.grey.shade500,
-                      ),
-                    ),
-                    Gaps.v3,
-                    const Text(
-                      'my comment',
-                    )
-                  ],
-                ),
-              ),
-              Gaps.h10,
-              Column(
+              separatorBuilder: (context, index) => Gaps.v20,
+              itemCount: 10,
+              itemBuilder: (context, index) => Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const FaIcon(
-                    FontAwesomeIcons.heart,
-                    size: Sizes.size20,
+                  const CircleAvatar(
+                    radius: Sizes.size20,
+                    child: Text('DJ'),
                   ),
-                  Gaps.v2,
-                  Text(
-                    '52.2k',
-                    style: TextStyle(
-                      color: Colors.grey.shade500,
+                  Gaps.h10,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'DJ',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: Sizes.size14,
+                            color: Colors.grey.shade500,
+                          ),
+                        ),
+                        Gaps.v3,
+                        const Text('my comment')
+                      ],
                     ),
-                  )
+                  ),
+                  Gaps.h10,
+                  Column(
+                    children: [
+                      const FaIcon(
+                        FontAwesomeIcons.heart,
+                        size: Sizes.size20,
+                      ),
+                      Gaps.v2,
+                      Text(
+                        '52.2k',
+                        style: TextStyle(
+                          color: Colors.grey.shade500,
+                        ),
+                      )
+                    ],
+                  ),
                 ],
               ),
-            ],
-          ),
-        ),
-        bottomNavigationBar: BottomAppBar(
-          color: Colors.white,
-          child: Row(
-            children: [
-              CircleAvatar(
-                radius: Sizes.size20,
-                backgroundColor: Colors.grey.shade500,
-                foregroundColor: Colors.white,
-                child: const Text('MJ'),
+            ),
+            Positioned(
+              bottom: 0,
+              width: size.width,
+              child: BottomAppBar(
+                color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: Sizes.size16,
+                    vertical: Sizes.size10,
+                  ),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        radius: Sizes.size16,
+                        backgroundColor: Colors.grey.shade500,
+                        foregroundColor: Colors.white,
+                        child: const Text('MJ'),
+                      ),
+                      Gaps.h10,
+                      Expanded(
+                        child: TextField(
+                          autocorrect: false,
+                          cursorColor: Theme.of(context).primaryColor,
+                          decoration: InputDecoration(
+                            hintText: 'Add comment...',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(
+                                Sizes.size12,
+                              ),
+                              borderSide: BorderSide.none,
+                            ),
+                            filled: true,
+                            fillColor: Colors.grey.shade200,
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: Sizes.size10,
+                              horizontal: Sizes.size12,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
