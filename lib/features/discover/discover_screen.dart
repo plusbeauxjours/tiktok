@@ -12,3 +12,4 @@ class DiscoverScreen extends StatelessWidget {
     );
   }
 }
+
