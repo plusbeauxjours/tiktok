@@ -9,7 +9,7 @@ import 'package:tiktok/features/authentications/widgets/auth_button.dart';
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
 
-  void onLoginTap(BuildContext context) {
+  void _onLoginTap(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => const LogInScreen(),
@@ -111,7 +111,7 @@ class SignUpScreen extends StatelessWidget {
               ),
               Gaps.h5,
               GestureDetector(
-                onTap: () => onLoginTap(context),
+                onTap: () => _onLoginTap(context),
                 child: Text(
                   'Log in',
                   style: TextStyle(
