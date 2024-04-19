@@ -8,42 +8,40 @@ class NavTab extends StatelessWidget {
     required this.text,
     required this.isSelected,
     required this.icon,
-    required this.selectedIcon,
     required this.onTap,
     required this.selectedIndex,
+    this.selectedIcon,
   });
 
   final String text;
   final bool isSelected;
   final IconData icon;
-  final IconData selectedIcon;
-  final Function onTap;
+  final VoidCallback onTap;
   final int selectedIndex;
+  final IconData? selectedIcon;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: GestureDetector(
-        onTap: () => onTap(),
+        onTap: onTap,
         child: Container(
           color: selectedIndex == 0 ? Colors.black : Colors.white,
           child: AnimatedOpacity(
             opacity: isSelected ? 1 : 0.6,
-            duration: const Duration(
-              milliseconds: 300,
-            ),
+            duration: const Duration(milliseconds: 300),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 FaIcon(
-                  isSelected ? selectedIcon : icon,
-                  color: selectedIndex == 0 ? Colors.white : Colors.black,
+                  isSelected && selectedIcon != null ? selectedIcon : icon,
+                  color: selectedIndex != 0 ? Colors.black : Colors.white,
                 ),
                 Gaps.v5,
                 Text(
                   text,
                   style: TextStyle(
-                    color: selectedIndex == 0 ? Colors.white : Colors.black,
+                    color: selectedIndex != 0 ? Colors.black : Colors.white,
                   ),
                 ),
               ],

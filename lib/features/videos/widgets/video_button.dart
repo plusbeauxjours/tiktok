@@ -7,11 +7,8 @@ class VideoButton extends StatelessWidget {
   final IconData icon;
   final String text;
 
-  const VideoButton({
-    super.key,
-    required this.icon,
-    required this.text,
-  });
+  const VideoButton({Key? key, required this.icon, required this.text})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +19,7 @@ class VideoButton extends StatelessWidget {
           color: Colors.white,
           size: Sizes.size40,
         ),
-        Gaps.v5,
+        Gaps.v10,
         Text(
           text,
           style: const TextStyle(

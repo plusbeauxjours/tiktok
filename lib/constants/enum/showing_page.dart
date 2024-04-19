@@ -1,0 +1,4 @@
+enum ShowingPage {
+  first,
+  second,
+}

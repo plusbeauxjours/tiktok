@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tiktok/constants/sizes.dart';
-import 'package:tiktok/features/main_navigation/main_navigation_screen.dart';
+import 'package:tiktok/features/main_navigation/screens/main_navigation_screen.dart';
 
 void main() {
   runApp(const TiktokApp());
@@ -16,6 +16,8 @@ class TiktokApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
         primaryColor: const Color(0xFFE9435A),
+        focusColor: Colors.pink,
+        disabledColor: Colors.grey.shade200,
         textSelectionTheme: const TextSelectionThemeData(
           cursorColor: Color(0xFFE9435A),
         ),

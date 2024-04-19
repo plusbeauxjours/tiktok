@@ -1,0 +1,32 @@
+final List<String> tabs = [
+  'Top',
+  'Users',
+  'Videos',
+  'Sounds',
+  'LIVE',
+  'Shopping',
+  'Brands',
+];
+
+final List<String> discoveredImages = [
+  'assets/images/christmas-tree-6847584.jpg',
+  'assets/images/crane-houses-7518551.jpg',
+  'assets/images/dinner-7736494.jpg',
+  'assets/images/dog-7535633.jpg',
+  'assets/images/durham-7539264.jpg',
+  'assets/images/flower-7659988.jpg',
+  'assets/images/flower-7696955.jpg',
+  'assets/images/hall-7568043.jpg',
+  'assets/images/heron-7671357.jpg',
+  'assets/images/ice-cream-7661889.jpg',
+  'assets/images/labor-7576514.jpg',
+  'assets/images/phone-wallpaper-6496638.jpg',
+  'assets/images/phone-wallpaper-7105626.jpg',
+  'assets/images/snow-7670491.jpg',
+  'assets/images/street-6884534.jpg',
+  'assets/images/viet-nam-7741017.jpg',
+  'assets/images/water-7555693.jpg',
+  'assets/images/white-faced-heron-7469267.jpg',
+  'assets/images/windmill-7367963.jpg',
+  'assets/images/winter-forest-7677111.jpg',
+];

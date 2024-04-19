@@ -35,14 +35,12 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-
   font_awesome_flutter: 10.3.0
-
-  video_player: 2.4.10
-
-  visibility_detector: 0.3.3
-
-  marquee: 2.2.3
+  intl: ^0.18.0
+  video_player: ^2.5.1
+  visibility_detector: ^0.3.3
+  readmore: ^2.2.0
+  marquee_text: ^2.5.0+1
 
 dev_dependencies:
   flutter_test:

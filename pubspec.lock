@@ -57,14 +57,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
-  fading_edge_scrollview:
-    dependency: transitive
-    description:
-      name: fading_edge_scrollview
-      sha256: c25c2231652ce774cc31824d0112f11f653881f43d7f5302c05af11942052031
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.0"
   fake_async:
     dependency: transitive
     description:
@@ -112,6 +104,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.15.4"
+  intl:
+    dependency: "direct main"
+    description:
+      name: intl
+      sha256: "3bc132a9dbce73a7e4a21a17d06e1878839ffbf975568bc875c60537824b0c4d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.18.1"
   js:
     dependency: transitive
     description:
@@ -128,14 +128,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
-  marquee:
+  marquee_text:
     dependency: "direct main"
     description:
-      name: marquee
-      sha256: "4b5243d2804373bdc25fc93d42c3b402d6ec1f4ee8d0bb72276edd04ae7addb8"
+      name: marquee_text
+      sha256: "2f667fc3870af19b58ad5204e15d5f1627807585ed049800e48133601905554e"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.3"
+    version: "2.5.0+1"
   matcher:
     dependency: transitive
     description:
@@ -176,6 +176,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+  readmore:
+    dependency: "direct main"
+    description:
+      name: readmore
+      sha256: "99c2483202f7c7e98c50834d72be2b119aefecf4497ca1960ae9d5f418eb1481"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -241,10 +249,10 @@ packages:
     dependency: "direct main"
     description:
       name: video_player
-      sha256: "86b4fb9e30613ef4ff7e47367bfec4b080ab17205b7d969cd12bbebde49476b1"
+      sha256: "74b86e63529cf5885130c639d74cd2f9232e7c8a66cbecbddd1dcb9dbd060d1e"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.10"
+    version: "2.7.2"
   video_player_android:
     dependency: transitive
     description:
@@ -287,4 +295,4 @@ packages:
     version: "0.3.3"
 sdks:
   dart: ">=3.0.0 <4.0.0"
-  flutter: ">=3.3.0"
+  flutter: ">=3.7.0"

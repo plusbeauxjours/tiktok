@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok/constants/gaps.dart';
+import 'package:tiktok/constants/rawData/foreground_image.dart';
 import 'package:tiktok/constants/sizes.dart';
+import 'package:tiktok/utils/utils.dart';
 
 class VideoComments extends StatefulWidget {
-  const VideoComments({super.key});
+  const VideoComments({Key? key}) : super(key: key);
 
   @override
   State<VideoComments> createState() => _VideoCommentsState();
@@ -16,11 +18,11 @@ class _VideoCommentsState extends State<VideoComments> {
   final ScrollController _scrollController = ScrollController();
 
   void _onClosePressed() {
-    Navigator.of(context).pop();
+    Utils.navPop(context);
   }
 
-  void _stopWriting() {
-    FocusScope.of(context).unfocus();
+  void _onStopWriting() {
+    Utils.focusout(context);
     setState(() {
       _isWriting = false;
     });
@@ -35,6 +37,7 @@ class _VideoCommentsState extends State<VideoComments> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
     return Container(
       height: size.height * 0.75,
       clipBehavior: Clip.hardEdge,
@@ -46,20 +49,17 @@ class _VideoCommentsState extends State<VideoComments> {
       child: Scaffold(
         backgroundColor: Colors.grey.shade50,
         appBar: AppBar(
-          backgroundColor: Colors.grey.shade50,
           automaticallyImplyLeading: false,
-          title: const Text('33294 comments'),
+          title: const Text('22796 comments'),
           actions: [
             IconButton(
               onPressed: _onClosePressed,
-              icon: const FaIcon(
-                FontAwesomeIcons.xmark,
-              ),
+              icon: const FaIcon(FontAwesomeIcons.xmark),
             ),
           ],
         ),
         body: GestureDetector(
-          onTap: _stopWriting,
+          onTap: _onStopWriting,
           child: Stack(
             children: [
               Scrollbar(
@@ -78,8 +78,10 @@ class _VideoCommentsState extends State<VideoComments> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const CircleAvatar(
-                        radius: Sizes.size20,
-                        child: Text('DJ'),
+                        radius: 18,
+                        foregroundColor: Colors.white,
+                        foregroundImage: NetworkImage(foregroundImage),
+                        child: Text('광회'),
                       ),
                       Gaps.h10,
                       Expanded(
@@ -87,15 +89,17 @@ class _VideoCommentsState extends State<VideoComments> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'DJ',
+                              '광회',
                               style: TextStyle(
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w500,
                                 fontSize: Sizes.size14,
                                 color: Colors.grey.shade500,
                               ),
                             ),
                             Gaps.v3,
-                            const Text('my comment')
+                            const Text(
+                              "That's not it l've seen the same thing but also in a cave. That's not it l've seen the same thing but also in a cave. That's not it l've seen the same thing but also in a cave",
+                            ),
                           ],
                         ),
                       ),
@@ -109,13 +113,13 @@ class _VideoCommentsState extends State<VideoComments> {
                           ),
                           Gaps.v2,
                           Text(
-                            '52.2k',
+                            '52.2K',
                             style: TextStyle(
                               color: Colors.grey.shade500,
                             ),
                           )
                         ],
-                      ),
+                      )
                     ],
                   ),
                 ),
@@ -133,17 +137,17 @@ class _VideoCommentsState extends State<VideoComments> {
                     child: Row(
                       children: [
                         CircleAvatar(
-                          radius: Sizes.size16,
+                          radius: 18,
                           backgroundColor: Colors.grey.shade500,
                           foregroundColor: Colors.white,
-                          child: const Text('MJ'),
+                          foregroundImage: const NetworkImage(foregroundImage),
+                          child: const Text('광회'),
                         ),
                         Gaps.h10,
                         Expanded(
                           child: SizedBox(
                             height: Sizes.size44,
                             child: TextField(
-                              autocorrect: false,
                               onTap: _onStartWriting,
                               expands: true,
                               minLines: null,
@@ -151,11 +155,9 @@ class _VideoCommentsState extends State<VideoComments> {
                               textInputAction: TextInputAction.newline,
                               cursorColor: Theme.of(context).primaryColor,
                               decoration: InputDecoration(
-                                hintText: 'Add comment...',
                                 border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    Sizes.size12,
-                                  ),
+                                  borderRadius:
+                                      BorderRadius.circular(Sizes.size12),
                                   borderSide: BorderSide.none,
                                 ),
                                 filled: true,
@@ -163,12 +165,13 @@ class _VideoCommentsState extends State<VideoComments> {
                                 contentPadding: const EdgeInsets.symmetric(
                                   horizontal: Sizes.size12,
                                 ),
+                                hintText: 'Add comment...',
                                 suffixIcon: Padding(
                                   padding: const EdgeInsets.only(
-                                    right: Sizes.size12,
-                                  ),
+                                      right: Sizes.size14),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       FaIcon(
                                         FontAwesomeIcons.at,
@@ -184,20 +187,16 @@ class _VideoCommentsState extends State<VideoComments> {
                                         FontAwesomeIcons.faceSmile,
                                         color: Colors.grey.shade900,
                                       ),
+                                      Gaps.h14,
                                       if (_isWriting)
-                                        Row(
-                                          children: [
-                                            Gaps.h14,
-                                            GestureDetector(
-                                              onTap: _stopWriting,
-                                              child: FaIcon(
-                                                FontAwesomeIcons.circleArrowUp,
-                                                color: Theme.of(context)
-                                                    .primaryColor,
-                                              ),
-                                            ),
-                                          ],
-                                        )
+                                        GestureDetector(
+                                          onTap: _onStopWriting,
+                                          child: FaIcon(
+                                            FontAwesomeIcons.circleArrowUp,
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                          ),
+                                        ),
                                     ],
                                   ),
                                 ),
