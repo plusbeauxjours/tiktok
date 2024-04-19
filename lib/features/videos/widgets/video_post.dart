@@ -41,6 +41,7 @@ class _VideoPostState extends State<VideoPost>
   void _initVideoPlayer() async {
     _videoPlayerController = VideoPlayerController.asset(widget.video);
     await _videoPlayerController.initialize();
+    await _videoPlayerController.setLooping(true);
     _videoPlayerController.addListener(_onVideoChange);
     setState(() {});
   }
@@ -163,7 +164,7 @@ class _VideoPostState extends State<VideoPost>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    '@광회',
+                    '@plusbeauxjours',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: Sizes.size20,
@@ -196,7 +197,7 @@ class _VideoPostState extends State<VideoPost>
                   backgroundColor: Colors.black,
                   foregroundColor: Colors.white,
                   foregroundImage: NetworkImage(foregroundImage),
-                  child: Text('광회'),
+                  child: Text('plusbeauxjours'),
                 ),
                 Gaps.v24,
                 const VideoButton(
@@ -222,7 +223,7 @@ class _VideoPostState extends State<VideoPost>
                   backgroundColor: Colors.black,
                   foregroundColor: Colors.white,
                   foregroundImage: NetworkImage(foregroundImage),
-                  child: Text('광회'),
+                  child: Text('plusbeauxjours'),
                 ),
               ],
             ),

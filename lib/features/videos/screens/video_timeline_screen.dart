@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tiktok/constants/rawData/video_data.dart';
-
 import 'package:tiktok/features/videos/widgets/video_post.dart';
 
 class VideoTimelineScreen extends StatefulWidget {
@@ -15,25 +14,25 @@ class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
 
   final _scrollDuration = const Duration(milliseconds: 250);
   final _scrollCurve = Curves.linear;
-  final List<String> _videos = [...videos];
+  List<String> _videos = [...videos];
 
   void _onPageChange(int page) {
-    // _pageController.animateToPage(
-    //   page,
-    //   duration: _scrollDuration,
-    //   curve: _scrollCurve,
-    // );
-    // if (page == _videos.length - 1) {
-    //   _videos = [..._videos, ...videos];
-    //   setState(() {});
-    // }
+    _pageController.animateToPage(
+      page,
+      duration: _scrollDuration,
+      curve: _scrollCurve,
+    );
+    if (page == _videos.length - 1) {
+      _videos = [..._videos, ...videos];
+      setState(() {});
+    }
   }
 
   void _onVideoFinished() {
-    // _pageController.nextPage(
-    //   duration: _scrollDuration,
-    //   curve: _scrollCurve,
-    // );
+    _pageController.nextPage(
+      duration: _scrollDuration,
+      curve: _scrollCurve,
+    );
   }
 
   Future<void> _onRefresh() {

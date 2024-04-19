@@ -81,7 +81,7 @@ class _VideoCommentsState extends State<VideoComments> {
                         radius: 18,
                         foregroundColor: Colors.white,
                         foregroundImage: NetworkImage(foregroundImage),
-                        child: Text('광회'),
+                        child: Text('plusbeauxjours'),
                       ),
                       Gaps.h10,
                       Expanded(
@@ -89,7 +89,7 @@ class _VideoCommentsState extends State<VideoComments> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '광회',
+                              'plusbeauxjours',
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: Sizes.size14,
@@ -141,7 +141,7 @@ class _VideoCommentsState extends State<VideoComments> {
                           backgroundColor: Colors.grey.shade500,
                           foregroundColor: Colors.white,
                           foregroundImage: const NetworkImage(foregroundImage),
-                          child: const Text('광회'),
+                          child: const Text('plusbeauxjours'),
                         ),
                         Gaps.h10,
                         Expanded(
