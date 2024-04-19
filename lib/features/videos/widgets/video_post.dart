@@ -29,10 +29,10 @@ class VideoPost extends StatefulWidget {
 
 class _VideoPostState extends State<VideoPost>
     with SingleTickerProviderStateMixin {
-  late final VideoPlayerController _videoPlayerController;
-  late final AnimationController _animationController;
+  late VideoPlayerController _videoPlayerController;
+  late AnimationController _animationController;
 
-  bool _isPause = false;
+  bool _isPaused = false;
   final String _descText = descText;
   final List<String> _tags = tags;
   final String _bgmInfo = bgmInfo;
@@ -43,25 +43,25 @@ class _VideoPostState extends State<VideoPost>
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(true);
     _videoPlayerController.addListener(_onVideoChange);
-    setState(() {});
+    if (mounted) setState(() {});
   }
 
   void _onVideoChange() {
-    if (_videoPlayerController.value.isInitialized) {
-      if (_videoPlayerController.value.duration ==
-          _videoPlayerController.value.position) {
-        widget.onVideoFinished();
-      }
+    if (!mounted || _videoPlayerController.value.hasError) return;
+    if (_videoPlayerController.value.duration ==
+        _videoPlayerController.value.position) {
+      widget.onVideoFinished();
     }
   }
 
   void _onVisibilityChanged(VisibilityInfo info) {
+    if (!mounted || _videoPlayerController.value.hasError) return;
     if (info.visibleFraction == 1 &&
-        !_isPause &&
-        !_videoPlayerController.value.isPlaying) {
+        !_videoPlayerController.value.isPlaying &&
+        !_isPaused) {
       _videoPlayerController.play();
-    }
-    if (_videoPlayerController.value.isPlaying && info.visibleFraction == 0) {
+    } else if (_videoPlayerController.value.isPlaying &&
+        info.visibleFraction == 0) {
       _onTogglePause();
     }
   }
@@ -74,9 +74,11 @@ class _VideoPostState extends State<VideoPost>
       _videoPlayerController.play();
       _animationController.forward();
     }
-    setState(() {
-      _isPause = !_isPause;
-    });
+    if (mounted) {
+      setState(() {
+        _isPaused = !_isPaused;
+      });
+    }
   }
 
   void _onCommentsTap(BuildContext context) async {
@@ -122,14 +124,10 @@ class _VideoPostState extends State<VideoPost>
           Positioned.fill(
             child: _videoPlayerController.value.isInitialized
                 ? VideoPlayer(_videoPlayerController)
-                : Container(
-                    color: Colors.teal,
-                  ),
+                : Container(color: Colors.black),
           ),
           Positioned.fill(
-            child: GestureDetector(
-              onTap: _onTogglePause,
-            ),
+            child: GestureDetector(onTap: _onTogglePause),
           ),
           Positioned.fill(
             child: IgnorePointer(
@@ -143,7 +141,7 @@ class _VideoPostState extends State<VideoPost>
                     );
                   },
                   child: AnimatedOpacity(
-                    opacity: _isPause ? 1 : 0,
+                    opacity: _isPaused ? 1 : 0,
                     duration: _animationDuration,
                     child: const FaIcon(
                       FontAwesomeIcons.play,
@@ -172,12 +170,12 @@ class _VideoPostState extends State<VideoPost>
                     ),
                   ),
                   Gaps.v10,
-                  VideoIntroText2(
+                  VideoIntroText(
                     descText: _descText,
                     mainTextBold: FontWeight.normal,
                   ),
                   Gaps.v10,
-                  VideoIntroText2(
+                  VideoIntroText(
                     descText: _tags.join(', '),
                     mainTextBold: FontWeight.w600,
                   ),
@@ -187,43 +185,35 @@ class _VideoPostState extends State<VideoPost>
               ),
             ),
           ),
-          Positioned(
-            bottom: 20,
-            right: 10,
+          const Positioned(
+            bottom: Sizes.size20,
+            right: Sizes.size10,
             child: Column(
               children: [
-                const CircleAvatar(
-                  radius: 25,
+                CircleAvatar(
+                  radius: Sizes.size24,
                   backgroundColor: Colors.black,
                   foregroundColor: Colors.white,
                   foregroundImage: NetworkImage(foregroundImage),
                   child: Text('plusbeauxjours'),
                 ),
                 Gaps.v24,
-                const VideoButton(
+                VideoButton(
                   icon: FontAwesomeIcons.solidHeart,
                   text: '2.9M',
                 ),
                 Gaps.v24,
-                GestureDetector(
-                  onTap: () => _onCommentsTap(context),
-                  child: const VideoButton(
-                    icon: FontAwesomeIcons.solidComment,
-                    text: '33.0K',
-                  ),
-                ),
+                // GestureDetector(
+                //   onTap: () => _onCommentsTap(context),
+                //   child: const VideoButton(
+                //     icon: FontAwesomeIcons.solidComment,
+                //     text: '33.0K',
+                //   ),
+                // ),
                 Gaps.v24,
-                const VideoButton(
+                VideoButton(
                   icon: FontAwesomeIcons.share,
                   text: 'Share',
-                ),
-                Gaps.v36,
-                const CircleAvatar(
-                  radius: 25,
-                  backgroundColor: Colors.black,
-                  foregroundColor: Colors.white,
-                  foregroundImage: NetworkImage(foregroundImage),
-                  child: Text('plusbeauxjours'),
                 ),
               ],
             ),

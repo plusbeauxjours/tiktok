@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
 import 'package:tiktok/constants/sizes.dart';
 
-class VideoIntroText2 extends StatelessWidget {
-  const VideoIntroText2({
+class VideoIntroText extends StatelessWidget {
+  const VideoIntroText({
     super.key,
     required String descText,
     required FontWeight mainTextBold,
