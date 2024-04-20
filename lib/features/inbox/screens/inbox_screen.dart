@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok/constants/sizes.dart';
+import 'package:tiktok/features/inbox/screens/activity_screen.dart';
 
 class InboxScreen extends StatelessWidget {
   const InboxScreen({super.key});
 
   void _onDmPressed() {}
+  void _onActivityTap(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const ActivityScreen(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,15 +32,16 @@ class InboxScreen extends StatelessWidget {
       ),
       body: ListView(
         children: [
-          const ListTile(
-            title: Text(
+          ListTile(
+            onTap: () => _onActivityTap(context),
+            title: const Text(
               'Activity',
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: Sizes.size16,
               ),
             ),
-            trailing: FaIcon(
+            trailing: const FaIcon(
               FontAwesomeIcons.chevronRight,
               size: Sizes.size14,
               color: Colors.black,
@@ -43,24 +52,6 @@ class InboxScreen extends StatelessWidget {
             color: Colors.grey.shade200,
           ),
           ListTile(
-            title: const Text(
-              'New followers',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: Sizes.size16,
-              ),
-            ),
-            subtitle: const Text(
-              'Messages from followers will appear here',
-              style: TextStyle(
-                fontSize: Sizes.size14,
-              ),
-            ),
-            trailing: const FaIcon(
-              FontAwesomeIcons.chevronRight,
-              size: Sizes.size14,
-              color: Colors.black,
-            ),
             leading: Container(
               width: Sizes.size52,
               decoration: const BoxDecoration(
@@ -73,6 +64,24 @@ class InboxScreen extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
+            ),
+            title: const Text(
+              'New followers',
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: Sizes.size16,
+              ),
+            ),
+            subtitle: const Text(
+              'Messages from followers will appear here.',
+              style: TextStyle(
+                fontSize: Sizes.size14,
+              ),
+            ),
+            trailing: const FaIcon(
+              FontAwesomeIcons.chevronRight,
+              size: Sizes.size14,
+              color: Colors.black,
             ),
           ),
         ],
