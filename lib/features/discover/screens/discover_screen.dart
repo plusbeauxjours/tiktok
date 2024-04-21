@@ -1,19 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok/constants/gaps.dart';
+import 'package:tiktok/constants/rawData/discovers.dart';
 import 'package:tiktok/constants/sizes.dart';
 import 'package:tiktok/constants/rawData/foreground_image.dart';
 import 'package:tiktok/utils/utils.dart';
-
-final tabs = [
-  "Top",
-  "Users",
-  "Videos",
-  "Sounds",
-  "LIVE",
-  "Shopping",
-  "Brands",
-];
 
 class DiscoverScreen extends StatefulWidget {
   const DiscoverScreen({Key? key}) : super(key: key);
