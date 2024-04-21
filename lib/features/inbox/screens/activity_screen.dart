@@ -21,8 +21,13 @@ class _ActivityScreenState extends State<ActivityScreen>
     ),
   );
 
-  late final Animation<double> _animation =
+  late final Animation<double> _arrowAnimation =
       Tween(begin: 0.0, end: 0.5).animate(_animationController);
+
+  late final Animation<Offset> _panelAnimation = Tween(
+    begin: const Offset(0, -1),
+    end: Offset.zero,
+  ).animate(_animationController);
 
   void _onDismissed(String notification) {
     notifications.remove(notification);
@@ -47,7 +52,7 @@ class _ActivityScreenState extends State<ActivityScreen>
               const Text("All activity"),
               Gaps.h2,
               RotationTransition(
-                turns: _animation,
+                turns: _arrowAnimation,
                 child: const FaIcon(
                   FontAwesomeIcons.chevronDown,
                   size: Sizes.size14,
@@ -57,7 +62,10 @@ class _ActivityScreenState extends State<ActivityScreen>
           ),
         ),
       ),
-      body: Activities(onDismissed: _onDismissed),
+      body: Activities(
+        onDismissed: _onDismissed,
+        panelAnimation: _panelAnimation,
+      ),
     );
   }
 }
