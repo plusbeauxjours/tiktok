@@ -14,6 +14,8 @@ class ActivityScreen extends StatefulWidget {
 
 class _ActivityScreenState extends State<ActivityScreen>
     with SingleTickerProviderStateMixin {
+  bool _showBarrier = false;
+
   late final AnimationController _animationController = AnimationController(
     vsync: this,
     duration: const Duration(
@@ -29,6 +31,11 @@ class _ActivityScreenState extends State<ActivityScreen>
     end: Offset.zero,
   ).animate(_animationController);
 
+  late final Animation<Color?> _barrierAnimation = ColorTween(
+    begin: Colors.transparent,
+    end: Colors.black38,
+  ).animate(_animationController);
+
   void _onDismissed(String notification) {
     notifications.remove(notification);
     setState(() {});
@@ -36,8 +43,11 @@ class _ActivityScreenState extends State<ActivityScreen>
 
   void _toggleAnimations() async {
     _animationController.isCompleted
-        ? await _animationController.reverse() // 0.5 -> 0.0 // 비동기
-        : _animationController.forward(); // 0.0 -> 0.5 // 동기
+        ? await _animationController.reverse()
+        : _animationController.forward();
+    setState(() {
+      _showBarrier = !_showBarrier;
+    });
   }
 
   @override
@@ -65,6 +75,9 @@ class _ActivityScreenState extends State<ActivityScreen>
       body: Activities(
         onDismissed: _onDismissed,
         panelAnimation: _panelAnimation,
+        showBarrier: _showBarrier,
+        barrierAnimation: _barrierAnimation,
+        toggleAnimations: _toggleAnimations,
       ),
     );
   }

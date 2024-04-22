@@ -7,11 +7,17 @@ import 'package:tiktok/constants/sizes.dart';
 class Activities extends StatelessWidget {
   final void Function(String) onDismissed;
   final Animation<Offset> panelAnimation;
+  final bool showBarrier;
+  final Animation<Color?> barrierAnimation;
+  final void Function() toggleAnimations;
 
   const Activities({
     Key? key,
     required this.onDismissed,
     required this.panelAnimation,
+    required this.showBarrier,
+    required this.barrierAnimation,
+    required this.toggleAnimations,
   }) : super(key: key);
 
   @override
@@ -118,6 +124,12 @@ class Activities extends StatelessWidget {
               )
           ],
         ),
+        if (showBarrier)
+          AnimatedModalBarrier(
+            color: barrierAnimation,
+            dismissible: true,
+            onDismiss: toggleAnimations,
+          ),
         SlideTransition(
           position: panelAnimation,
           child: Container(
