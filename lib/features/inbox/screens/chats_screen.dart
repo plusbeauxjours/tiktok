@@ -22,9 +22,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
     if (_key.currentState != null) {
       _key.currentState!.insertItem(
         _items.length,
-        duration: const Duration(
-          milliseconds: 500,
-        ),
+        duration: duration,
       );
       _items.add(_items.length);
     }
