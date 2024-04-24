@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok/constants/gaps.dart';
 import 'package:tiktok/constants/rawData/foreground_image.dart';
 import 'package:tiktok/constants/sizes.dart';
+import 'package:tiktok/utils/utils.dart';
 
 class ChatDetailScreen extends StatefulWidget {
   const ChatDetailScreen({super.key});
@@ -12,6 +14,30 @@ class ChatDetailScreen extends StatefulWidget {
 }
 
 class _ChatDetailScreenState extends State<ChatDetailScreen> {
+  final TextEditingController _editingController =
+      TextEditingController(text: '');
+
+  late bool _isThereMessage = _editingController.text.isNotEmpty;
+  final bool isLoading = false;
+
+  void _onMessageChanged(String text) {
+    _isThereMessage = text.isNotEmpty;
+    setState(() {});
+  }
+
+  void _onSendPress(String text) {
+    if (!_isThereMessage) return;
+    print('send a message: $text');
+    _editingController.text = '';
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    _editingController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,75 +75,134 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           ),
         ),
       ),
-      body: Stack(
-        children: [
-          ListView.separated(
-            padding: const EdgeInsets.symmetric(
-              vertical: Sizes.size20,
-              horizontal: Sizes.size14,
+      body: GestureDetector(
+        onTap: () => focusout(context),
+        child: Stack(
+          children: [
+            ListView.separated(
+              padding: const EdgeInsets.symmetric(
+                vertical: Sizes.size20,
+                horizontal: Sizes.size14,
+              ),
+              itemBuilder: (context, index) {
+                final isMine = index % 2 == 0;
+                return Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment:
+                      isMine ? MainAxisAlignment.end : MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(
+                        Sizes.size14,
+                      ),
+                      decoration: BoxDecoration(
+                        color: isMine
+                            ? Colors.blue
+                            : Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.only(
+                          topLeft: const Radius.circular(
+                            Sizes.size20,
+                          ),
+                          topRight: const Radius.circular(
+                            Sizes.size20,
+                          ),
+                          bottomLeft: Radius.circular(
+                            isMine ? Sizes.size20 : Sizes.size5,
+                          ),
+                          bottomRight: Radius.circular(
+                            !isMine ? Sizes.size20 : Sizes.size5,
+                          ),
+                        ),
+                      ),
+                      child: const Text(
+                        "This is a message!",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: Sizes.size16,
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
+              separatorBuilder: (context, index) => Gaps.v10,
+              itemCount: 10,
             ),
-            itemBuilder: (context, index) {
-              final isMine = index % 2 == 0;
-              return Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment:
-                    isMine ? MainAxisAlignment.end : MainAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(
-                      Sizes.size14,
-                    ),
-                    decoration: BoxDecoration(
-                      color:
-                          isMine ? Colors.blue : Theme.of(context).primaryColor,
-                      borderRadius: BorderRadius.only(
-                        topLeft: const Radius.circular(
-                          Sizes.size20,
-                        ),
-                        topRight: const Radius.circular(
-                          Sizes.size20,
-                        ),
-                        bottomLeft: Radius.circular(
-                          isMine ? Sizes.size20 : Sizes.size5,
-                        ),
-                        bottomRight: Radius.circular(
-                          !isMine ? Sizes.size20 : Sizes.size5,
-                        ),
+            Positioned(
+              bottom: 0,
+              width: getWinWidth(context),
+              child: KeyboardVisibilityBuilder(
+                builder: (BuildContext context, bool isKeyboardVisible) {
+                  return BottomAppBar(
+                    notchMargin: 0,
+                    height: 85,
+                    elevation: 0,
+                    color: Colors.grey.shade100,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: Sizes.size10, horizontal: Sizes.size14),
+                      child: Row(
+                        children: [
+                          TextField(
+                            controller: _editingController,
+                            onChanged: _onMessageChanged,
+                            onSubmitted: isLoading ? null : _onSendPress,
+                            decoration: InputDecoration(
+                              hintText: 'Send a message...',
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: Sizes.size12,
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(
+                                  Sizes.size20,
+                                ),
+                                borderSide: BorderSide.none,
+                              ),
+                              constraints: BoxConstraints(
+                                maxWidth:
+                                    MediaQuery.of(context).size.width - 102,
+                              ),
+                              filled: true,
+                              fillColor: Colors.grey.shade200,
+                              suffixIcon: Container(
+                                width: Sizes.size20,
+                                alignment: Alignment.center,
+                                child: const FaIcon(
+                                  FontAwesomeIcons.faceSmile,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Gaps.h10,
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              backgroundColor: _isThereMessage
+                                  ? Theme.of(context).primaryColor
+                                  : Colors.grey.shade200,
+                              shape: const CircleBorder(),
+                              padding: const EdgeInsets.all(Sizes.size10),
+                            ),
+                            onPressed: () => isLoading
+                                ? null
+                                : _onSendPress(_editingController.text),
+                            child: FaIcon(
+                              isLoading
+                                  ? FontAwesomeIcons.hourglass
+                                  : FontAwesomeIcons.solidPaperPlane,
+                              color: Colors.white,
+                              size: Sizes.size20,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    child: const Text(
-                      "This is a message!",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: Sizes.size16,
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            },
-            separatorBuilder: (context, index) => Gaps.v10,
-            itemCount: 10,
-          ),
-          Positioned(
-            bottom: 0,
-            width: MediaQuery.of(context).size.width,
-            child: BottomAppBar(
-              color: Colors.grey.shade50,
-              child: const Row(
-                children: [
-                  Expanded(
-                    child: TextField(),
-                  ),
-                  Gaps.h20,
-                  FaIcon(
-                    FontAwesomeIcons.paperPlane,
-                  ),
-                ],
+                  );
+                },
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

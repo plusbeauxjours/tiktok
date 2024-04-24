@@ -8,6 +8,7 @@ import 'package:tiktok/features/videos/widgets/video_bgm_info.dart';
 import 'package:tiktok/features/videos/widgets/video_button.dart';
 import 'package:tiktok/features/videos/widgets/video_comments.dart';
 import 'package:tiktok/features/videos/widgets/video_intro_text.dart';
+import 'package:tiktok/utils/utils.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -157,7 +158,7 @@ class _VideoPostState extends State<VideoPost>
             bottom: 20,
             left: 10,
             child: SizedBox(
-              width: MediaQuery.of(context).size.width - 100,
+              width: getWinWidth(context) - 100,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
