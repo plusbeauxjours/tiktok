@@ -140,7 +140,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     color: Colors.grey.shade100,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          vertical: Sizes.size10, horizontal: Sizes.size14),
+                        vertical: Sizes.size10,
+                        horizontal: Sizes.size14,
+                      ),
                       child: Row(
                         children: [
                           TextField(
@@ -181,7 +183,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                   ? Theme.of(context).primaryColor
                                   : Colors.grey.shade200,
                               shape: const CircleBorder(),
-                              padding: const EdgeInsets.all(Sizes.size10),
+                              padding: const EdgeInsets.all(
+                                Sizes.size10,
+                              ),
                             ),
                             onPressed: () => isLoading
                                 ? null
