@@ -25,7 +25,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               StretchMode.zoomBackground,
             ],
             background: Image.asset(
-              "assets/images/placeholder.jpg",
+              "assets/images/dog-7535633.jpg",
               fit: BoxFit.cover,
             ),
             title: const Text("Hello"),
