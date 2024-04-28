@@ -72,7 +72,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               fontSize: Sizes.size18,
                             ),
                           ),
-                          Gaps.v3,
+                          Gaps.v1,
                           Text("Following",
                               style: TextStyle(
                                 color: Colors.grey.shade500,
@@ -95,7 +95,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               fontSize: Sizes.size18,
                             ),
                           ),
-                          Gaps.v3,
+                          Gaps.v1,
                           Text(
                             "Followers",
                             style: TextStyle(
@@ -120,7 +120,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               fontSize: Sizes.size18,
                             ),
                           ),
-                          Gaps.v3,
+                          Gaps.v1,
                           Text(
                             "Likes",
                             style: TextStyle(
@@ -148,7 +148,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       ),
                     ),
                     child: const Text(
-                      "Follow",
+                      'Follow',
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
@@ -195,6 +195,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     ),
                   ),
                   child: const TabBar(
+                    indicatorSize: TabBarIndicatorSize.label,
+                    indicatorColor: Colors.black,
+                    labelPadding: EdgeInsets.symmetric(
+                      vertical: Sizes.size10,
+                    ),
+                    labelColor: Colors.black,
                     tabs: [
                       Padding(
                         padding: EdgeInsets.symmetric(
@@ -302,7 +308,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       ),
                       const Center(
                         child: Text('Page two'),
-                      )
+                      ),
                     ],
                   ),
                 ),
