@@ -38,6 +38,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             value: _notifications,
             onChanged: _onNotificationsChanged,
             title: const Text("Enable notifications"),
+            subtitle: const Text("We won't spam you."),
           ),
           ListTile(
             onTap: () {
@@ -69,6 +70,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               );
             },
             title: const Text("What is your birthday?"),
+            subtitle: const Text("I need to know!"),
           ),
           ListTile(
             title: const Text("Log out (iOS)"),
@@ -80,13 +82,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   title: const Text("Are you sure?"),
                   content: const Text("Please don't go"),
                   actions: [
-                    IconButton(
+                    CupertinoDialogAction(
                       onPressed: () => Navigator.of(context).pop(),
-                      icon: const FaIcon(FontAwesomeIcons.car),
+                      child: const Text("No"),
                     ),
-                    TextButton(
+                    CupertinoDialogAction(
                       onPressed: () => Navigator.of(context).pop(),
-                      child: const Text('Yes'),
+                      isDestructiveAction: true,
+                      child: const Text("Yes"),
                     ),
                   ],
                 ),
@@ -110,7 +113,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                     TextButton(
                       onPressed: () => Navigator.of(context).pop(),
-                      child: const Text('Yes'),
+                      child: const Text("Yes"),
                     ),
                   ],
                 ),
@@ -119,7 +122,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           const AboutListTile(
             applicationVersion: "1.0",
-            applicationLegalese: "Don't copy me",
+            applicationLegalese: "Don't copy me.",
           ),
         ],
       ),
