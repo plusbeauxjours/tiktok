@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok/constants/breakpoints.dart';
@@ -58,65 +59,15 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           elevation: 1,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              GestureDetector(
-                  onTap: _moveBack,
-                  child: const FaIcon(FontAwesomeIcons.chevronLeft)),
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: Sizes.size16),
-                  height: Sizes.size44,
-                  child: TextField(
-                    controller: _textEditingController,
-                    onChanged: _onSearchChanged,
-                    onSubmitted: _onSearchSubmitted,
-                    cursorColor: Theme.of(context).primaryColor,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(Sizes.size5),
-                        borderSide: BorderSide.none,
-                      ),
-                      filled: true,
-                      fillColor: Colors.grey.shade200,
-                      contentPadding:
-                          const EdgeInsets.symmetric(horizontal: Sizes.size12),
-                      prefixIcon: Container(
-                        width: Sizes.size20,
-                        alignment: Alignment.center,
-                        child: const FaIcon(
-                          FontAwesomeIcons.magnifyingGlass,
-                          color: Colors.black,
-                          size: Sizes.size16,
-                        ),
-                      ),
-                      suffixIcon: Container(
-                        width: Sizes.size20,
-                        alignment: Alignment.centerRight,
-                        padding: const EdgeInsets.only(
-                          left: Sizes.size10,
-                          right: Sizes.size8,
-                        ),
-                        child: AnimatedOpacity(
-                          opacity: _isThereSearchValue ? 1 : 0,
-                          duration: const Duration(milliseconds: 200),
-                          child: GestureDetector(
-                            onTap: _onCloseIcon,
-                            child: FaIcon(
-                              FontAwesomeIcons.solidCircleXmark,
-                              color: Colors.grey.shade600,
-                              size: Sizes.size16,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const FaIcon(FontAwesomeIcons.sliders),
-            ],
+          title: ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxWidth: Breakpoints.sm,
+            ),
+            child: CupertinoSearchTextField(
+              controller: _textEditingController,
+              onChanged: _onSearchChanged,
+              onSubmitted: _onSearchSubmitted,
+            ),
           ),
           bottom: TabBar(
             onTap: (value) => Utils.focusout(context),
