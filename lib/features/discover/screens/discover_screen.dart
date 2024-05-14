@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok/constants/breakpoints.dart';
@@ -6,7 +5,8 @@ import 'package:tiktok/constants/gaps.dart';
 import 'package:tiktok/constants/rawData/discovers.dart';
 import 'package:tiktok/constants/sizes.dart';
 import 'package:tiktok/constants/rawData/foreground_image.dart';
-import 'package:tiktok/utils/utils.dart';
+import 'package:tiktok/features/discover/widgets/custom_search_button.dart';
+import 'package:tiktok/utils/common_utils.dart';
 
 class DiscoverScreen extends StatefulWidget {
   const DiscoverScreen({Key? key}) : super(key: key);
@@ -51,35 +51,40 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = getWinWidth(context);
+
     return DefaultTabController(
       initialIndex: 0,
       length: tabs.length,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          elevation: 1,
+          elevation: isWebScreen(context) ? 0 : 1, // 앱바와 바디 사이 구분선 효과
+          // ConstrainedBox -> 최대/최소 크기를 제한할 수 있는 박스
+          //  참고. Container -> constraints 에서 동일한 속성 설정 가능(기능 동일)
           title: ConstrainedBox(
-            constraints: const BoxConstraints(
-              maxWidth: Breakpoints.sm,
-            ),
-            child: CupertinoSearchTextField(
-              controller: _textEditingController,
-              onChanged: _onSearchChanged,
-              onSubmitted: _onSearchSubmitted,
+            constraints: const BoxConstraints(maxWidth: Breakpoints.sm),
+            child: CustomSearchButton(
+              moveBack: _moveBack,
+              textEditingController: _textEditingController,
+              onSearchChanged: _onSearchChanged,
+              onSearchSubmitted: _onSearchSubmitted,
+              isThereSearchValue: _isThereSearchValue,
+              onCloseIcon: _onCloseIcon,
             ),
           ),
+          // PreferredSizeWidget bottom -> 자식의 크기를 제한하지 않는다. TabBar 가 대표적
           bottom: TabBar(
-            onTap: (value) => Utils.focusout(context),
-            splashFactory: NoSplash.splashFactory,
+            onTap: (value) => focusout(context),
+            splashFactory: NoSplash.splashFactory, // 클릭 시 기본 번짐 효과 제거
             padding: const EdgeInsets.symmetric(horizontal: Sizes.size16),
             isScrollable: true,
             labelStyle: const TextStyle(
               fontWeight: FontWeight.w600,
             ),
-            labelColor: Colors.black,
-            unselectedLabelColor: Colors.grey.shade500,
-            indicatorColor: Colors.black,
+            // 원래는 테마 변경 시 결과가 바로 적용돼야 하지만, 자동 적용이 안 되는 경우도 있다.
+            //  그럴 땐 아래처럼 직접 재지정해준다.
+            indicatorColor: Theme.of(context).tabBarTheme.indicatorColor,
             tabs: [
               for (var tab in tabs) Tab(text: tab),
             ],
@@ -88,6 +93,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
         body: TabBarView(
           children: [
             GridView.builder(
+              // 스크롤 동안 키보드 감추기
               keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               itemCount: 20,
               padding: const EdgeInsets.all(Sizes.size6),
@@ -95,7 +101,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                 crossAxisCount: width > Breakpoints.lg ? 5 : 2,
                 crossAxisSpacing: Sizes.size10,
                 mainAxisSpacing: Sizes.size10,
-                childAspectRatio: 9 / 20,
+                childAspectRatio: 9 / 20, // 그리드 비율
               ),
               itemBuilder: (context, index) => LayoutBuilder(
                 builder: (context, constraints) => Column(
@@ -116,33 +122,38 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                       ),
                     ),
                     Gaps.v10,
-                    Text(
-                      "${constraints.maxWidth} This is a very long caption for my tiktok that im upload just now currently.",
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      style: const TextStyle(
-                        fontSize: Sizes.size16 + Sizes.size2,
+                    const Text(
+                      "This is a very long caption for my tiktok that i'm upload just now currently.",
+                      style: TextStyle(
+                        fontSize: Sizes.size18,
                         fontWeight: FontWeight.bold,
+                        height: 1.1,
                       ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     Gaps.v8,
-                    if (constraints.maxWidth < 200 ||
-                        constraints.maxWidth > 250)
+                    // 레이아웃이 너무 작으면 세부 텍스트 생략
+                    if (constraints.maxWidth < 150 ||
+                        constraints.maxWidth > 200)
                       DefaultTextStyle(
                         style: TextStyle(
-                          color: Colors.grey.shade600,
+                          fontSize: Sizes.size14,
                           fontWeight: FontWeight.w600,
+                          color: isDarkMode(context)
+                              ? Colors.grey.shade300
+                              : Colors.grey.shade600,
                         ),
                         child: Row(
                           children: [
                             const CircleAvatar(
-                              radius: 12,
+                              radius: 15,
                               foregroundImage: NetworkImage(foregroundImage),
                             ),
                             Gaps.h4,
                             const Expanded(
                               child: Text(
-                                "My avatar is going to be very long",
+                                'My avatar is going to be very long',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -151,11 +162,13 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                             FaIcon(
                               FontAwesomeIcons.heart,
                               size: Sizes.size16,
-                              color: Colors.grey.shade600,
+                              color: isDarkMode(context)
+                                  ? Colors.grey.shade300
+                                  : Colors.grey.shade600,
                             ),
                             Gaps.h2,
                             const Text(
-                              "2.5M",
+                              '2.5M',
                             )
                           ],
                         ),
