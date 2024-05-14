@@ -39,6 +39,7 @@ dependencies:
   intl: ^0.18.0
   video_player: ^2.5.1
   visibility_detector: ^0.3.3
+  google_fonts: 4.0.1
   readmore: ^2.2.0
   marquee_text: ^2.5.0+1
   flutter_keyboard_visibility: ^5.4.0
