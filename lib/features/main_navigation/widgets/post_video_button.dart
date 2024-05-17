@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok/constants/sizes.dart';
+import 'package:tiktok/utils/common_utils.dart';
 
 class PostVideoButton extends StatefulWidget {
   final bool isVideoButtonHovered;
@@ -26,6 +27,7 @@ class _PostVideoButtonState extends State<PostVideoButton> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = isDarkMode(context);
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       onEnter: (e) => widget.onHover(),
@@ -80,7 +82,7 @@ class _PostVideoButtonState extends State<PostVideoButton> {
               height: heightAni(),
               padding: const EdgeInsets.symmetric(horizontal: Sizes.size12),
               decoration: BoxDecoration(
-                color: !widget.inverted ? Colors.white : Colors.black,
+                color: !widget.inverted || isDark ? Colors.white : Colors.black,
                 borderRadius: BorderRadius.circular(sizeAni()),
               ),
               child: Center(
@@ -91,7 +93,9 @@ class _PostVideoButtonState extends State<PostVideoButton> {
                     widget.isVideoButtonHovered
                         ? FontAwesomeIcons.camera
                         : FontAwesomeIcons.plus,
-                    color: widget.inverted ? Colors.white : Colors.black,
+                    color: !widget.inverted || isDark
+                        ? Colors.black
+                        : Colors.white,
                     size: sizeAni(Sizes.size16),
                   ),
                 ),
