@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tiktok/constants/sizes.dart';
 import 'package:tiktok/features/settings/screens/settings_screen.dart';
+import "package:flutter_gen/gen_l10n/intl_generated.dart";
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,6 +26,7 @@ class TiktokApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Tiktok',
       localizationsDelegates: const [
+        AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
