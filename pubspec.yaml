@@ -43,6 +43,8 @@ dependencies:
   readmore: ^2.2.0
   marquee_text: ^2.5.0+1
   flutter_keyboard_visibility: ^5.4.0
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:
