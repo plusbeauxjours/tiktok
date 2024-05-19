@@ -1,8 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:tiktok/constants/breakpoints.dart';
 import 'package:tiktok/constants/gaps.dart';
 import 'package:tiktok/constants/sizes.dart';
+import 'package:tiktok/features/authentications/widgets/birthday_date_picker.dart';
 import 'package:tiktok/features/authentications/widgets/birthday_header.dart';
 import 'package:tiktok/features/authentications/widgets/form_button.dart';
 import 'package:tiktok/features/onboarding/screens/interests_screen.dart';
@@ -44,6 +45,7 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isWebScreen = MediaQuery.of(context).size.width > Breakpoints.lg;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -80,21 +82,28 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
                   context, const InterestsScreen(), (route) => false),
               child: const FormButton(disabled: false),
             ),
+            Gaps.v96,
+            if (isWebScreen)
+              BirthdayDatePicker(
+                initialDateTime: initDate,
+                minimumDate: minDate,
+                maximumDate: initDate,
+                onDateTimeChanged: _setTextFieldDate,
+              ),
           ],
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        child: SizedBox(
-          height: 300,
-          child: CupertinoDatePicker(
-            mode: CupertinoDatePickerMode.date,
-            initialDateTime: initDate,
-            minimumDate: minDate,
-            maximumDate: initDate,
-            onDateTimeChanged: _setTextFieldDate,
-          ),
-        ),
-      ),
+      bottomNavigationBar: !isWebScreen
+          ? BottomAppBar(
+              height: MediaQuery.of(context).size.height * 0.3,
+              child: BirthdayDatePicker(
+                initialDateTime: initDate,
+                minimumDate: minDate,
+                maximumDate: initDate,
+                onDateTimeChanged: _setTextFieldDate,
+              ),
+            )
+          : null,
     );
   }
 }
