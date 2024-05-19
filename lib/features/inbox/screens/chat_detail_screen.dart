@@ -50,11 +50,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           contentPadding: EdgeInsets.zero,
           horizontalTitleGap: Sizes.size8,
           leading: const AvatarForm(),
-          title: Text(
+          title: const Text(
             'plusbeauxjours',
             style: TextStyle(
               fontWeight: FontWeight.w600,
-              color: isDarkMode(context) ? Colors.white : Colors.black,
             ),
           ),
           subtitle: const Text('Active now'),
@@ -63,13 +62,13 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             children: [
               FaIcon(
                 FontAwesomeIcons.flag,
-                color: isDarkMode(context) ? Colors.white : Colors.black,
+                color: Theme.of(context).iconTheme.color,
                 size: Sizes.size20,
               ),
               Gaps.h32,
               FaIcon(
                 FontAwesomeIcons.ellipsis,
-                color: isDarkMode(context) ? Colors.white : Colors.black,
+                color: Theme.of(context).iconTheme.color,
                 size: Sizes.size20,
               )
             ],
