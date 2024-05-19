@@ -14,22 +14,19 @@ class AvatarForm extends StatelessWidget {
         const CircleAvatar(
           radius: 24,
           foregroundImage: NetworkImage(foregroundImage),
-          child: Text(
-            'plusbeauxjours',
-          ),
         ),
         Positioned(
-          right: -3,
-          bottom: -3,
+          right: 0,
+          bottom: 0,
           child: Container(
-            width: Sizes.size20,
-            height: Sizes.size20,
+            width: Sizes.size16,
+            height: Sizes.size16,
             clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(
               color: Colors.green,
               border: Border.all(
                 color: Colors.white,
-                width: 3,
+                width: 2,
               ),
               borderRadius: const BorderRadius.all(
                 Radius.circular(Sizes.size10),
