@@ -1,3 +1,10 @@
+import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok/features/discover/screens/discover_screen.dart';
+import 'package:tiktok/features/inbox/screens/inbox_screen.dart';
+import 'package:tiktok/features/users/screens/user_profile_screen.dart';
+import 'package:tiktok/features/videos/screens/video_timeline_screen.dart';
+
 final List<String> tabs = [
   'Top',
   'Users',
@@ -29,4 +36,61 @@ final List<String> discoveredImages = [
   'assets/images/white-faced-heron-7469267.jpg',
   'assets/images/windmill-7367963.jpg',
   'assets/images/winter-forest-7677111.jpg',
+];
+
+List<Widget> offStages = [
+  const VideoTimelineScreen(),
+  const DiscoverScreen(),
+  Container(),
+  const InboxScreen(),
+  const UserProfileScreen(),
+];
+
+List<Widget> offStages2 = [
+  const VideoTimelineScreen(),
+  const DiscoverScreen(),
+  const InboxScreen(),
+  const UserProfileScreen(),
+];
+
+List<dynamic> navs = [
+  {
+    'title': 'Home',
+    'icon': FontAwesomeIcons.house,
+  },
+  {
+    'title': 'Discover',
+    'icon': FontAwesomeIcons.compass,
+  },
+  {
+    'title': 'Add Video',
+    'icon': FontAwesomeIcons.plus,
+  },
+  {
+    'title': 'Inbox',
+    'icon': FontAwesomeIcons.solidMessage,
+  },
+  {
+    'title': 'Profile',
+    'icon': FontAwesomeIcons.solidUser,
+  },
+];
+
+List<dynamic> navs2 = [
+  {
+    'title': 'Home',
+    'icon': FontAwesomeIcons.house,
+  },
+  {
+    'title': 'Discover',
+    'icon': FontAwesomeIcons.compass,
+  },
+  {
+    'title': 'Inbox',
+    'icon': FontAwesomeIcons.solidMessage,
+  },
+  {
+    'title': 'Profile',
+    'icon': FontAwesomeIcons.solidUser,
+  },
 ];

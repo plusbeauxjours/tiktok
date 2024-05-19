@@ -1,15 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tiktok/constants/gaps.dart';
+import 'package:tiktok/common/widgets/main_navigation/custom_navigaton.dart';
 import 'package:tiktok/constants/sizes.dart';
 import 'package:tiktok/features/discover/screens/discover_screen.dart';
 import 'package:tiktok/features/inbox/screens/inbox_screen.dart';
-import 'package:tiktok/features/main_navigation/widgets/nav_tab.dart';
-import 'package:tiktok/features/main_navigation/widgets/post_video_button.dart';
 import 'package:tiktok/features/users/screens/user_profile_screen.dart';
 import 'package:tiktok/features/videos/screens/video_timeline_screen.dart';
-import 'package:tiktok/utils/utils.dart';
+import 'package:tiktok/utils/common_utils.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({Key? key}) : super(key: key);
@@ -73,70 +70,26 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: Container(
-        color: _selectedIndex == 0 || isDark ? Colors.black : Colors.white,
-        child: Padding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).padding.bottom + Sizes.size12,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              NavTab(
-                text: 'Home',
-                icon: FontAwesomeIcons.house,
-                isSelected: _selectedIndex == 0,
-                onTap: () => _onTap(0),
-                selectedIndex: _selectedIndex,
+      bottomNavigationBar: !isWebScreen(context)
+          ? Container(
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).padding.bottom + Sizes.size12,
               ),
-              NavTab(
-                text: 'Discover',
-                icon: FontAwesomeIcons.compass,
-                selectedIcon: FontAwesomeIcons.solidCompass,
-                isSelected: _selectedIndex == 1,
-                onTap: () => _onTap(1),
-                selectedIndex: _selectedIndex,
-              ),
-              Gaps.h24,
-              GestureDetector(
-                onLongPressUp: _onLongPressUp,
-                onLongPressDown: _onLongPressDown,
-                onTap: () => Utils.navPush(
-                  context,
-                  Scaffold(
-                    appBar: AppBar(
-                      title: const Text('Record video'),
-                    ),
-                  ),
-                  true,
-                ),
-                child: PostVideoButton(
-                  isVideoButtonHovered: _isVideoButtonHovered,
+              color:
+                  _selectedIndex == 0 || isDark ? Colors.black : Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.all(Sizes.size12),
+                child: CustomNavigation(
+                  selectedIndex: _selectedIndex,
+                  onTap: _onTap,
                   onHover: _onHover,
-                  inverted: _selectedIndex != 0,
+                  isVideoButtonHovered: _isVideoButtonHovered,
+                  onLongPressUp: _onLongPressUp,
+                  onLongPressDown: _onLongPressDown,
                 ),
               ),
-              Gaps.h24,
-              NavTab(
-                text: 'Inbox',
-                icon: FontAwesomeIcons.message,
-                selectedIcon: FontAwesomeIcons.solidMessage,
-                isSelected: _selectedIndex == 3,
-                onTap: () => _onTap(3),
-                selectedIndex: _selectedIndex,
-              ),
-              NavTab(
-                text: 'Profile',
-                icon: FontAwesomeIcons.user,
-                selectedIcon: FontAwesomeIcons.solidUser,
-                isSelected: _selectedIndex == 4,
-                onTap: () => _onTap(4),
-                selectedIndex: _selectedIndex,
-              ),
-            ],
-          ),
-        ),
-      ),
+            )
+          : null,
     );
   }
 }
