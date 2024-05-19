@@ -190,12 +190,12 @@ class _VideoPostState extends State<VideoPost>
               ),
             ),
           ),
-          const Positioned(
+          Positioned(
             bottom: Sizes.size20,
             right: Sizes.size10,
             child: Column(
               children: [
-                CircleAvatar(
+                const CircleAvatar(
                   radius: Sizes.size24,
                   backgroundColor: Colors.black,
                   foregroundColor: Colors.white,
@@ -203,20 +203,20 @@ class _VideoPostState extends State<VideoPost>
                   child: Text('plusbeauxjours'),
                 ),
                 Gaps.v24,
-                VideoButton(
+                const VideoButton(
                   icon: FontAwesomeIcons.solidHeart,
                   text: '2.9M',
                 ),
                 Gaps.v24,
-                // GestureDetector(
-                //   onTap: () => _onCommentsTap(context),
-                //   child: const VideoButton(
-                //     icon: FontAwesomeIcons.solidComment,
-                //     text: '33.0K',
-                //   ),
-                // ),
+                GestureDetector(
+                  onTap: () => _onCommentsTap(context),
+                  child: const VideoButton(
+                    icon: FontAwesomeIcons.solidComment,
+                    text: '33.0K',
+                  ),
+                ),
                 Gaps.v24,
-                VideoButton(
+                const VideoButton(
                   icon: FontAwesomeIcons.share,
                   text: 'Share',
                 ),
