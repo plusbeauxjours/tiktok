@@ -173,7 +173,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                 ),
                                 constraints: BoxConstraints(
                                   maxWidth:
-                                      MediaQuery.of(context).size.width - 102,
+                                      MediaQuery.of(context).size.width - 134,
                                 ),
                                 filled: true,
                                 fillColor: isDarkMode(context)
