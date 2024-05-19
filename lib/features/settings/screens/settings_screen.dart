@@ -34,7 +34,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             subtitle: const Text("Enable notifications"),
           ),
           CheckboxListTile(
-            activeColor: Colors.black,
+            activeColor: Theme.of(context).primaryColor,
             value: _notifications,
             onChanged: _onNotificationsChanged,
             title: const Text("Enable notifications"),
