@@ -60,23 +60,23 @@ class S {
     );
   }
 
-  /// `Log into your {nameOfTheApp} account`
+  /// `login into your {nameOfTheApp} account`
   String loginTitle(String nameOfTheApp) {
     return Intl.message(
-      'Log into your $nameOfTheApp account',
+      'login into your $nameOfTheApp account',
       name: 'loginTitle',
-      desc: 'The title people see when they open the log in screen',
+      desc: 'The title people see when they open the login screen.',
       args: [nameOfTheApp],
     );
   }
 
-  /// `Create a profile, follow other accounts, make your own videos, and more.`
-  String get signUpSubtitle {
+  /// `Create a profile, follow other accounts, make your own {videoCount, plural, =0{no videos} =1{video} other{videos}}, and more.`
+  String signUpSubtitle(num videoCount) {
     return Intl.message(
-      'Create a profile, follow other accounts, make your own videos, and more.',
+      'Create a profile, follow other accounts, make your own ${Intl.plural(videoCount, zero: 'no videos', one: 'video', other: 'videos')}, and more.',
       name: 'signUpSubtitle',
       desc: '',
-      args: [],
+      args: [videoCount],
     );
   }
 
@@ -85,6 +85,16 @@ class S {
     return Intl.message(
       'Use email & password',
       name: 'emailPasswordButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Continue with Facebook`
+  String get facebookButton {
+    return Intl.message(
+      'Continue with Facebook',
+      name: 'facebookButton',
       desc: '',
       args: [],
     );
@@ -100,6 +110,26 @@ class S {
     );
   }
 
+  /// `Continue with Google`
+  String get googleButton {
+    return Intl.message(
+      'Continue with Google',
+      name: 'googleButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Continue with {nameOfTheApp}`
+  String accountLoginButton(Object nameOfTheApp) {
+    return Intl.message(
+      'Continue with $nameOfTheApp',
+      name: 'accountLoginButton',
+      desc: '',
+      args: [nameOfTheApp],
+    );
+  }
+
   /// `Already have an account?`
   String get alreadyHaveAnAccount {
     return Intl.message(
@@ -110,13 +140,58 @@ class S {
     );
   }
 
-  /// `Log in`
-  String get logIn {
+  /// `Log in {gender, select, male{sir} female{madam} other{human}}`
+  String logIn(String gender) {
     return Intl.message(
-      'Log in',
+      'Log in ${Intl.gender(gender, male: 'sir', female: 'madam', other: 'human')}',
       name: 'logIn',
       desc: '',
-      args: [],
+      args: [gender],
+    );
+  }
+
+  /// `{count}`
+  String likeCount(int count) {
+    final NumberFormat countNumberFormat = NumberFormat.compact(
+      locale: Intl.getCurrentLocale(),
+    );
+    final String countString = countNumberFormat.format(count);
+
+    return Intl.message(
+      '$countString',
+      name: 'likeCount',
+      desc: 'Anything you want',
+      args: [countString],
+    );
+  }
+
+  /// `{count}`
+  String commentCount(int count) {
+    final NumberFormat countNumberFormat = NumberFormat.compact(
+      locale: Intl.getCurrentLocale(),
+    );
+    final String countString = countNumberFormat.format(count);
+
+    return Intl.message(
+      '$countString',
+      name: 'commentCount',
+      desc: 'Anything you want',
+      args: [countString],
+    );
+  }
+
+  /// `{count} {count2, plural, =0{comment} =1{comment} other{comments}}`
+  String commentTitle(int count, num count2) {
+    final NumberFormat countNumberFormat = NumberFormat.compact(
+      locale: Intl.getCurrentLocale(),
+    );
+    final String countString = countNumberFormat.format(count);
+
+    return Intl.message(
+      '$countString ${Intl.plural(count2, zero: 'comment', one: 'comment', other: 'comments')}',
+      name: 'commentTitle',
+      desc: 'Anything you want',
+      args: [countString, count2],
     );
   }
 }
