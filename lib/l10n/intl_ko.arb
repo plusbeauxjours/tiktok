@@ -1,5 +1,5 @@
 {
-  "signUpTitle": "{nameOfTheApp}에 가입하세요",
+  "signUpTitle": "{nameOfTheApp}에 가입하세요 {when}",
   "signUpSubtitle": "프로필을 만들고, 다른 계정을 팔로우하고, 자신만의 {videoCount, plural, =0{동영상 없음} =1{동영상을} other{동영상들을}} 만드는 등의 작업을 수행할 수 있습니다.",
   "alreadyHaveAnAccount": "이미 계정이 있습니까?",
   "appleButton": "애플 계정으로 로그인",
