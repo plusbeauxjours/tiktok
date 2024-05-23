@@ -35,6 +35,15 @@ class _UsernameScreenState extends State<UsernameScreen> {
     super.dispose();
   }
 
+  void _onNextTap() {
+    if (_username.isEmpty) return;
+    Navigator.pushNamed(
+      context,
+      EmailScreen.routeName,
+      arguments: EmailScreenArgs(username: _username),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -85,7 +94,7 @@ class _UsernameScreenState extends State<UsernameScreen> {
               ),
               Gaps.v28,
               GestureDetector(
-                onTap: () => Utils.navPush(context, const EmailScreen()),
+                onTap: _onNextTap,
                 child: FormButton(disabled: _username.isEmpty),
               )
             ],
