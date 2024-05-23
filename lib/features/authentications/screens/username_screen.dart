@@ -6,6 +6,7 @@ import 'package:tiktok/features/authentications/widgets/form_button.dart';
 import 'package:tiktok/utils/utils.dart';
 
 class UsernameScreen extends StatefulWidget {
+  static const routeName = "/username";
   const UsernameScreen({Key? key}) : super(key: key);
 
   @override
