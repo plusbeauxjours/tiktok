@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class Utils {
   // 모든 네비게이터는 스택(Stack) 구조이며, 밑에서부터 위로 겹쳐 쌓는 형태로 렌더링 -> Flutter Outline 확인
@@ -34,7 +35,7 @@ class Utils {
 
   // 뒤로 가기(실제로는 맨 위에 놓인 화면 제거)
   static void navPop(BuildContext context) {
-    Navigator.of(context).pop();
+    context.pop();
   }
 
   // 포커스 아웃 -> 자식 위젯의 GestureDetector 영역(여기서는 TextField)을 제외한 부모 위젯에서만 발동
