@@ -7,7 +7,9 @@ import 'package:tiktok/features/settings/screens/settings_screen.dart';
 import 'package:tiktok/features/users/widgets/persistent_tab_bar.dart';
 
 class UserProfileScreen extends StatefulWidget {
-  const UserProfileScreen({super.key});
+  final String username;
+
+  const UserProfileScreen({super.key, required this.username});
 
   @override
   State<UserProfileScreen> createState() => _UserProfileScreenState();
@@ -33,7 +35,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             headerSliverBuilder: (conetxt, innerBoxIsScrolled) {
               return [
                 SliverAppBar(
-                  title: const Text('plusbeauxjours'),
+                  title: Text(widget.username),
                   actions: [
                     IconButton(
                       onPressed: _onGearPressed,
@@ -56,9 +58,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text(
-                            "@plusbeauxjours",
-                            style: TextStyle(
+                          Text(
+                            "@${widget.username}",
+                            style: const TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: Sizes.size18,
                             ),
