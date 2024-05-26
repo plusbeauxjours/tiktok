@@ -37,10 +37,10 @@ class _UsernameScreenState extends State<UsernameScreen> {
 
   void _onNextTap() {
     if (_username.isEmpty) return;
-    Navigator.pushNamed(
+    context.push(
       context,
       EmailScreen.routeName,
-      arguments: EmailScreenArgs(username: _username),
+      extra: EmailScreenArgs(username: _username),
     );
   }
 
