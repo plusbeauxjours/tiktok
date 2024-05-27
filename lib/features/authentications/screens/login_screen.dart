@@ -7,7 +7,9 @@ import 'package:tiktok/features/authentications/widgets/auth_button.dart';
 import 'package:tiktok/utils/utils.dart';
 
 class LoginScreen extends StatelessWidget {
-  static String routeName = "/login";
+  static String routeName = "login";
+  static String routeURL = "/login";
+
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
