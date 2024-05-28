@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok/constants/breakpoints.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tiktok/constants/enum/direction.dart';
 import 'package:tiktok/constants/enum/showing_page.dart';
 import 'package:tiktok/constants/sizes.dart';
-import 'package:tiktok/features/main_navigation/screens/main_navigation_screen.dart';
 import 'package:tiktok/features/onboarding/widgets/tutorial.dart';
-import 'package:tiktok/utils/utils.dart';
+import 'package:tiktok/utils/common_utils.dart';
 
 class TutorialScreen extends StatefulWidget {
   const TutorialScreen({Key? key}) : super(key: key);
@@ -33,8 +35,16 @@ class _TutorialScreenState extends State<TutorialScreen> {
     });
   }
 
+  void _onPressArrow(Direction direction) {
+    _showingPage =
+        direction == Direction.left ? ShowingPage.second : ShowingPage.first;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
+    final isWebScreen = MediaQuery.of(context).size.width > Breakpoints.lg;
+
     return GestureDetector(
       onPanUpdate: _onPanUpdate,
       onPanEnd: _onPanEnd,
@@ -59,22 +69,56 @@ class _TutorialScreenState extends State<TutorialScreen> {
           ),
         ),
         bottomNavigationBar: Container(
+          padding: EdgeInsets.only(
+            top: Sizes.size32,
+            bottom: Sizes.size32,
+            left: isWebScreen ? 275 : Sizes.size24,
+            right: isWebScreen ? 275 : Sizes.size24,
+          ),
           color: isDarkMode(context) ? Colors.black : Colors.white,
           child: Padding(
-            padding: const EdgeInsets.only(
-              top: Sizes.size32,
-              bottom: Sizes.size64,
-              left: Sizes.size24,
-              right: Sizes.size24,
+            padding: const EdgeInsets.symmetric(
+              vertical: Sizes.size24,
+              horizontal: 24,
             ),
             child: AnimatedOpacity(
-              opacity: _showingPage == ShowingPage.first ? 0 : 1,
+              opacity:
+                  _showingPage == ShowingPage.first && !isWebScreen ? 0 : 1,
               duration: const Duration(milliseconds: 300),
-              child: CupertinoButton(
-                onPressed: () => Utils.navPushAndRemoveUntil(
-                    context, const MainNavigationScreen()),
-                color: Theme.of(context).primaryColor,
-                child: const Text('Enter the app!'),
+              child: Row(
+                mainAxisAlignment: isWebScreen
+                    ? MainAxisAlignment.spaceBetween
+                    : MainAxisAlignment.center,
+                children: [
+                  if (isWebScreen)
+                    AnimatedOpacity(
+                      opacity: _showingPage == ShowingPage.first ? 0 : 1,
+                      duration: const Duration(milliseconds: 300),
+                      child: IconButton(
+                        onPressed: () => _onPressArrow(Direction.right),
+                        icon: const FaIcon(FontAwesomeIcons.chevronLeft),
+                      ),
+                    ),
+                  CupertinoButton(
+                    onPressed: () => _showingPage == ShowingPage.first &&
+                            isWebScreen
+                        ? _onPressArrow(Direction.left)
+                        : context.go('/home'), // url -> /:tab 파라미터 정보 입력해 진입
+                    color: Theme.of(context).primaryColor,
+                    child: Text(_showingPage == ShowingPage.first && isWebScreen
+                        ? 'Next'
+                        : 'Enter the app!'),
+                  ),
+                  if (isWebScreen)
+                    AnimatedOpacity(
+                      opacity: _showingPage == ShowingPage.first ? 1 : 0,
+                      duration: const Duration(milliseconds: 300),
+                      child: IconButton(
+                        onPressed: () => _onPressArrow(Direction.left),
+                        icon: const FaIcon(FontAwesomeIcons.chevronRight),
+                      ),
+                    ),
+                ],
               ),
             ),
           ),

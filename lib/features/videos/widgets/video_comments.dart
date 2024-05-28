@@ -4,6 +4,7 @@ import 'package:tiktok/constants/gaps.dart';
 import 'package:tiktok/constants/rawData/foreground_image.dart';
 import 'package:tiktok/constants/sizes.dart';
 import 'package:tiktok/generated/l10n.dart';
+import 'package:tiktok/utils/common_utils.dart';
 import 'package:tiktok/utils/utils.dart';
 
 class VideoComments extends StatefulWidget {

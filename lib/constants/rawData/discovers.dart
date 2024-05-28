@@ -43,14 +43,14 @@ List<Widget> offStages = [
   const DiscoverScreen(),
   Container(),
   const InboxScreen(),
-  const UserProfileScreen(),
+  const UserProfileScreen(username: '', tab: ''),
 ];
 
 List<Widget> offStages2 = [
   const VideoTimelineScreen(),
   const DiscoverScreen(),
   const InboxScreen(),
-  const UserProfileScreen(),
+  const UserProfileScreen(username: '', tab: ''),
 ];
 
 List<dynamic> navs = [

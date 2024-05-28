@@ -7,7 +7,7 @@ import 'package:tiktok/features/authentications/screens/username_screen.dart';
 import 'package:tiktok/features/authentications/widgets/auth_button.dart';
 import 'package:tiktok/features/authentications/screens/login_screen.dart';
 import 'package:tiktok/generated/l10n.dart';
-import 'package:tiktok/utils/utils.dart';
+import 'package:tiktok/utils/common_utils.dart';
 
 class SignUpScreen extends StatelessWidget {
   static const routeName = "signUp";

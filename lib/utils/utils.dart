@@ -54,6 +54,3 @@ double getWinHeight(BuildContext context) => MediaQuery.of(context).size.height;
 void focusout(BuildContext context) {
   FocusScope.of(context).unfocus();
 }
-
-bool isDarkMode(BuildContext context) =>
-    MediaQuery.of(context).platformBrightness == Brightness.dark;

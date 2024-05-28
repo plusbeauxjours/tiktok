@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:tiktok/common/widgets/main_navigation/custom_navigaton.dart';
 import 'package:tiktok/constants/sizes.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tiktok/features/discover/screens/discover_screen.dart';
 import 'package:tiktok/features/inbox/screens/inbox_screen.dart';
 import 'package:tiktok/features/users/screens/user_profile_screen.dart';
@@ -9,14 +10,25 @@ import 'package:tiktok/features/videos/screens/video_timeline_screen.dart';
 import 'package:tiktok/utils/common_utils.dart';
 
 class MainNavigationScreen extends StatefulWidget {
-  const MainNavigationScreen({Key? key}) : super(key: key);
+  static const String routeName = 'mainNavigation';
+  final String tab;
+
+  const MainNavigationScreen({Key? key, required this.tab}) : super(key: key);
 
   @override
   State<MainNavigationScreen> createState() => _MainNavigationScreenState();
 }
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
-  int _selectedIndex = 4;
+  final List<String> _tabs = [
+    "home",
+    "discover",
+    "xxxxx", // fake element for video post icon
+    "inbox",
+    "profile",
+  ];
+
+  late int _selectedIndex = _tabs.indexOf(widget.tab);
   bool _isVideoButtonHovered = false;
 
   void _onLongPressUp() {
@@ -38,9 +50,9 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   }
 
   void _onTap(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    context.go('/${_tabs[index]}');
+    _selectedIndex = index;
+    setState(() {});
   }
 
   @override

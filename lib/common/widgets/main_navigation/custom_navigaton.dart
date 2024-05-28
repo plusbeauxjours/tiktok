@@ -45,6 +45,8 @@ class CustomNavigation extends StatelessWidget {
                     isVideoButtonHovered: isVideoButtonHovered,
                     onHover: onHover,
                     inverted: selectedIndex != 0,
+                    onLongPressDown: onLongPressDown,
+                    onLongPressUp: onLongPressUp,
                   ),
         ],
       ),
