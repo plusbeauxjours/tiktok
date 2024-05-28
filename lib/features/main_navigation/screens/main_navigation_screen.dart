@@ -1,19 +1,21 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok/common/widgets/main_navigation/custom_navigaton.dart';
+import 'package:tiktok/constants/rawData/discovers.dart';
 import 'package:tiktok/constants/sizes.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tiktok/features/discover/screens/discover_screen.dart';
-import 'package:tiktok/features/inbox/screens/inbox_screen.dart';
-import 'package:tiktok/features/users/screens/user_profile_screen.dart';
-import 'package:tiktok/features/videos/screens/video_timeline_screen.dart';
 import 'package:tiktok/utils/common_utils.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   static const String routeName = 'mainNavigation';
   final String tab;
 
-  const MainNavigationScreen({Key? key, required this.tab}) : super(key: key);
+  const MainNavigationScreen({
+    Key? key,
+    required this.tab,
+  }) : super(key: key);
 
   @override
   State<MainNavigationScreen> createState() => _MainNavigationScreenState();
@@ -28,7 +30,8 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     "profile",
   ];
 
-  late int _selectedIndex = _tabs.indexOf(widget.tab);
+  // late int _selectedIndex = _tabs.indexOf(widget.tab);
+  late int _selectedIndex = 0;
   bool _isVideoButtonHovered = false;
 
   void _onLongPressUp() {
@@ -56,35 +59,82 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    if (kIsWeb) _tabs.remove("xxxxx");
+  }
+
+  @override
   Widget build(BuildContext context) {
     final isDark = isDarkMode(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor:
           _selectedIndex == 0 || isDark ? Colors.black : Colors.white,
-      body: Stack(
-        children: [
-          Offstage(
-            offstage: _selectedIndex != 0,
-            child: const VideoTimelineScreen(),
-          ),
-          Offstage(
-            offstage: _selectedIndex != 1,
-            child: const DiscoverScreen(),
-          ),
-          Offstage(
-            offstage: _selectedIndex != 3,
-            child: const InboxScreen(),
-          ),
-          Offstage(
-            offstage: _selectedIndex != 4,
-            child: const UserProfileScreen(
-              username: "plusbeauxjours",
-              tab: "",
+      body: isWebScreen(context)
+          ? Row(
+              children: [
+                NavigationRail(
+                  backgroundColor: _selectedIndex == 0 || isDark
+                      ? Colors.black
+                      : Colors.white,
+                  labelType: NavigationRailLabelType.selected,
+                  selectedIconTheme: IconThemeData(
+                      color: isDark
+                          ? Colors.white
+                          : Theme.of(context).primaryColor),
+                  unselectedIconTheme: IconThemeData(
+                    color: _selectedIndex == 0
+                        ? Colors.grey.shade200
+                        : Colors.grey.shade600,
+                  ),
+                  indicatorColor: Theme.of(context).primaryColor,
+                  selectedLabelTextStyle:
+                      TextStyle(color: Theme.of(context).primaryColor),
+                  unselectedLabelTextStyle: TextStyle(
+                    color: _selectedIndex == 0
+                        ? Colors.grey.shade200
+                        : Colors.grey.shade600,
+                  ),
+                  selectedIndex: _selectedIndex,
+                  onDestinationSelected: _onTap,
+                  // 웹에서는 카메라가 없으므로, 생략 -> 활성화해봐야 에러 발생
+                  // trailing: Padding(
+                  //   padding: const EdgeInsets.only(top: Sizes.size20),
+                  //   child: PostVideoButton(
+                  //     isVideoButtonHovered: _isVideoButtonHovered,
+                  //     onHover: _onHover,
+                  //     inverted: _selectedIndex != 0,
+                  //     onLongPressDown: _onLongPressDown,
+                  //     onLongPressUp: _onLongPressUp,
+                  //   ),
+                  // ),
+                  destinations: [
+                    for (var nav in navs2)
+                      NavigationRailDestination(
+                        icon: FaIcon(nav['icon']),
+                        label: Text(nav['title']),
+                      ),
+                  ],
+                ),
+                VerticalDivider(
+                  color: _selectedIndex == 0
+                      ? Colors.grey.shade800
+                      : Colors.grey.shade300,
+                  thickness: 1,
+                  width: 1,
+                ),
+              ],
+            )
+          : Stack(
+              children: [
+                for (var offStage in offStages)
+                  Offstage(
+                    offstage: _selectedIndex != offStages.indexOf(offStage),
+                    child: offStage,
+                  )
+              ],
             ),
-          ),
-        ],
-      ),
       bottomNavigationBar: !isWebScreen(context)
           ? Container(
               padding: EdgeInsets.only(

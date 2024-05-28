@@ -79,7 +79,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
           child: Padding(
             padding: const EdgeInsets.symmetric(
               vertical: Sizes.size24,
-              horizontal: 24,
+              horizontal: Sizes.size24,
             ),
             child: AnimatedOpacity(
               opacity:

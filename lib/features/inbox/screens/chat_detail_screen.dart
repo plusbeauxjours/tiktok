@@ -9,7 +9,14 @@ import 'package:tiktok/features/inbox/widgets/avatar_form.dart';
 import 'package:tiktok/utils/common_utils.dart';
 
 class ChatDetailScreen extends StatefulWidget {
-  const ChatDetailScreen({super.key});
+  static const String routeName = 'chatDetail';
+  static const String routeURL = ':chatId';
+
+  final String chatId;
+  const ChatDetailScreen({
+    Key? key,
+    required this.chatId,
+  }) : super(key: key);
 
   @override
   State<ChatDetailScreen> createState() => _ChatDetailScreenState();
