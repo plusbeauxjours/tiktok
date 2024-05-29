@@ -112,7 +112,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                         borderRadius: BorderRadius.circular(Sizes.size4),
                       ),
                       child: AspectRatio(
-                        aspectRatio: 9 / 16,
+                        aspectRatio: 10 / 16,
                         child: FadeInImage.assetNetwork(
                           fit: BoxFit.cover,
                           placeholder: 'assets/images/windmill-7367963.jpg',

@@ -95,10 +95,12 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                   ),
                                 ),
                                 Gaps.v1,
-                                Text("Following",
-                                    style: TextStyle(
-                                      color: Colors.grey.shade500,
-                                    ))
+                                Text(
+                                  "Following",
+                                  style: TextStyle(
+                                    color: Colors.grey.shade500,
+                                  ),
+                                ),
                               ],
                             ),
                             VerticalDivider(

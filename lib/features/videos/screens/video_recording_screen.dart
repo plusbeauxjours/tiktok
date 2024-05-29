@@ -21,7 +21,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen> {
 
   late FlashMode _flashMode;
 
-  late final CameraController _cameraController;
+  late CameraController _cameraController;
 
   Future<void> initCamera() async {
     final cameras = await availableCameras();
