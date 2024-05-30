@@ -120,7 +120,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     _buttonAnimationController.reverse();
     _progressAnimationController.reset();
 
-    final video = await _cameraController.stopVideoRecording();
+    final XFile video = await _cameraController.stopVideoRecording();
 
     if (!mounted) return;
 
