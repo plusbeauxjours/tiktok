@@ -22,7 +22,7 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState?.save();
 
-        Utils.navPushAndRemoveUntil(
+        navPushAndRemoveUntil(
           context,
           const InterestsScreen(),
           (route) => false,
@@ -38,7 +38,7 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Utils.focusout(context),
+      onTap: () => focusout(context),
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Login'),

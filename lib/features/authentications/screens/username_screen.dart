@@ -49,7 +49,7 @@ class _UsernameScreenState extends State<UsernameScreen> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Utils.focusout(context),
+      onTap: () => focusout(context),
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,

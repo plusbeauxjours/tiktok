@@ -4,7 +4,6 @@ import 'package:tiktok/constants/gaps.dart';
 import 'package:tiktok/constants/sizes.dart';
 import 'package:tiktok/features/authentications/screens/login_form_screen.dart';
 import 'package:tiktok/features/authentications/widgets/auth_button.dart';
-import 'package:tiktok/utils/common_utils.dart';
 import 'package:tiktok/utils/utils.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -42,7 +41,7 @@ class LoginScreen extends StatelessWidget {
               ),
               Gaps.v40,
               GestureDetector(
-                onTap: () => Utils.navPush(context, const LoginFormScreen()),
+                onTap: () => navPush(context, const LoginFormScreen()),
                 child: const AuthButton(
                   icon: FaIcon(FontAwesomeIcons.user),
                   text: 'Use email & password',
@@ -80,7 +79,7 @@ class LoginScreen extends StatelessWidget {
               const Text("Don't have an account?"),
               Gaps.h5,
               GestureDetector(
-                onTap: () => Utils.navPop(context),
+                onTap: () => navPop(context),
                 child: Text(
                   'Sign up',
                   style: TextStyle(

@@ -4,7 +4,6 @@ import 'package:tiktok/constants/gaps.dart';
 import 'package:tiktok/constants/rawData/foreground_image.dart';
 import 'package:tiktok/constants/sizes.dart';
 import 'package:tiktok/generated/l10n.dart';
-import 'package:tiktok/utils/common_utils.dart';
 import 'package:tiktok/utils/utils.dart';
 
 class VideoComments extends StatefulWidget {
@@ -20,11 +19,11 @@ class _VideoCommentsState extends State<VideoComments> {
   final ScrollController _scrollController = ScrollController();
 
   void _onClosePressed() {
-    Utils.navPop(context);
+    navPop(context);
   }
 
   void _onStopWriting() {
-    Utils.focusout(context);
+    focusout(context);
     setState(() {
       _isWriting = false;
     });

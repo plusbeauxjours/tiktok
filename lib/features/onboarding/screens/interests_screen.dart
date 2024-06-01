@@ -95,7 +95,7 @@ class _InterestsScreenState extends State<InterestsScreen> {
           right: Sizes.size24,
         ),
         child: GestureDetector(
-          onTap: () => Utils.navPush(context, const TutorialScreen()),
+          onTap: () => navPush(context, const TutorialScreen()),
           child: Container(
             padding: const EdgeInsets.symmetric(
               vertical: Sizes.size16 + Sizes.size2,

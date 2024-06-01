@@ -60,7 +60,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Utils.focusout(context),
+      onTap: () => focusout(context),
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -86,7 +86,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
                 obscureText: _obscureText,
                 autocorrect: false,
                 onEditingComplete: () =>
-                    Utils.navPush(context, const BirthdayScreen()),
+                    navPush(context, const BirthdayScreen()),
                 decoration: InputDecoration(
                   suffix: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -161,7 +161,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
               ),
               Gaps.v28,
               GestureDetector(
-                onTap: () => Utils.navPush(context, const BirthdayScreen()),
+                onTap: () => navPush(context, const BirthdayScreen()),
                 child: FormButton(disabled: !_isPasswordValid()),
               ),
             ],

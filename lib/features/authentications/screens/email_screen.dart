@@ -59,13 +59,13 @@ class _EmailScreenState extends State<EmailScreen> {
 
   void _onSubmit() {
     if (_email.isEmpty || _isEmailValid() != null) return;
-    Utils.navPush(context, const PasswordScreen());
+    navPush(context, const PasswordScreen());
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Utils.focusout(context),
+      onTap: () => focusout(context),
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -90,7 +90,7 @@ class _EmailScreenState extends State<EmailScreen> {
                 keyboardType: TextInputType.emailAddress,
                 autocorrect: false,
                 onEditingComplete: () =>
-                    Utils.navPush(context, const PasswordScreen()),
+                    navPush(context, const PasswordScreen()),
                 decoration: InputDecoration(
                   hintText: 'Email',
                   errorText: _isEmailValid(),
