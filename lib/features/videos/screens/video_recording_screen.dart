@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -25,12 +27,13 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   bool _hasPermission = false;
   bool _deniedPermission = false;
   bool _isSelfieMode = false;
-  // 전후면 카메라를 언제든 전환할 수 있으므로, 카메라 컨트롤러는 상수일 수 없다.
+  late final bool _noCamera = kDebugMode && Platform.isIOS;
+
   late CameraController _cameraController;
   late FlashMode _flashMode;
-  double zoomLevel = 0.0;
+  double zoomLevel = 1.0;
   late double minZoomLevel;
-  late double maxZoomLevel; // LM V500N -> 10.0
+  late double maxZoomLevel;
 
   late final AnimationController _buttonAnimationController =
       AnimationController(
@@ -72,9 +75,9 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
 
   @override
   void dispose() {
-    _progressAnimationController.dispose();
+    if (!_noCamera) _cameraController.dispose();
     _buttonAnimationController.dispose();
-    _cameraController.dispose();
+    _progressAnimationController.dispose();
     super.dispose();
   }
 
@@ -87,14 +90,6 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     //  -> 카메라 제어 권한도 없는 상태에서 앱 라이프사이클 추적은 무의미 -> 불필요한 추적 중단
     if (!_hasPermission) return;
     if (!_cameraController.value.isInitialized) return; // 카메라 초기화가 안 된 경우도 마찬가지
-    /*
-    print(state);
-      // ❏ 또는 ❍ 눌러 밖으로 나가면
-      I/flutter ( 9846): AppLifecycleState.inactive
-      I/flutter ( 9846): AppLifecycleState.paused
-      // 다시 앱으로 들어오면
-      I/flutter ( 9846): AppLifecycleState.resumed
-    */
     if (state == AppLifecycleState.inactive) {
       _cameraController.dispose();
     } else if (state == AppLifecycleState.resumed) {
@@ -103,28 +98,19 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   }
 
   Future<void> initCamera() async {
-    // 앱이 설치된 기기에서 얼마나 많은 카메라를 제어할 수 있는지 확인
     final cameras = await availableCameras();
-    // print(cameras);
-    // I/flutter (  415): [CameraDescription(0, CameraLensDirection.back, 90), CameraDescription(1, CameraLensDirection.front, 270), CameraDescription(2, CameraLensDirection.back, 90)]
     if (cameras.isEmpty) return;
     try {
-      // 후면 카메라 프리셋
       _cameraController = CameraController(
-        cameras[_isSelfieMode ? 1 : 0], ResolutionPreset.ultraHigh,
-        // enableAudio: false, // 참고: 에뮬레이터에서 테스트할 경우, 오디오 기능을 꺼야 에러(camera 패키지 버그) 없음
+        cameras[_isSelfieMode ? 1 : 0],
+        ResolutionPreset.ultraHigh,
       );
-      await _cameraController.initialize(); // 후면 카메라 초기화
-      // 녹화준비(iOS 전용 카메라 제어 메서드 -> 이걸 안 하면 싱크가 안 맞는 경우가 종종 있기 때문)
+      await _cameraController.initialize();
       await _cameraController.prepareForVideoRecording();
-      // 카메라 플래시모드 상태 -> _flashMode state 연동
       _flashMode = _cameraController.value.flashMode;
 
-      // 줌 레벨 설정
       minZoomLevel = await _cameraController.getMinZoomLevel();
       maxZoomLevel = await _cameraController.getMaxZoomLevel();
-      print('minZoomLevel: $minZoomLevel');
-      print('maxZoomLevel: $maxZoomLevel');
       setState(() {});
     } catch (err) {
       if (err is CameraException) {
@@ -192,9 +178,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     _progressAnimationController.reset();
 
     final XFile video = await _cameraController.stopVideoRecording();
-    // final XFile file = await _cameraController.takePicture(); // 참고: 사진 촬영
 
-    // 카메라 줌 초기화
     zoomLevel = minZoomLevel;
     await _cameraController.setZoomLevel(minZoomLevel);
     setState(() {});
@@ -206,9 +190,9 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   Future<void> _onZoomInOut(DragUpdateDetails details) async {
     double deltaY = details.delta.dy;
     if (deltaY > 0) {
-      zoomLevel = zoomLevel <= minZoomLevel ? minZoomLevel : zoomLevel - 0.05;
+      zoomLevel = (zoomLevel - 0.05).clamp(minZoomLevel, maxZoomLevel);
     } else if (deltaY < 0) {
-      zoomLevel = zoomLevel >= maxZoomLevel ? maxZoomLevel : zoomLevel + 0.05;
+      zoomLevel = (zoomLevel + 0.05).clamp(minZoomLevel, maxZoomLevel);
     } else {
       return;
     }
@@ -217,10 +201,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   }
 
   Future<void> _onPickVideoPressed() async {
-    // 갤러리 앱 실행
     final video = await ImagePicker().pickVideo(source: ImageSource.gallery);
-    // 참고: 내부 카메라 앱 실행
-    //  final video = await ImagePicker().pickVideo(source: ImageSource.camera);
     if (video == null) return;
     if (!mounted) return;
     navPush(context, VideoPreviewScreen(video: video, isPicked: true));
@@ -294,8 +275,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                                     child: CircularProgressIndicator(
                                       color: Colors.amber.shade400,
                                       strokeWidth: Sizes.size6,
-                                      value: _progressAnimationController
-                                          .value, // 지정 시 로딩이 아닌, 진척도 표시로 전환됨다.
+                                      value: _progressAnimationController.value,
                                     ),
                                   ),
                                   Container(
