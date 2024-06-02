@@ -56,7 +56,13 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
   @override
   void initState() {
     super.initState();
-    initPermissions();
+    if (!_noCamera) {
+      initPermissions();
+    } else {
+      setState(() {
+        _hasPermission = true;
+      });
+    }
     // 이 앱의 라이프사이클(실행중/백그라운드에서 실행중/종료 등)을 추적하는 옵저버 추가
     WidgetsBinding.instance.addObserver(this);
     // _progressAnimationController.value 변화 추적
@@ -213,7 +219,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
       backgroundColor: Colors.black,
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
-        child: !_hasPermission || !_cameraController.value.isInitialized
+        child: !_hasPermission
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -243,16 +249,19 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    CameraPreview(_cameraController),
-                    Positioned(
-                      top: Sizes.size10,
-                      right: Sizes.size10,
-                      child: CameraControlButtons(
+                    if (!_noCamera && _cameraController.value.isInitialized)
+                      CameraPreview(_cameraController),
+                    if (!_noCamera)
+                      Positioned(
+                        top: Sizes.size10,
+                        right: Sizes.size10,
+                        child: CameraControlButtons(
                           controller: _cameraController,
                           flashMode: _flashMode,
                           setFlashMode: _setFlashMode,
-                          toggleSelfieMode: _toggleSelfieMode),
-                    ),
+                          toggleSelfieMode: _toggleSelfieMode,
+                        ),
+                      ),
                     Positioned(
                       width: MediaQuery.of(context).size.width,
                       bottom: Sizes.size40,
