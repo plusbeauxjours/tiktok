@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:tiktok/constants/breakpoints.dart';
 import 'package:tiktok/constants/gaps.dart';
@@ -7,7 +8,6 @@ import 'package:tiktok/features/authentications/widgets/birthday_date_picker.dar
 import 'package:tiktok/features/authentications/widgets/birthday_header.dart';
 import 'package:tiktok/features/authentications/widgets/form_button.dart';
 import 'package:tiktok/features/onboarding/screens/interests_screen.dart';
-import 'package:tiktok/utils/utils.dart';
 
 class BirthdayScreen extends StatefulWidget {
   const BirthdayScreen({Key? key}) : super(key: key);
@@ -36,6 +36,10 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
   void dispose() {
     _birthdayController.dispose();
     super.dispose();
+  }
+
+  void _onNextTap() {
+    context.pushReplacementNamed(InterestsScreen.routeName);
   }
 
   void _setTextFieldDate(DateTime date) {
@@ -78,8 +82,7 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
             ),
             Gaps.v28,
             GestureDetector(
-              onTap: () => navPushAndRemoveUntil(
-                  context, const InterestsScreen(), (route) => false),
+              onTap: _onNextTap,
               child: const FormButton(disabled: false),
             ),
             Gaps.v96,
