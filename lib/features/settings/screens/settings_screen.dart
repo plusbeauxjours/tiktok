@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok/utils/utils.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -83,11 +84,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   content: const Text("Please don't go"),
                   actions: [
                     CupertinoDialogAction(
-                      onPressed: () => Navigator.of(context).pop(),
+                      onPressed: () => navPop(context),
                       child: const Text("No"),
                     ),
                     CupertinoDialogAction(
-                      onPressed: () => Navigator.of(context).pop(),
+                      onPressed: () => navPop(context),
                       isDestructiveAction: true,
                       child: const Text("Yes"),
                     ),
@@ -108,11 +109,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   content: const Text("Please don't go"),
                   actions: [
                     IconButton(
-                      onPressed: () => Navigator.of(context).pop(),
+                      onPressed: () => navPop(context),
                       icon: const FaIcon(FontAwesomeIcons.car),
                     ),
                     TextButton(
-                      onPressed: () => Navigator.of(context).pop(),
+                      onPressed: () => navPop(context),
                       child: const Text("Yes"),
                     ),
                   ],
@@ -132,12 +133,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   actions: [
                     CupertinoActionSheetAction(
                       isDefaultAction: true,
-                      onPressed: () => Navigator.of(context).pop(),
+                      onPressed: () => navPop(context),
                       child: const Text("Not log out"),
                     ),
                     CupertinoActionSheetAction(
                       isDestructiveAction: true,
-                      onPressed: () => Navigator.of(context).pop(),
+                      onPressed: () => navPop(context),
                       child: const Text("Yes plz."),
                     )
                   ],

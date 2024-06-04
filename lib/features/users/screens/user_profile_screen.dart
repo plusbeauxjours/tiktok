@@ -5,6 +5,7 @@ import 'package:tiktok/constants/rawData/foreground_image.dart';
 import 'package:tiktok/constants/sizes.dart';
 import 'package:tiktok/features/settings/screens/settings_screen.dart';
 import 'package:tiktok/features/users/widgets/persistent_tab_bar.dart';
+import 'package:tiktok/utils/utils.dart';
 
 class UserProfileScreen extends StatefulWidget {
   final String username;
@@ -22,11 +23,7 @@ class UserProfileScreen extends StatefulWidget {
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
   void _onGearPressed() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const SettingsScreen(),
-      ),
-    );
+    navPush(context, const SettingsScreen());
   }
 
   @override
