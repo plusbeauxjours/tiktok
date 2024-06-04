@@ -2,12 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok/constants/breakpoints.dart';
-import 'package:go_router/go_router.dart';
 import 'package:tiktok/constants/enum/direction.dart';
 import 'package:tiktok/constants/enum/showing_page.dart';
 import 'package:tiktok/constants/sizes.dart';
 import 'package:tiktok/features/onboarding/widgets/tutorial.dart';
-import 'package:tiktok/utils/common_utils.dart';
+import 'package:tiktok/utils/utils.dart';
 
 class TutorialScreen extends StatefulWidget {
   const TutorialScreen({Key? key}) : super(key: key);
@@ -39,6 +38,10 @@ class _TutorialScreenState extends State<TutorialScreen> {
     _showingPage =
         direction == Direction.left ? ShowingPage.second : ShowingPage.first;
     setState(() {});
+  }
+
+  void _onEnterAppTap() {
+    goRouteGo(context, "/home");
   }
 
   @override
@@ -100,10 +103,10 @@ class _TutorialScreenState extends State<TutorialScreen> {
                       ),
                     ),
                   CupertinoButton(
-                    onPressed: () => _showingPage == ShowingPage.first &&
-                            isWebScreen
-                        ? _onPressArrow(Direction.left)
-                        : context.go('/home'), // url -> /:tab 파라미터 정보 입력해 진입
+                    onPressed: () =>
+                        _showingPage == ShowingPage.first && isWebScreen
+                            ? _onPressArrow(Direction.left)
+                            : _onEnterAppTap(), // url -> /:tab 파라미터 정보 입력해 진입
                     color: Theme.of(context).primaryColor,
                     child: Text(_showingPage == ShowingPage.first && isWebScreen
                         ? 'Next'

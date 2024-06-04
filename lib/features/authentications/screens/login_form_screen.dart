@@ -21,12 +21,7 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState?.save();
-
-        navPushAndRemoveUntil(
-          context,
-          const InterestsScreen(),
-          (route) => false,
-        );
+        goRouteGoNamed(context, InterestsScreen.routeName);
       }
     }
   }
