@@ -94,6 +94,7 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
     super.didChangeAppLifecycleState(state);
     // 단, 이 메서드는 앱 처음 실행 시 카메라 접근권한 설정 창이 뜨는 상황에서도 자동 실행된다.
     //  -> 카메라 제어 권한도 없는 상태에서 앱 라이프사이클 추적은 무의미 -> 불필요한 추적 중단
+    if (_noCamera) return;
     if (!_hasPermission) return;
     if (!_cameraController.value.isInitialized) return; // 카메라 초기화가 안 된 경우도 마찬가지
     if (state == AppLifecycleState.inactive) {
@@ -251,6 +252,13 @@ class _VideoRecordingScreenState extends State<VideoRecordingScreen>
                   children: [
                     if (!_noCamera && _cameraController.value.isInitialized)
                       CameraPreview(_cameraController),
+                    const Positioned(
+                      top: Sizes.size40,
+                      left: Sizes.size20,
+                      child: CloseButton(
+                        color: Colors.white,
+                      ),
+                    ),
                     if (!_noCamera)
                       Positioned(
                         top: Sizes.size10,

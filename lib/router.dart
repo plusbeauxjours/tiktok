@@ -68,7 +68,10 @@ final router = GoRouter(
             begin: const Offset(0, 1), // 밑에서 위로
             end: Offset.zero,
           ).animate(animation);
-          return SlideTransition(position: position, child: child);
+          return SlideTransition(
+            position: position,
+            child: child,
+          );
         },
       ),
     ),
