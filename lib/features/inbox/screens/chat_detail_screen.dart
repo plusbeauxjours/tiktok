@@ -57,9 +57,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           contentPadding: EdgeInsets.zero,
           horizontalTitleGap: Sizes.size8,
           leading: const AvatarForm(),
-          title: const Text(
-            'plusbeauxjours',
-            style: TextStyle(
+          title: Text(
+            'plusbeauxjours (${widget.chatId})',
+            style: const TextStyle(
               fontWeight: FontWeight.w600,
             ),
           ),

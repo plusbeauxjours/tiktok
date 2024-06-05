@@ -30,8 +30,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     "profile",
   ];
 
-  // late int _selectedIndex = _tabs.indexOf(widget.tab);
-  late int _selectedIndex = 0;
+  late int _selectedIndex = _tabs.indexOf(widget.tab);
   bool _isVideoButtonHovered = false;
 
   void _onLongPressUp() {
