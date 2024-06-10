@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tiktok/common/widgets/dark_mode_config/dark_mode_config.dart';
 
 // 포커스 아웃 -> 자식 위젯의 GestureDetector 영역(여기서는 TextField)을 제외한 부모 위젯에서만 발동
 void focusout(BuildContext context) {
@@ -17,7 +19,7 @@ bool isWebScreen(BuildContext context) => kIsWeb;
 
 // 다크모드인가?
 bool isDarkMode(BuildContext context) =>
-    MediaQuery.of(context).platformBrightness == Brightness.dark;
+    context.watch<DarkModeConfig>().isDarkMode;
 
 // 한국어인가?
 bool isKorean(BuildContext context) =>

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
 import 'package:tiktok/common/widgets/dark_mode_config/dark_mode_config.dart';
+import 'package:tiktok/common/widgets/video_config/video_config.dart';
 import 'package:tiktok/constants/sizes.dart';
 import 'package:tiktok/generated/l10n.dart';
 import 'package:tiktok/router.dart';
@@ -24,9 +26,16 @@ class TiktokApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     S.load(const Locale("en"));
-    return AnimatedBuilder(
-      animation: darkModeConfig,
-      builder: (BuildContext context, Widget? child) => MaterialApp.router(
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => VideoConfig(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => DarkModeConfig(),
+        ),
+      ],
+      child: MaterialApp.router(
         routerConfig: router,
         debugShowCheckedModeBanner: false,
         title: 'Tiktok',

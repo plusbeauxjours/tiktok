@@ -1,3 +1,10 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 
-final darkModeConfig = ValueNotifier(false);
+class DarkModeConfig extends ChangeNotifier {
+  bool isDarkMode = true;
+
+  void toggleIsDarkMode() {
+    isDarkMode = !isDarkMode;
+    notifyListeners();
+  }
+}
