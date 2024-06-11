@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok/features/discover/screens/discover_screen.dart';
 import 'package:tiktok/features/inbox/screens/inbox_screen.dart';
 import 'package:tiktok/features/users/screens/user_profile_screen.dart';
-import 'package:tiktok/features/videos/screens/video_timeline_screen.dart';
+import 'package:tiktok/features/videos/views/video_timeline_screen.dart';
 
 final List<String> tabs = [
   'Top',

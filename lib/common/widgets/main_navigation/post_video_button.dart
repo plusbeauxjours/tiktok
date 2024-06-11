@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok/constants/sizes.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tiktok/features/videos/screens/video_recording_screen.dart';
+import 'package:tiktok/features/videos/views/video_recording_screen.dart';
 import 'package:tiktok/utils/common_utils.dart';
 
 class PostVideoButton extends StatefulWidget {
