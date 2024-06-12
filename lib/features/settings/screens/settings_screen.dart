@@ -2,8 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:tiktok/common/widgets/dark_mode_config/dark_mode_config.dart';
-import 'package:tiktok/common/widgets/video_config/video_config.dart';
+import 'package:tiktok/features/videos/view_models/playback_config_vm.dart';
 import 'package:tiktok/utils/utils.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -32,17 +31,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: ListView(
         children: [
           SwitchListTile.adaptive(
-            value: context.watch<DarkModeConfig>().isDarkMode,
+            value: context.watch<PlaybackConfigViewModel>().darkmode,
             onChanged: (value) =>
-                context.read<DarkModeConfig>().toggleIsDarkMode(),
+                context.read<PlaybackConfigViewModel>().setDarkmode(value),
             title: const Text("Dark Mode"),
             subtitle: const Text("Dark mode is applied by default."),
           ),
           SwitchListTile.adaptive(
-            value: context.watch<VideoConfig>().isMuted,
-            onChanged: (value) => context.read<VideoConfig>().toggleIsMuted(),
-            title: const Text("Aute Mute"),
-            subtitle: const Text("Videos muted by default."),
+            value: context.watch<PlaybackConfigViewModel>().muted,
+            onChanged: (value) =>
+                context.read<PlaybackConfigViewModel>().setMuted(value),
+            title: const Text("Mute video"),
+            subtitle: const Text("Video will be muted by default."),
+          ),
+          SwitchListTile.adaptive(
+            value: context.watch<PlaybackConfigViewModel>().autoplay,
+            onChanged: (value) =>
+                context.read<PlaybackConfigViewModel>().setAutoplay(value),
+            title: const Text("Autoplay"),
+            subtitle: const Text("Video will start playing automatically."),
           ),
           SwitchListTile.adaptive(
             value: _notifications,

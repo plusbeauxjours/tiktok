@@ -9,7 +9,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:tiktok/constants/gaps.dart';
 import 'package:tiktok/constants/sizes.dart';
 import 'package:tiktok/features/videos/views/video_preview_screen.dart';
-import 'package:tiktok/features/videos/widgets/camera_control_buttons.dart';
+import 'package:tiktok/features/videos/views/widgets/camera_control_buttons.dart';
 import 'package:tiktok/utils/utils.dart';
 
 class VideoRecordingScreen extends StatefulWidget {
