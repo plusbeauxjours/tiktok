@@ -32,11 +32,11 @@ void main() async {
   );
 }
 
-class TiktokApp extends StatelessWidget {
+class TiktokApp extends ConsumerWidget {
   const TiktokApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     S.load(const Locale("en"));
     return MaterialApp.router(
       routerConfig: router,
@@ -52,7 +52,9 @@ class TiktokApp extends StatelessWidget {
         Locale('en'),
         Locale('ko'),
       ],
-      themeMode: ThemeMode.system,
+      themeMode: ref.watch(playbackConfigProvider).darkmode
+          ? ThemeMode.dark
+          : ThemeMode.light,
       theme: ThemeData(
         useMaterial3: true,
         textTheme: Typography.blackMountainView,
