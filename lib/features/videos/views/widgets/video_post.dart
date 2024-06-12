@@ -38,6 +38,7 @@ class _VideoPostState extends State<VideoPost>
   late AnimationController _animationController;
 
   bool _isPaused = false;
+  bool _isMute = false;
 
   final String _descText = descText;
   final List<String> _tags = tags;
@@ -52,6 +53,7 @@ class _VideoPostState extends State<VideoPost>
       await _videoPlayerController.setVolume(0);
     }
     _videoPlayerController.addListener(_onVideoChange);
+    _onPlaybackConfigChanged();
     if (mounted) setState(() {});
   }
 
@@ -131,14 +133,11 @@ class _VideoPostState extends State<VideoPost>
     super.dispose();
   }
 
-  void _onPlaybackConfigChanged() {
+  void _onPlaybackConfigChanged({bool toggle = false}) {
     if (!mounted) return;
-    final muted = context.read<PlaybackConfigViewModel>().muted;
-    if (muted) {
-      _videoPlayerController.setVolume(0);
-    } else {
-      _videoPlayerController.setVolume(1);
-    }
+    _isMute = toggle ? !_isMute : context.read<PlaybackConfigViewModel>().muted;
+    _videoPlayerController.setVolume(_isMute ? 0 : 1);
+    setState(() {});
   }
 
   @override
@@ -185,16 +184,12 @@ class _VideoPostState extends State<VideoPost>
             top: 40,
             child: IconButton(
               icon: FaIcon(
-                context.watch<PlaybackConfigViewModel>().muted
+                _isMute
                     ? FontAwesomeIcons.volumeOff
                     : FontAwesomeIcons.volumeHigh,
                 color: Colors.white,
               ),
-              onPressed: () {
-                context
-                    .read<PlaybackConfigViewModel>()
-                    .setMuted(!context.read<PlaybackConfigViewModel>().muted);
-              },
+              onPressed: () => _onPlaybackConfigChanged(toggle: true),
             ),
           ),
           Positioned(
