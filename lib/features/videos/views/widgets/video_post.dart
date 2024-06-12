@@ -13,24 +13,25 @@ import 'package:tiktok/utils/utils.dart';
 import 'package:tiktok/generated/l10n.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class VideoPost extends StatefulWidget {
+class VideoPost extends ConsumerStatefulWidget {
   final int index;
   final String video;
   final VoidCallback onVideoFinished;
 
-  const VideoPost(
-      {Key? key,
-      required this.onVideoFinished,
-      required this.index,
-      required this.video})
-      : super(key: key);
+  const VideoPost({
+    Key? key,
+    required this.onVideoFinished,
+    required this.index,
+    required this.video,
+  }) : super(key: key);
 
   @override
-  State<VideoPost> createState() => _VideoPostState();
+  VideoPostState createState() => VideoPostState();
 }
 
-class _VideoPostState extends State<VideoPost>
+class VideoPostState extends ConsumerState<VideoPost>
     with SingleTickerProviderStateMixin {
   late VideoPlayerController _videoPlayerController;
   late AnimationController _animationController;

@@ -2,13 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok/constants/gaps.dart';
 import 'package:tiktok/constants/sizes.dart';
 import 'package:tiktok/features/inbox/widgets/avatar_form.dart';
-import 'package:tiktok/utils/common_utils.dart';
+import 'package:tiktok/utils/utils.dart';
 
-class ChatDetailScreen extends StatefulWidget {
+class ChatDetailScreen extends ConsumerStatefulWidget {
   static const String routeName = 'chatDetail';
   static const String routeURL = ':chatId';
 
@@ -19,10 +20,10 @@ class ChatDetailScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<ChatDetailScreen> createState() => _ChatDetailScreenState();
+  ChatDetailScreenState createState() => ChatDetailScreenState();
 }
 
-class _ChatDetailScreenState extends State<ChatDetailScreen> {
+class ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
   final TextEditingController _editingController =
       TextEditingController(text: '');
 
@@ -51,8 +52,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor:
-            isDarkMode(context) ? Colors.grey.shade800 : Colors.grey.shade100,
+        backgroundColor: isDarkMode(context, ref)
+            ? Colors.grey.shade800
+            : Colors.grey.shade100,
         title: ListTile(
           contentPadding: EdgeInsets.zero,
           horizontalTitleGap: Sizes.size8,
@@ -85,8 +87,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       body: GestureDetector(
         onTap: () => focusout(context),
         child: Container(
-          color:
-              isDarkMode(context) ? Colors.grey.shade700 : Colors.grey.shade100,
+          color: isDarkMode(context, ref)
+              ? Colors.grey.shade700
+              : Colors.grey.shade100,
           child: Stack(
             children: [
               ListView.separated(
@@ -152,7 +155,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               : 120
                           : 85,
                       elevation: 0,
-                      color: isDarkMode(context)
+                      color: isDarkMode(context, ref)
                           ? Colors.grey.shade800
                           : Colors.grey.shade100,
                       child: Padding(
@@ -182,7 +185,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                       MediaQuery.of(context).size.width - 134,
                                 ),
                                 filled: true,
-                                fillColor: isDarkMode(context)
+                                fillColor: isDarkMode(context, ref)
                                     ? Colors.grey.shade700
                                     : Colors.grey.shade200,
                                 suffixIcon: Container(
@@ -190,7 +193,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                   alignment: Alignment.center,
                                   child: FaIcon(
                                     FontAwesomeIcons.faceSmile,
-                                    color: isDarkMode(context)
+                                    color: isDarkMode(context, ref)
                                         ? Colors.white
                                         : Colors.black,
                                   ),
@@ -202,7 +205,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                               style: TextButton.styleFrom(
                                 backgroundColor: _isThereMessage
                                     ? Theme.of(context).primaryColor
-                                    : isDarkMode(context)
+                                    : isDarkMode(context, ref)
                                         ? Colors.grey.shade700
                                         : Colors.grey.shade200,
                                 shape: const CircleBorder(),

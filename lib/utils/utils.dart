@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tiktok/features/videos/view_models/playback_config_vm.dart';
 
 // 포커스 아웃 -> 자식 위젯의 GestureDetector 영역(여기서는 TextField)을 제외한 부모 위젯에서만 발동
 void focusout(BuildContext context) {
@@ -15,10 +17,6 @@ double getWinHeight(BuildContext context) => MediaQuery.of(context).size.height;
 
 // 웹화면인가?
 bool isWebScreen(BuildContext context) => kIsWeb;
-
-// 다크모드인가?
-bool isDarkMode(BuildContext context) =>
-    MediaQuery.of(context).platformBrightness == Brightness.dark;
 
 // 한국어인가?
 bool isKorean(BuildContext context) =>
@@ -142,3 +140,7 @@ void navPushAndRemoveUntil(
 void navPop(BuildContext context, [dynamic result]) {
   Navigator.of(context).pop(result);
 }
+
+// 다크모드인가?
+bool isDarkMode(BuildContext context, WidgetRef ref) =>
+    ref.watch(playbackConfigProvider).darkmode;

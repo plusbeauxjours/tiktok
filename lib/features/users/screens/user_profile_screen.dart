@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok/constants/gaps.dart';
 import 'package:tiktok/constants/rawData/foreground_image.dart';
@@ -7,7 +8,7 @@ import 'package:tiktok/features/settings/screens/settings_screen.dart';
 import 'package:tiktok/features/users/widgets/persistent_tab_bar.dart';
 import 'package:tiktok/utils/utils.dart';
 
-class UserProfileScreen extends StatefulWidget {
+class UserProfileScreen extends ConsumerStatefulWidget {
   final String username;
   final String tab;
 
@@ -18,16 +19,17 @@ class UserProfileScreen extends StatefulWidget {
   });
 
   @override
-  State<UserProfileScreen> createState() => _UserProfileScreenState();
+  UserProfileScreenState createState() => UserProfileScreenState();
 }
 
-class _UserProfileScreenState extends State<UserProfileScreen> {
+class UserProfileScreenState extends ConsumerState<UserProfileScreen> {
   void _onGearPressed() {
     navPush(context, const SettingsScreen());
   }
 
   @override
   Widget build(BuildContext context) {
+    final isDark = isDarkMode(context, ref);
     return Scaffold(
       backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       body: SafeArea(
@@ -208,7 +210,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   ),
                 ),
                 SliverPersistentHeader(
-                  delegate: PersistentTabBar(),
+                  delegate: PersistentTabBar(isDark),
                   pinned: true,
                 ),
               ];

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok/constants/breakpoints.dart';
 import 'package:tiktok/constants/enum/direction.dart';
@@ -8,14 +9,14 @@ import 'package:tiktok/constants/sizes.dart';
 import 'package:tiktok/features/onboarding/widgets/tutorial.dart';
 import 'package:tiktok/utils/utils.dart';
 
-class TutorialScreen extends StatefulWidget {
+class TutorialScreen extends ConsumerStatefulWidget {
   const TutorialScreen({Key? key}) : super(key: key);
 
   @override
-  State<TutorialScreen> createState() => _TutorialScreenState();
+  TutorialScreenState createState() => TutorialScreenState();
 }
 
-class _TutorialScreenState extends State<TutorialScreen> {
+class TutorialScreenState extends ConsumerState<TutorialScreen> {
   Direction _direction = Direction.right;
 
   ShowingPage _showingPage = ShowingPage.first;
@@ -78,7 +79,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
             left: isWebScreen ? 275 : Sizes.size24,
             right: isWebScreen ? 275 : Sizes.size24,
           ),
-          color: isDarkMode(context) ? Colors.black : Colors.white,
+          color: isDarkMode(context, ref) ? Colors.black : Colors.white,
           child: Padding(
             padding: const EdgeInsets.symmetric(
               vertical: Sizes.size24,

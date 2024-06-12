@@ -1,14 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tiktok/common/widgets/main_navigation/custom_navigaton.dart';
 import 'package:tiktok/constants/rawData/discovers.dart';
 import 'package:tiktok/constants/sizes.dart';
-import 'package:go_router/go_router.dart';
-import 'package:tiktok/utils/common_utils.dart';
+import 'package:tiktok/utils/utils.dart';
 
-class MainNavigationScreen extends StatefulWidget {
+class MainNavigationScreen extends ConsumerStatefulWidget {
   static const String routeName = 'mainNavigation';
   final String tab;
 
@@ -18,10 +19,10 @@ class MainNavigationScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<MainNavigationScreen> createState() => _MainNavigationScreenState();
+  MainNavigationScreenState createState() => MainNavigationScreenState();
 }
 
-class _MainNavigationScreenState extends State<MainNavigationScreen> {
+class MainNavigationScreenState extends ConsumerState<MainNavigationScreen> {
   final List<String> _tabs = [
     "home",
     "discover",
@@ -65,7 +66,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = isDarkMode(context);
+    final isDark = isDarkMode(context, ref);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor:

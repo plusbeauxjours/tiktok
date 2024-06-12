@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok/constants/breakpoints.dart';
 import 'package:tiktok/constants/gaps.dart';
@@ -6,16 +7,16 @@ import 'package:tiktok/constants/rawData/discovers.dart';
 import 'package:tiktok/constants/sizes.dart';
 import 'package:tiktok/constants/rawData/foreground_image.dart';
 import 'package:tiktok/features/discover/widgets/custom_search_button.dart';
-import 'package:tiktok/utils/common_utils.dart';
+import 'package:tiktok/utils/utils.dart';
 
-class DiscoverScreen extends StatefulWidget {
+class DiscoverScreen extends ConsumerStatefulWidget {
   const DiscoverScreen({Key? key}) : super(key: key);
 
   @override
-  State<DiscoverScreen> createState() => _DiscoverScreenState();
+  DiscoverScreenState createState() => DiscoverScreenState();
 }
 
-class _DiscoverScreenState extends State<DiscoverScreen> {
+class DiscoverScreenState extends ConsumerState<DiscoverScreen> {
   final TextEditingController _textEditingController =
       TextEditingController(text: "Initial Text");
 
@@ -140,7 +141,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                         style: TextStyle(
                           fontSize: Sizes.size14,
                           fontWeight: FontWeight.w600,
-                          color: isDarkMode(context)
+                          color: isDarkMode(context, ref)
                               ? Colors.grey.shade300
                               : Colors.grey.shade600,
                         ),
@@ -162,7 +163,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                             FaIcon(
                               FontAwesomeIcons.heart,
                               size: Sizes.size16,
-                              color: isDarkMode(context)
+                              color: isDarkMode(context, ref)
                                   ? Colors.grey.shade300
                                   : Colors.grey.shade600,
                             ),

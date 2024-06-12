@@ -1,12 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok/constants/sizes.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiktok/features/videos/views/video_recording_screen.dart';
-import 'package:tiktok/utils/common_utils.dart';
+import 'package:tiktok/utils/utils.dart';
 
-class PostVideoButton extends StatefulWidget {
+class PostVideoButton extends ConsumerStatefulWidget {
   final bool isVideoButtonHovered;
   final VoidCallback onHover;
   final bool inverted;
@@ -24,10 +25,10 @@ class PostVideoButton extends StatefulWidget {
   });
 
   @override
-  State<PostVideoButton> createState() => _PostVideoButtonState();
+  PostVideoButtonState createState() => PostVideoButtonState();
 }
 
-class _PostVideoButtonState extends State<PostVideoButton> {
+class PostVideoButtonState extends ConsumerState<PostVideoButton> {
   double heightAni() => widget.isVideoButtonHovered ? 40 : 30;
   double widthAni() => widget.isVideoButtonHovered ? 35 : 25;
   double sizeAni([double? iconSize]) =>
@@ -35,7 +36,7 @@ class _PostVideoButtonState extends State<PostVideoButton> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = isDarkMode(context);
+    final isDark = isDarkMode(context, ref);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Sizes.size24),
       child: GestureDetector(

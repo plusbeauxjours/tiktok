@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok/constants/sizes.dart';
-import 'package:tiktok/utils/common_utils.dart';
+import 'package:tiktok/utils/utils.dart';
 
-class CustomSearchButton extends StatelessWidget {
+class CustomSearchButton extends ConsumerWidget {
   final VoidCallback moveBack;
   final TextEditingController textEditingController;
   final void Function(String)? onSearchChanged;
@@ -22,7 +23,7 @@ class CustomSearchButton extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -44,7 +45,7 @@ class CustomSearchButton extends StatelessWidget {
                   borderSide: BorderSide.none,
                 ),
                 filled: true,
-                fillColor: isDarkMode(context)
+                fillColor: isDarkMode(context, ref)
                     ? Colors.grey.shade800
                     : Colors.grey.shade200,
                 contentPadding:
@@ -54,7 +55,7 @@ class CustomSearchButton extends StatelessWidget {
                   alignment: Alignment.center,
                   child: FaIcon(
                     FontAwesomeIcons.magnifyingGlass,
-                    color: isDarkMode(context)
+                    color: isDarkMode(context, ref)
                         ? Colors.grey.shade500
                         : Colors.black,
                     size: Sizes.size18,

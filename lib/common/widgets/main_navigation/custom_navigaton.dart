@@ -1,11 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiktok/common/widgets/main_navigation/nav_tab.dart';
 import 'package:tiktok/common/widgets/main_navigation/post_video_button.dart';
 import 'package:tiktok/constants/rawData/discovers.dart';
-import 'package:tiktok/utils/common_utils.dart';
+import 'package:tiktok/utils/utils.dart';
 
-class CustomNavigation extends StatelessWidget {
+class CustomNavigation extends ConsumerWidget {
   final int selectedIndex;
   final void Function(int selectedIdx) onTap;
   final void Function() onHover;
@@ -25,8 +26,8 @@ class CustomNavigation extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final isDark = isDarkMode(context);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDark = isDarkMode(context, ref);
     return Container(
       color: selectedIndex == 0 || isDark ? Colors.black : Colors.white,
       child: Row(

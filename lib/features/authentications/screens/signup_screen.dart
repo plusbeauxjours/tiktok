@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiktok/constants/gaps.dart';
@@ -9,7 +10,7 @@ import 'package:tiktok/features/authentications/screens/login_screen.dart';
 import 'package:tiktok/generated/l10n.dart';
 import 'package:tiktok/utils/utils.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends ConsumerWidget {
   static const routeName = "signUp";
   static const routeURL = "/";
 
@@ -24,7 +25,7 @@ class SignUpScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return OrientationBuilder(
       builder: (context, orientation) {
         return Scaffold(
@@ -96,7 +97,7 @@ class SignUpScreen extends StatelessWidget {
             ),
           ),
           bottomNavigationBar: Container(
-            color: isDarkMode(context)
+            color: isDarkMode(context, ref)
                 ? Theme.of(context).appBarTheme.backgroundColor
                 : Colors.grey.shade50,
             child: Padding(

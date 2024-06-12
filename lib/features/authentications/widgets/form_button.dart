@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiktok/constants/sizes.dart';
-import 'package:tiktok/utils/common_utils.dart';
+import 'package:tiktok/utils/utils.dart';
 
-class FormButton extends StatelessWidget {
+class FormButton extends ConsumerWidget {
   const FormButton({
     super.key,
     required this.disabled,
@@ -13,7 +14,7 @@ class FormButton extends StatelessWidget {
   final String text;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return FractionallySizedBox(
       widthFactor: 1,
       child: AnimatedContainer(
@@ -22,7 +23,7 @@ class FormButton extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(Sizes.size5),
           color: disabled
-              ? isDarkMode(context)
+              ? isDarkMode(context, ref)
                   ? Colors.grey.shade800
                   : Colors.grey.shade300
               : Theme.of(context).primaryColor,

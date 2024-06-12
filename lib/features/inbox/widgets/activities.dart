@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok/constants/gaps.dart';
 import 'package:tiktok/constants/rawData/inboxs.dart';
 import 'package:tiktok/constants/sizes.dart';
-import 'package:tiktok/utils/common_utils.dart';
+import 'package:tiktok/utils/utils.dart';
 
-class Activities extends StatelessWidget {
+class Activities extends ConsumerWidget {
   final void Function(String) onDismissed;
   final Animation<Offset> panelAnimation;
   final bool showBarrier;
@@ -22,8 +23,8 @@ class Activities extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final isDark = isDarkMode(context);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDark = isDarkMode(context, ref);
     return Stack(
       children: [
         ListView(

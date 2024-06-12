@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok/constants/gaps.dart';
-import 'package:tiktok/utils/common_utils.dart';
+import 'package:tiktok/utils/utils.dart';
 
-class NavTab extends StatelessWidget {
+class NavTab extends ConsumerWidget {
   const NavTab({
     super.key,
     required this.text,
@@ -22,8 +23,8 @@ class NavTab extends StatelessWidget {
   final IconData? selectedIcon;
 
   @override
-  Widget build(BuildContext context) {
-    final isDark = isDarkMode(context);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDark = isDarkMode(context, ref);
     return Expanded(
       child: GestureDetector(
         onTap: onTap, // Function onTap 선언 시, () => onTap
