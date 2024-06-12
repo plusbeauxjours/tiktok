@@ -5,6 +5,7 @@ import 'package:tiktok/constants/gaps.dart';
 import 'package:tiktok/constants/rawData/foreground_image.dart';
 import 'package:tiktok/constants/rawData/video_data.dart';
 import 'package:tiktok/constants/sizes.dart';
+import 'package:tiktok/features/videos/view_models/playback_config_vm.dart';
 import 'package:tiktok/features/videos/views/widgets/video_bgm_info.dart';
 import 'package:tiktok/features/videos/views/widgets/video_button.dart';
 import 'package:tiktok/features/videos/views/widgets/video_comments.dart';
@@ -69,7 +70,7 @@ class VideoPostState extends ConsumerState<VideoPost>
     if (info.visibleFraction == 1 &&
         !_videoPlayerController.value.isPlaying &&
         !_isPaused) {
-      if (false) {
+      if (ref.read(playbackConfigProvider).autoplay) {
         _videoPlayerController.play();
       }
     } else if (_videoPlayerController.value.isPlaying &&
@@ -129,7 +130,7 @@ class VideoPostState extends ConsumerState<VideoPost>
 
   void _onPlaybackConfigChanged({bool toggle = false}) {
     if (!mounted) return;
-    _isMute = false;
+    _isMute = toggle ? !_isMute : ref.read(playbackConfigProvider).muted;
     _videoPlayerController.setVolume(_isMute ? 0 : 1);
     setState(() {});
   }
