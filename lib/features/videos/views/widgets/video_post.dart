@@ -5,7 +5,7 @@ import 'package:tiktok/constants/gaps.dart';
 import 'package:tiktok/constants/rawData/foreground_image.dart';
 import 'package:tiktok/constants/rawData/video_data.dart';
 import 'package:tiktok/constants/sizes.dart';
-import 'package:tiktok/features/videos/view_models/playback_config_vm.dart';
+import 'package:tiktok/features/videos/view_models/playback_config_view_model.dart';
 import 'package:tiktok/features/videos/views/widgets/video_bgm_info.dart';
 import 'package:tiktok/features/videos/views/widgets/video_button.dart';
 import 'package:tiktok/features/videos/views/widgets/video_comments.dart';
