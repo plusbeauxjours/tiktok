@@ -6,7 +6,6 @@ import 'package:tiktok/constants/sizes.dart';
 import 'package:tiktok/features/authentications/screens/birthday_screen.dart';
 import 'package:tiktok/features/authentications/widgets/form_button.dart';
 import 'package:tiktok/features/authentications/view_models/signup_view_model.dart';
-import 'package:tiktok/utils/utils.dart';
 
 class PasswordScreen extends ConsumerStatefulWidget {
   const PasswordScreen({Key? key}) : super(key: key);
@@ -181,7 +180,7 @@ class PasswordScreenState extends ConsumerState<PasswordScreen> {
               ),
               Gaps.v28,
               GestureDetector(
-                onTap: () => navPush(context, const BirthdayScreen()),
+                onTap: _onSubmit,
                 child: FormButton(disabled: !_isPasswordValid()),
               ),
             ],
