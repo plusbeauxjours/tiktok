@@ -24,7 +24,6 @@ class SignUpViewModel extends AsyncNotifier<void> {
       ),
     );
     if (!mounted) return;
-    print("🐽 $state.hasError");
     if (!state.hasError) {
       context.goNamed(InterestsScreen.routeName);
     }

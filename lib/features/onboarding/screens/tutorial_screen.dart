@@ -109,9 +109,13 @@ class TutorialScreenState extends ConsumerState<TutorialScreen> {
                             ? _onPressArrow(Direction.left)
                             : _onEnterAppTap(), // url -> /:tab 파라미터 정보 입력해 진입
                     color: Theme.of(context).primaryColor,
-                    child: Text(_showingPage == ShowingPage.first && isWebScreen
-                        ? 'Next'
-                        : 'Enter the app!'),
+                    child: Text(
+                        style: const TextStyle(
+                          fontSize: Sizes.size16,
+                        ),
+                        _showingPage == ShowingPage.first && isWebScreen
+                            ? 'Next'
+                            : 'Enter the app!'),
                   ),
                   if (isWebScreen)
                     AnimatedOpacity(
