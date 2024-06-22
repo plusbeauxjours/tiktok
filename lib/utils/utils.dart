@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -144,3 +145,17 @@ void navPop(BuildContext context, [dynamic result]) {
 // 다크모드인가?
 bool isDarkMode(BuildContext context, WidgetRef ref) =>
     ref.watch(playbackConfigProvider).darkmode;
+
+void showFirebaseErrorSnack(
+  BuildContext context,
+  Object? error,
+) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      showCloseIcon: true,
+      content: Text(
+        (error as FirebaseException).message ?? "Something wen't wrong.",
+      ),
+    ),
+  );
+}
