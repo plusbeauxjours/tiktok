@@ -31,6 +31,6 @@ class SocialAuthViewModel extends AsyncNotifier<void> {
   }
 }
 
-final SocialAuthProvider = AsyncNotifierProvider<SocialAuthViewModel, void>(
+final socialAuthProvider = AsyncNotifierProvider<SocialAuthViewModel, void>(
   () => SocialAuthViewModel(),
 );
