@@ -44,7 +44,10 @@ class BirthdayScreenState extends ConsumerState<BirthdayScreen> {
       ...state,
       "birthday": _birthdayController.value.text,
     };
-    ref.read(signUpProvider.notifier).signUp(context, mounted);
+    ref.read(signUpProvider.notifier).signUp(
+          context,
+          context.mounted,
+        );
     // context.goNamed(InterestsScreen.routeName);
   }
 
