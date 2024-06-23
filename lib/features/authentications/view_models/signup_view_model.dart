@@ -22,11 +22,10 @@ class SignUpViewModel extends AsyncNotifier<void> {
       () async => await _authRepo.emailSignUp(
         form["email"],
         form["password"],
+        context,
       ),
     );
     if (!mounted) return;
-    print("🥥$state");
-    print("🥥🥥$state.error");
     if (state.hasError) {
       showFirebaseErrorSnack(context, state.error);
     } else {

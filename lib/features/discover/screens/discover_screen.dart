@@ -23,7 +23,6 @@ class DiscoverScreenState extends ConsumerState<DiscoverScreen> {
   late bool _isThereSearchValue = _textEditingController.text.isNotEmpty;
 
   void _onSearchChanged(String value) {
-    print(value);
     setState(() {
       _isThereSearchValue = value.isNotEmpty;
     });

@@ -29,6 +29,22 @@ class SocialAuthViewModel extends AsyncNotifier<void> {
       context.go("/home");
     }
   }
+
+  Future<void> googleSignIn(
+    BuildContext context,
+    bool mounted,
+  ) async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(
+      () async => await _repository.googleSignIn(context),
+    );
+    if (!mounted) return;
+    if (state.hasError) {
+      showFirebaseErrorSnack(context, state.error);
+    } else {
+      context.go("/home");
+    }
+  }
 }
 
 final socialAuthProvider = AsyncNotifierProvider<SocialAuthViewModel, void>(

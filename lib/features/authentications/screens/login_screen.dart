@@ -61,9 +61,15 @@ class LoginScreen extends ConsumerWidget {
                 ),
               ),
               Gaps.v16,
-              const AuthButton(
-                icon: FaIcon(FontAwesomeIcons.google),
-                text: 'Continue with Google',
+              GestureDetector(
+                onTap: () => ref.read(socialAuthProvider.notifier).githubSignIn(
+                      context,
+                      context.mounted,
+                    ),
+                child: const AuthButton(
+                  icon: FaIcon(FontAwesomeIcons.google),
+                  text: 'Continue with Google',
+                ),
               ),
             ],
           ),

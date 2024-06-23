@@ -100,7 +100,7 @@ class SettingsScreen extends ConsumerWidget {
                     ),
                     CupertinoDialogAction(
                       onPressed: () {
-                        ref.read(authRepo).signOut();
+                        ref.read(authRepo).signOut(context);
                         context.go("/");
                       },
                       isDestructiveAction: true,
