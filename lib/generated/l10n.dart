@@ -50,13 +50,13 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `Sign up for {nameOfTheApp} {when}`
-  String signUpTitle(String nameOfTheApp, Object when) {
+  /// `Sign up for {nameOfTheApp}`
+  String signUpTitle(String nameOfTheApp) {
     return Intl.message(
-      'Sign up for $nameOfTheApp $when',
+      'Sign up for $nameOfTheApp',
       name: 'signUpTitle',
       desc: 'The title people see when they open the app for the first time.',
-      args: [nameOfTheApp, when],
+      args: [nameOfTheApp],
     );
   }
 

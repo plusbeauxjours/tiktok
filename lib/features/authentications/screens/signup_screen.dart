@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:tiktok/constants/gaps.dart';
 import 'package:tiktok/constants/sizes.dart';
 import 'package:tiktok/features/authentications/screens/username_screen.dart';
+import 'package:tiktok/features/authentications/view_models/social_auth_view_model.dart';
 import 'package:tiktok/features/authentications/widgets/auth_button.dart';
 import 'package:tiktok/features/authentications/screens/login_screen.dart';
 import 'package:tiktok/generated/l10n.dart';
@@ -39,7 +40,7 @@ class SignUpScreen extends ConsumerWidget {
                 children: [
                   Gaps.v80,
                   Text(
-                    S.of(context).signUpTitle("TikTok", DateTime.now()),
+                    S.of(context).signUpTitle("TikTok"),
                     style: const TextStyle(
                       fontSize: Sizes.size24,
                       fontWeight: FontWeight.w700,
@@ -66,10 +67,17 @@ class SignUpScreen extends ConsumerWidget {
                       ),
                     ),
                     Gaps.v16,
-                    AuthButton(
-                      icon: const FaIcon(FontAwesomeIcons.apple),
-                      text: S.of(context).appleButton,
-                    )
+                    GestureDetector(
+                      onTap: () =>
+                          ref.read(socialAuthProvider.notifier).githubSignIn(
+                                context,
+                                context.mounted,
+                              ),
+                      child: const AuthButton(
+                        icon: FaIcon(FontAwesomeIcons.github),
+                        text: "Continue with Github",
+                      ),
+                    ),
                   ],
                   if (orientation == Orientation.landscape)
                     Row(
@@ -84,10 +92,10 @@ class SignUpScreen extends ConsumerWidget {
                           ),
                         ),
                         Gaps.h16,
-                        Expanded(
+                        const Expanded(
                           child: AuthButton(
-                            icon: const FaIcon(FontAwesomeIcons.apple),
-                            text: S.of(context).appleButton,
+                            icon: FaIcon(FontAwesomeIcons.github),
+                            text: "Continue with Github",
                           ),
                         )
                       ],

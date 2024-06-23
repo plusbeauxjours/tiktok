@@ -146,16 +146,16 @@ void navPop(BuildContext context, [dynamic result]) {
 bool isDarkMode(BuildContext context, WidgetRef ref) =>
     ref.watch(playbackConfigProvider).darkmode;
 
-void showFirebaseErrorSnack(
-  BuildContext context,
-  Object? error,
-) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      showCloseIcon: true,
-      content: Text(
-        (error as FirebaseException).message ?? "Something wen't wrong.",
-      ),
+void showFirebaseErrorSnack(BuildContext context, Object? error) {
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    action: SnackBarAction(
+      onPressed: () {}, // 닫기와 같은 결과
+      label: 'OK',
     ),
-  );
+    content: Text(
+      error != null && error is FirebaseException && error.message != null
+          ? error.message!
+          : "Something went wrong",
+    ),
+  ));
 }

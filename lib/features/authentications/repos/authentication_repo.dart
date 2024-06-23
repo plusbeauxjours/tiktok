@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tiktok/utils/utils.dart';
 
 class AuthenticationRepository {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -10,29 +12,55 @@ class AuthenticationRepository {
   Stream<User?> authStateChanges() => _firebaseAuth.authStateChanges();
 
   Future<void> emailSignUp(String email, String password) async {
-    await _firebaseAuth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+    try {
+      await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } catch (e) {
+      rethrow;
+    }
   }
 
   Future<void> signOut() async {
-    await _firebaseAuth.signOut();
+    try {
+      await _firebaseAuth.signOut();
+    } catch (e) {
+      rethrow;
+    }
   }
 
   Future<void> signIn(String email, String password) async {
-    await _firebaseAuth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+    try {
+      await _firebaseAuth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } catch (e) {
+      rethrow;
+    }
   }
 
-  Future<void> githubSignIn() async {
-    await _firebaseAuth.signInWithProvider(GithubAuthProvider());
+  Future<void> githubSignIn(BuildContext context) async {
+    try {
+      UserCredential userCredential = await _firebaseAuth
+          .signInWithProvider(GithubAuthProvider())
+          .catchError((err) {
+        print(err);
+        showFirebaseErrorSnack(context, err);
+      });
+      print(userCredential);
+    } on FirebaseAuthException catch (e) {
+      throw Exception(e.code);
+    }
   }
 
   Future<void> googleSignIn() async {
-    await _firebaseAuth.signInWithProvider(GoogleAuthProvider());
+    try {
+      await _firebaseAuth.signInWithProvider(GoogleAuthProvider());
+    } catch (e) {
+      rethrow;
+    }
   }
 }
 

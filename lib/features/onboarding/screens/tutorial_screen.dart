@@ -112,6 +112,7 @@ class TutorialScreenState extends ConsumerState<TutorialScreen> {
                     child: Text(
                         style: const TextStyle(
                           fontSize: Sizes.size16,
+                          color: Colors.white,
                         ),
                         _showingPage == ShowingPage.first && isWebScreen
                             ? 'Next'

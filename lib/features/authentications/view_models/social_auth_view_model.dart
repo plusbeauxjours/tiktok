@@ -20,7 +20,7 @@ class SocialAuthViewModel extends AsyncNotifier<void> {
   ) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(
-      () async => await _repository.githubSignIn(),
+      () async => await _repository.githubSignIn(context),
     );
     if (!mounted) return;
     if (state.hasError) {
