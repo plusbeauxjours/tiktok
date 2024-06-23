@@ -62,7 +62,7 @@ class LoginScreen extends ConsumerWidget {
               ),
               Gaps.v16,
               GestureDetector(
-                onTap: () => ref.read(socialAuthProvider.notifier).githubSignIn(
+                onTap: () => ref.read(socialAuthProvider.notifier).googleSignIn(
                       context,
                       context.mounted,
                     ),

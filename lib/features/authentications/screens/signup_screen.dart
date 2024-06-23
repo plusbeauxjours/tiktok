@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
@@ -78,6 +79,17 @@ class SignUpScreen extends ConsumerWidget {
                         text: "Continue with Github",
                       ),
                     ),
+                    GestureDetector(
+                      onTap: () =>
+                          ref.read(socialAuthProvider.notifier).googleSignIn(
+                                context,
+                                context.mounted,
+                              ),
+                      child: const AuthButton(
+                        icon: FaIcon(FontAwesomeIcons.google),
+                        text: 'Continue with Google',
+                      ),
+                    ),
                   ],
                   if (orientation == Orientation.landscape)
                     Row(
@@ -92,12 +104,35 @@ class SignUpScreen extends ConsumerWidget {
                           ),
                         ),
                         Gaps.h16,
-                        const Expanded(
-                          child: AuthButton(
-                            icon: FaIcon(FontAwesomeIcons.github),
-                            text: "Continue with Github",
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () => ref
+                                .read(socialAuthProvider.notifier)
+                                .githubSignIn(
+                                  context,
+                                  context.mounted,
+                                ),
+                            child: const AuthButton(
+                              icon: FaIcon(FontAwesomeIcons.github),
+                              text: "Continue with Github",
+                            ),
                           ),
-                        )
+                        ),
+                        Gaps.h16,
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () => ref
+                                .read(socialAuthProvider.notifier)
+                                .googleSignIn(
+                                  context,
+                                  context.mounted,
+                                ),
+                            child: const AuthButton(
+                              icon: FaIcon(FontAwesomeIcons.github),
+                              text: "Continue with Github",
+                            ),
+                          ),
+                        ),
                       ],
                     )
                 ],
