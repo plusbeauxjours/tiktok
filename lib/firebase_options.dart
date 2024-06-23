@@ -69,6 +69,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '359688168567',
     projectId: 'tiktok-10313',
     storageBucket: 'tiktok-10313.appspot.com',
+    androidClientId: '359688168567-mf1jado2u5sj8li45tniqdpchae261l1.apps.googleusercontent.com',
+    iosClientId: '359688168567-qj9icr7ovb9udnulhgivs2nk042fc0hv.apps.googleusercontent.com',
     iosBundleId: 'com.example.tiktok',
   );
 

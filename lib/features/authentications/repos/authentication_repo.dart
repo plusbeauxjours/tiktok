@@ -67,20 +67,43 @@ class AuthenticationRepository {
         throw err;
       });
     } on FirebaseAuthException catch (e) {
-      throw Exception(e.code);
+      if (context.mounted) {
+        if (e.code == 'account-exists-with-different-credential') {
+          showFirebaseErrorSnack(context,
+              'The account already exists with a different credential.');
+        } else if (e.code == 'invalid-credential') {
+          showFirebaseErrorSnack(
+            context,
+            'Error occurred while accessing credentials. Try again.',
+          );
+        }
+      }
+    } catch (e) {
+      if (context.mounted) {
+        showFirebaseErrorSnack(
+          context,
+          'Error occurred using Google Sign-In. Try again.',
+        );
+      }
     }
   }
 
   Future<void> googleSignIn(BuildContext context) async {
     try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
+      final googleSignIn = GoogleSignIn(
+        scopes: [
+          'email',
+          'https://www.googleapis.com/auth/contacts.readonly',
+        ],
+      );
+      final googleUser = await googleSignIn.signIn();
+      if (googleUser == null) return;
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
 
       final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
       );
       await FirebaseAuth.instance
           .signInWithCredential(credential)
@@ -89,7 +112,24 @@ class AuthenticationRepository {
         throw err;
       });
     } on FirebaseAuthException catch (e) {
-      throw Exception(e.code);
+      if (context.mounted) {
+        if (e.code == 'account-exists-with-different-credential') {
+          showFirebaseErrorSnack(context,
+              'The account already exists with a different credential.');
+        } else if (e.code == 'invalid-credential') {
+          showFirebaseErrorSnack(
+            context,
+            'Error occurred while accessing credentials. Try again.',
+          );
+        }
+      }
+    } catch (e) {
+      if (context.mounted) {
+        showFirebaseErrorSnack(
+          context,
+          'Error occurred using Google Sign-In. Try again.',
+        );
+      }
     }
   }
 }

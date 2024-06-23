@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
@@ -69,22 +68,19 @@ class SignUpScreen extends ConsumerWidget {
                     ),
                     Gaps.v16,
                     GestureDetector(
-                      onTap: () =>
-                          ref.read(socialAuthProvider.notifier).githubSignIn(
-                                context,
-                                context.mounted,
-                              ),
+                      onTap: () => ref
+                          .read(socialAuthProvider.notifier)
+                          .githubSignIn(context),
                       child: const AuthButton(
                         icon: FaIcon(FontAwesomeIcons.github),
                         text: "Continue with Github",
                       ),
                     ),
+                    Gaps.v16,
                     GestureDetector(
-                      onTap: () =>
-                          ref.read(socialAuthProvider.notifier).googleSignIn(
-                                context,
-                                context.mounted,
-                              ),
+                      onTap: () => ref
+                          .read(socialAuthProvider.notifier)
+                          .googleSignIn(context),
                       child: const AuthButton(
                         icon: FaIcon(FontAwesomeIcons.google),
                         text: 'Continue with Google',
@@ -108,10 +104,7 @@ class SignUpScreen extends ConsumerWidget {
                           child: GestureDetector(
                             onTap: () => ref
                                 .read(socialAuthProvider.notifier)
-                                .githubSignIn(
-                                  context,
-                                  context.mounted,
-                                ),
+                                .githubSignIn(context),
                             child: const AuthButton(
                               icon: FaIcon(FontAwesomeIcons.github),
                               text: "Continue with Github",
@@ -123,10 +116,7 @@ class SignUpScreen extends ConsumerWidget {
                           child: GestureDetector(
                             onTap: () => ref
                                 .read(socialAuthProvider.notifier)
-                                .googleSignIn(
-                                  context,
-                                  context.mounted,
-                                ),
+                                .googleSignIn(context),
                             child: const AuthButton(
                               icon: FaIcon(FontAwesomeIcons.github),
                               text: "Continue with Github",

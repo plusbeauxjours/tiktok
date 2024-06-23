@@ -16,13 +16,12 @@ class SocialAuthViewModel extends AsyncNotifier<void> {
 
   Future<void> githubSignIn(
     BuildContext context,
-    bool mounted,
   ) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(
       () async => await _repository.githubSignIn(context),
     );
-    if (!mounted) return;
+    if (!context.mounted) return;
     if (state.hasError) {
       showFirebaseErrorSnack(context, state.error);
     } else {
@@ -32,13 +31,12 @@ class SocialAuthViewModel extends AsyncNotifier<void> {
 
   Future<void> googleSignIn(
     BuildContext context,
-    bool mounted,
   ) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(
       () async => await _repository.googleSignIn(context),
     );
-    if (!mounted) return;
+    if (!context.mounted) return;
     if (state.hasError) {
       showFirebaseErrorSnack(context, state.error);
     } else {
