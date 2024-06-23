@@ -90,7 +90,6 @@
 				911EF54CF2EC082C79ABA99B /* Pods-Runner.release.xcconfig */,
 				FBA136CF76BFD7BD3FBBFA27 /* Pods-Runner.profile.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};

@@ -50,15 +50,12 @@ class LoginScreen extends ConsumerWidget {
               ),
               Gaps.v16,
               const AuthButton(
-                icon: FaIcon(
-                  FontAwesomeIcons.facebook,
-                  color: Colors.indigo,
-                ),
-                text: 'Continue with Facebook',
+                icon: FaIcon(FontAwesomeIcons.github),
+                text: 'Continue with Github',
               ),
               Gaps.v16,
               const AuthButton(
-                icon: FaIcon(FontAwesomeIcons.apple),
+                icon: FaIcon(FontAwesomeIcons.google),
                 text: 'Continue with Google',
               ),
             ],
