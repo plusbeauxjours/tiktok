@@ -93,7 +93,7 @@ class AuthenticationRepository {
       final googleSignIn = GoogleSignIn(
         scopes: [
           'email',
-          'https://www.googleapis.com/auth/contacts.readonly',
+          'https://www.googleapis.com/auth/userinfo.email',
         ],
       );
       final googleUser = await googleSignIn.signIn();
