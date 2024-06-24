@@ -26,7 +26,6 @@ class LoginFormScreenState extends ConsumerState<LoginFormScreen> {
               formData["email"]!,
               formData["password"]!,
               context,
-              context.mounted,
             );
         // goRouteGoNamed(context, InterestsScreen.routeName);
       }

@@ -12,10 +12,10 @@ class AuthenticationRepository {
 
   Stream<User?> authStateChanges() => _firebaseAuth.authStateChanges();
 
-  Future<void> emailSignUp(
+  Future<UserCredential> emailSignUp(
       String email, String password, BuildContext context) async {
     try {
-      await _firebaseAuth
+      final userCredential = await _firebaseAuth
           .createUserWithEmailAndPassword(
         email: email,
         password: password,
@@ -24,6 +24,7 @@ class AuthenticationRepository {
         showFirebaseErrorSnack(context, err);
         throw err;
       });
+      return userCredential;
     } on FirebaseAuthException catch (e) {
       throw Exception(e.code);
     }
