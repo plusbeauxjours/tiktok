@@ -127,7 +127,10 @@ class SettingsScreen extends ConsumerWidget {
                       icon: const FaIcon(FontAwesomeIcons.car),
                     ),
                     TextButton(
-                      onPressed: () => navPop(context),
+                      onPressed: () {
+                        ref.read(authRepo).signOut(context);
+                        context.go("/");
+                      },
                       child: const Text("Yes"),
                     ),
                   ],
@@ -152,7 +155,10 @@ class SettingsScreen extends ConsumerWidget {
                     ),
                     CupertinoActionSheetAction(
                       isDestructiveAction: true,
-                      onPressed: () => navPop(context),
+                      onPressed: () {
+                        ref.read(authRepo).signOut(context);
+                        context.go("/");
+                      },
                       child: const Text("Yes plz."),
                     )
                   ],

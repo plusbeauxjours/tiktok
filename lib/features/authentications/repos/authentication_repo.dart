@@ -24,6 +24,7 @@ class AuthenticationRepository {
         showFirebaseErrorSnack(context, err);
         throw err;
       });
+      print("🔥$userCredential");
       return userCredential;
     } on FirebaseAuthException catch (e) {
       throw Exception(e.code);
@@ -57,16 +58,17 @@ class AuthenticationRepository {
     }
   }
 
-  Future<void> githubSignIn(BuildContext context) async {
+  Future<UserCredential?> githubSignIn(BuildContext context) async {
     try {
       GithubAuthProvider githubProvider = GithubAuthProvider();
 
-      await FirebaseAuth.instance
+      final userCredential = await FirebaseAuth.instance
           .signInWithProvider(githubProvider)
           .catchError((err) {
         showFirebaseErrorSnack(context, err);
         throw err;
       });
+      return userCredential;
     } on FirebaseAuthException catch (e) {
       if (context.mounted) {
         if (e.code == 'account-exists-with-different-credential') {
@@ -87,9 +89,10 @@ class AuthenticationRepository {
         );
       }
     }
+    return null;
   }
 
-  Future<void> googleSignIn(BuildContext context) async {
+  Future<UserCredential?> googleSignIn(BuildContext context) async {
     try {
       final googleSignIn = GoogleSignIn(
         scopes: [
@@ -98,7 +101,7 @@ class AuthenticationRepository {
         ],
       );
       final googleUser = await googleSignIn.signIn();
-      if (googleUser == null) return;
+      if (googleUser == null) return null;
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
 
@@ -106,12 +109,13 @@ class AuthenticationRepository {
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      await FirebaseAuth.instance
+      final userCredential = await FirebaseAuth.instance
           .signInWithCredential(credential)
           .catchError((err) {
         showFirebaseErrorSnack(context, err);
         throw err;
       });
+      return userCredential;
     } on FirebaseAuthException catch (e) {
       if (context.mounted) {
         if (e.code == 'account-exists-with-different-credential') {
@@ -132,6 +136,7 @@ class AuthenticationRepository {
         );
       }
     }
+    return null;
   }
 }
 
