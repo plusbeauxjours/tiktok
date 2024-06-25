@@ -25,7 +25,6 @@ class TutorialScreenState extends ConsumerState<TutorialScreen> {
     setState(() {
       _direction = details.delta.dx > 0 ? Direction.right : Direction.left;
     });
-    print(details);
   }
 
   void _onPanEnd(DragEndDetails details) {

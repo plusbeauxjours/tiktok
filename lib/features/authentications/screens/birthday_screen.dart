@@ -50,7 +50,7 @@ class BirthdayScreenState extends ConsumerState<BirthdayScreen> {
 
   void _setTextFieldDate(DateTime date) {
     _birthdayController.value =
-        TextEditingValue(text: DateFormat('yyyy년 MM월 dd일').format(date));
+        TextEditingValue(text: DateFormat('yyyy. MM. dd').format(date));
   }
 
   @override

@@ -24,7 +24,6 @@ class AuthenticationRepository {
         showFirebaseErrorSnack(context, err);
         throw err;
       });
-      print("🔥$userCredential");
       return userCredential;
     } on FirebaseAuthException catch (e) {
       throw Exception(e.code);
