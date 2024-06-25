@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiktok/features/authentications/repos/authentication_repo.dart';
+import 'package:tiktok/features/users/view_models/users_view_models.dart';
 import 'package:tiktok/utils/utils.dart';
 
 class SocialAuthViewModel extends AsyncNotifier<void> {
@@ -18,9 +19,15 @@ class SocialAuthViewModel extends AsyncNotifier<void> {
     BuildContext context,
   ) async {
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(
-      () async => await _repository.githubSignIn(context),
-    );
+    final users = ref.read(usersProvider.notifier);
+    state = await AsyncValue.guard(() async {
+      final userCredential = await _repository.githubSignIn(
+        context,
+      );
+      if (userCredential != null) {
+        await users.createProfile(userCredential);
+      }
+    });
     if (!context.mounted) return;
     if (state.hasError) {
       showFirebaseErrorSnack(context, state.error);
@@ -33,9 +40,15 @@ class SocialAuthViewModel extends AsyncNotifier<void> {
     BuildContext context,
   ) async {
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(
-      () async => await _repository.googleSignIn(context),
-    );
+    final users = ref.read(usersProvider.notifier);
+    state = await AsyncValue.guard(() async {
+      final userCredential = await _repository.googleSignIn(
+        context,
+      );
+      if (userCredential != null) {
+        await users.createProfile(userCredential);
+      }
+    });
     if (!context.mounted) return;
     if (state.hasError) {
       showFirebaseErrorSnack(context, state.error);

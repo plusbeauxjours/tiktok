@@ -32,6 +32,7 @@ class SignUpViewModel extends AsyncNotifier<void> {
     if (state.hasError) {
       showFirebaseErrorSnack(context, state.error);
     } else {
+      ref.read(signUpForm).clear();
       context.goNamed(InterestsScreen.routeName);
     }
   }
