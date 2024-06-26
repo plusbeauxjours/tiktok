@@ -34,8 +34,6 @@ class Avatar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isLoading = ref.watch(avatarProvider).isLoading;
-    print(
-        "✈️https://firebasestorage.googleapis.com/v0/b/tiktok-10313.appspot.com/o/avatars%2$uid?alt=media");
     return GestureDetector(
       onTap: isLoading ? null : () => _onAvatarTap(ref),
       child: isLoading
@@ -57,7 +55,7 @@ class Avatar extends ConsumerWidget {
                 foregroundImage: hasAvatar
                     ? NetworkImage(
                         "https://firebasestorage.googleapis.com/v0/b/tiktok-10313.appspot.com/o/avatars%2F$uid?alt=media")
-                    : const NetworkImage(foregroundImage),
+                    : null,
                 child: Text(name),
               ),
             ),

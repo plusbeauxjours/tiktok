@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok/constants/gaps.dart';
-import 'package:tiktok/constants/rawData/foreground_image.dart';
 import 'package:tiktok/constants/sizes.dart';
 import 'package:tiktok/features/settings/screens/settings_screen.dart';
 import 'package:tiktok/features/users/view_models/users_view_models.dart';
@@ -68,7 +67,7 @@ class UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                               name: data.username != "undefined"
                                   ? data.username
                                   : data.name,
-                              hasAvatar: data.hasAvatar ?? false,
+                              hasAvatar: data.hasAvatar,
                             ),
                             Gaps.v20,
                             Row(
