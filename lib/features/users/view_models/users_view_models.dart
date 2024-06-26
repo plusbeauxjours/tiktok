@@ -33,11 +33,11 @@ class UsersViewModel extends AsyncNotifier<UserProfileModel> {
     final form = ref.read(signUpForm.notifier).state;
     state = const AsyncValue.loading();
     final profile = UserProfileModel(
-      bio: "undefined",
-      link: "undefined",
       email: userCredential.user!.email ?? "anon@anon.com",
       uid: userCredential.user!.uid,
       name: userCredential.user!.displayName ?? "Anon",
+      bio: "udefined",
+      link: "undefined",
       username: form['username'] ?? "undefined",
       birthday: form['birthday'] ?? "undefined",
       hasAvatar: false,
@@ -50,6 +50,18 @@ class UsersViewModel extends AsyncNotifier<UserProfileModel> {
     if (state.value == null) return;
     state = AsyncValue.data(state.value!.copyWith(hasAvatar: true));
     await _usersRepository.updateUser(state.value!.uid, {"hasAvatar": true});
+  }
+
+  Future<void> onUpdateUserBio(String bio) async {
+    if (state.value == null) return;
+    state = AsyncValue.data(state.value!.copyWith(bio: bio));
+    await _usersRepository.updateUser(state.value!.uid, {"bio": bio});
+  }
+
+  Future<void> onUpdateUserLink(String link) async {
+    if (state.value == null) return;
+    state = AsyncValue.data(state.value!.copyWith(link: link));
+    await _usersRepository.updateUser(state.value!.uid, {"link": link});
   }
 }
 
