@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tiktok/constants/rawData/foreground_image.dart';
 import 'package:tiktok/features/users/view_models/avatar_view_model.dart';
 
 class Avatar extends ConsumerWidget {
@@ -27,7 +26,7 @@ class Avatar extends ConsumerWidget {
     );
     if (xfile != null) {
       final File file = File(xfile.path);
-      await ref.read(avatarProvider.notifier).uploadAvatar(file);
+      ref.read(avatarProvider.notifier).uploadAvatar(file);
     }
   }
 
@@ -54,7 +53,7 @@ class Avatar extends ConsumerWidget {
                 radius: 50,
                 foregroundImage: hasAvatar
                     ? NetworkImage(
-                        "https://firebasestorage.googleapis.com/v0/b/tiktok-10313.appspot.com/o/avatars%2F$uid?alt=media")
+                        "https://firebasestorage.googleapis.com/v0/b/tiktok-10313.appspot.com/o/avatars%2F$uid?alt=media&haha=${DateTime.now().toString()}")
                     : null,
                 child: Text(name),
               ),
