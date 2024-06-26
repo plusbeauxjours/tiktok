@@ -22,6 +22,10 @@ class UserRepository {
     final fileRef = _storage.ref().child("avatars/$fileName");
     await fileRef.putFile(file);
   }
+
+  Future<void> updateUser(String uid, Map<String, dynamic> data) async {
+    await _db.collection('user').doc(uid).update(data);
+  }
 }
 
 final userRepo = Provider(

@@ -64,9 +64,11 @@ class UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                         child: Column(
                           children: [
                             Avatar(
+                              uid: data.uid,
                               name: data.username != "undefined"
                                   ? data.username
                                   : data.name,
+                              hasAvatar: data.hasAvatar ?? false,
                             ),
                             Gaps.v20,
                             Row(
