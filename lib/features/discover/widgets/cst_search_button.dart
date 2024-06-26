@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok/constants/sizes.dart';
 import 'package:tiktok/utils/utils.dart';
 
-class CustomSearchButton extends ConsumerWidget {
+class CstSearchButton extends ConsumerWidget {
   final VoidCallback moveBack;
   final TextEditingController textEditingController;
   final void Function(String)? onSearchChanged;
@@ -12,7 +12,7 @@ class CustomSearchButton extends ConsumerWidget {
   final bool isThereSearchValue;
   final VoidCallback onCloseIcon;
 
-  const CustomSearchButton({
+  const CstSearchButton({
     Key? key,
     required this.moveBack,
     required this.textEditingController,

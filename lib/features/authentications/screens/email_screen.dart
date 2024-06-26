@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tiktok/common/widgets/cst_text_field.dart';
 import 'package:tiktok/constants/gaps.dart';
 import 'package:tiktok/constants/sizes.dart';
 import 'package:tiktok/features/authentications/screens/password_screen.dart';
@@ -89,27 +90,14 @@ class EmailScreenState extends ConsumerState<EmailScreen> {
                 ),
               ),
               Gaps.v28,
-              TextField(
+              CstTextField(
                 controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
                 autocorrect: false,
                 onEditingComplete: () =>
                     navPush(context, const PasswordScreen()),
-                decoration: InputDecoration(
-                  hintText: 'Email',
-                  errorText: _isEmailValid(),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Theme.of(context).disabledColor,
-                    ),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Theme.of(context).focusColor,
-                    ),
-                  ),
-                ),
-                cursorColor: Theme.of(context).primaryColor,
+                hintText: 'Email',
+                errorText: _isEmailValid(),
               ),
               Gaps.v28,
               GestureDetector(

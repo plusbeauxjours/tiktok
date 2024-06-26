@@ -6,7 +6,7 @@ import 'package:tiktok/constants/gaps.dart';
 import 'package:tiktok/constants/rawData/discovers.dart';
 import 'package:tiktok/constants/sizes.dart';
 import 'package:tiktok/constants/rawData/foreground_image.dart';
-import 'package:tiktok/features/discover/widgets/custom_search_button.dart';
+import 'package:tiktok/features/discover/widgets/cst_search_button.dart';
 import 'package:tiktok/utils/utils.dart';
 
 class DiscoverScreen extends ConsumerStatefulWidget {
@@ -64,7 +64,7 @@ class DiscoverScreenState extends ConsumerState<DiscoverScreen> {
           //  참고. Container -> constraints 에서 동일한 속성 설정 가능(기능 동일)
           title: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: Breakpoints.sm),
-            child: CustomSearchButton(
+            child: CstSearchButton(
               moveBack: _moveBack,
               textEditingController: _textEditingController,
               onSearchChanged: _onSearchChanged,

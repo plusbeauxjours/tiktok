@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tiktok/common/widgets/cst_text_form_field.dart';
 import 'package:tiktok/constants/gaps.dart';
 import 'package:tiktok/constants/sizes.dart';
 import 'package:tiktok/features/authentications/view_models/login_view_model.dart';
@@ -45,25 +46,15 @@ class LoginFormScreenState extends ConsumerState<LoginFormScreen> {
           title: const Text('Login'),
         ),
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Sizes.size36),
+          padding: const EdgeInsets.symmetric(
+            horizontal: Sizes.size36,
+          ),
           child: Form(
             key: _formKey,
             child: Column(
               children: [
-                TextFormField(
-                  decoration: InputDecoration(
-                    hintText: 'Email',
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Theme.of(context).disabledColor,
-                      ),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Theme.of(context).focusColor,
-                      ),
-                    ),
-                  ),
+                CstTextFormField(
+                  hintText: 'Email',
                   validator: (value) {
                     if (value != null && value.isEmpty) {
                       return "Please write your email";
@@ -73,20 +64,8 @@ class LoginFormScreenState extends ConsumerState<LoginFormScreen> {
                   onSaved: (newValue) => _onSavedFn('email', newValue),
                 ),
                 Gaps.v16,
-                TextFormField(
-                  decoration: InputDecoration(
-                    hintText: 'Password',
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Theme.of(context).disabledColor,
-                      ),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Theme.of(context).focusColor,
-                      ),
-                    ),
-                  ),
+                CstTextFormField(
+                  hintText: 'Password',
                   validator: (value) {
                     if (value != null && value.isEmpty) {
                       return 'Please write password';

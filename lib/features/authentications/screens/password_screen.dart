@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok/common/widgets/cst_text_field.dart';
 import 'package:tiktok/constants/gaps.dart';
 import 'package:tiktok/constants/sizes.dart';
 import 'package:tiktok/features/authentications/screens/birthday_screen.dart';
 import 'package:tiktok/features/authentications/widgets/form_button.dart';
 import 'package:tiktok/features/authentications/view_models/signup_view_model.dart';
+import 'package:tiktok/features/authentications/widgets/suffix_icons.dart';
 
 class PasswordScreen extends ConsumerStatefulWidget {
   const PasswordScreen({Key? key}) : super(key: key);
@@ -100,50 +102,18 @@ class PasswordScreenState extends ConsumerState<PasswordScreen> {
                 ),
               ),
               Gaps.v28,
-              TextField(
+              CstTextField(
                 controller: _passwordController,
                 keyboardType: TextInputType.emailAddress,
                 obscureText: _obscureText,
                 autocorrect: false,
                 onEditingComplete: _onSubmit,
-                decoration: InputDecoration(
-                  suffix: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      GestureDetector(
-                        onTap: _onClearTap,
-                        child: FaIcon(
-                          FontAwesomeIcons.solidCircleXmark,
-                          color: Colors.grey.shade500,
-                          size: Sizes.size20,
-                        ),
-                      ),
-                      Gaps.h16,
-                      GestureDetector(
-                        onTap: _toggleObscureText,
-                        child: FaIcon(
-                          _obscureText
-                              ? FontAwesomeIcons.eye
-                              : FontAwesomeIcons.eyeSlash,
-                          color: Colors.grey.shade500,
-                          size: Sizes.size20,
-                        ),
-                      ),
-                    ],
-                  ),
-                  hintText: 'Make it strong!',
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Theme.of(context).disabledColor,
-                    ),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Theme.of(context).focusColor,
-                    ),
-                  ),
+                hintText: 'Make it strong!',
+                suffix: SuffixIcons(
+                  obscureText: _obscureText,
+                  onClearTap: _onClearTap,
+                  toggleObscureText: _toggleObscureText,
                 ),
-                cursorColor: Theme.of(context).primaryColor,
               ),
               Gaps.v10,
               const Text(
