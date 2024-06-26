@@ -6,6 +6,7 @@ import 'package:tiktok/constants/rawData/foreground_image.dart';
 import 'package:tiktok/constants/sizes.dart';
 import 'package:tiktok/features/settings/screens/settings_screen.dart';
 import 'package:tiktok/features/users/view_models/users_view_models.dart';
+import 'package:tiktok/features/users/widgets/avatar.dart';
 import 'package:tiktok/features/users/widgets/persistent_tab_bar.dart';
 import 'package:tiktok/utils/utils.dart';
 
@@ -62,10 +63,10 @@ class UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                       SliverToBoxAdapter(
                         child: Column(
                           children: [
-                            const CircleAvatar(
-                              radius: 50,
-                              foregroundImage: NetworkImage(foregroundImage),
-                              child: Text("P"),
+                            Avatar(
+                              name: data.username != "undefined"
+                                  ? data.username
+                                  : data.name,
                             ),
                             Gaps.v20,
                             Row(
