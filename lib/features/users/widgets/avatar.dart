@@ -26,7 +26,7 @@ class Avatar extends ConsumerWidget {
       maxWidth: 150,
     );
     if (xfile != null) {
-      final file = File(xfile.path);
+      final File file = File(xfile.path);
       await ref.read(avatarProvider.notifier).uploadAvatar(file);
     }
   }
@@ -34,22 +34,32 @@ class Avatar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isLoading = ref.watch(avatarProvider).isLoading;
+    print(
+        "✈️https://firebasestorage.googleapis.com/v0/b/tiktok-10313.appspot.com/o/avatars%2$uid?alt=media");
     return GestureDetector(
       onTap: isLoading ? null : () => _onAvatarTap(ref),
       child: isLoading
           ? Container(
-              width: 50,
-              height: 50,
+              width: 100,
+              height: 100,
               alignment: Alignment.center,
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
               ),
               child: const CircularProgressIndicator(),
             )
-          : CircleAvatar(
-              radius: 50,
-              foregroundImage: const NetworkImage(foregroundImage),
-              child: Text(name),
+          : Container(
+              width: 100,
+              height: 100,
+              alignment: Alignment.center,
+              child: CircleAvatar(
+                radius: 50,
+                foregroundImage: hasAvatar
+                    ? NetworkImage(
+                        "https://firebasestorage.googleapis.com/v0/b/tiktok-10313.appspot.com/o/avatars%2F$uid?alt=media")
+                    : const NetworkImage(foregroundImage),
+                child: Text(name),
+              ),
             ),
     );
   }
