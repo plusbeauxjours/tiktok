@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "359688168567-82onf1dav21eaesh66h6e7gr17rlhjfd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tiktok",
+            "certificate_hash": "acf4cac68a7eb6748a698483d54a87d8227b1420"
+          }
+        },
+        {
           "client_id": "359688168567-mf1jado2u5sj8li45tniqdpchae261l1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -22,7 +30,7 @@
           }
         },
         {
-          "client_id": "359688168567-je39vbtctjvjp90rlg9l8alqhn2up3g6.apps.googleusercontent.com",
+          "client_id": "359688168567-67mi47gk9iufba82pmig42f6hijnibb8.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -35,7 +43,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "359688168567-je39vbtctjvjp90rlg9l8alqhn2up3g6.apps.googleusercontent.com",
+              "client_id": "359688168567-67mi47gk9iufba82pmig42f6hijnibb8.apps.googleusercontent.com",
               "client_type": 3
             },
             {

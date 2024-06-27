@@ -53,7 +53,8 @@ class UploadVideoViewModel extends AsyncNotifier<void> {
           if (state.hasError) {
             showFirebaseErrorSnack(context, state.error);
           } else {
-            context.pushReplacement("/home");
+            context.pop();
+            context.pop();
           }
         }
       });
