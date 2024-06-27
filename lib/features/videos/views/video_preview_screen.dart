@@ -29,7 +29,8 @@ class VideoPreviewScreen extends ConsumerStatefulWidget {
 class VideoPreviewScreenState extends ConsumerState<VideoPreviewScreen> {
   late final VideoPlayerController _videoPlayerController;
 
-  bool _savedVideo = false;
+  bool _hasVideoSaved = false;
+
   Map<String, String> formData = {};
 
   Future<void> _initVideo() async {
@@ -57,19 +58,16 @@ class VideoPreviewScreenState extends ConsumerState<VideoPreviewScreen> {
   }
 
   Future<void> _saveToGallery() async {
-    if (_savedVideo) return;
-
+    if (_hasVideoSaved) return;
     await GallerySaver.saveVideo(
       widget.video.path,
       albumName: "TikTok",
     );
-
-    _savedVideo = true;
-
+    _hasVideoSaved = true;
     setState(() {});
   }
 
-  void _onUploadPressed() async {
+  void _onUploadPressed() {
     ref.read(uploadVideoProvider.notifier).uploadVideo(
           File(widget.video.path),
           context,
@@ -88,7 +86,7 @@ class VideoPreviewScreenState extends ConsumerState<VideoPreviewScreen> {
             IconButton(
               onPressed: _saveToGallery,
               icon: FaIcon(
-                _savedVideo
+                _hasVideoSaved
                     ? FontAwesomeIcons.check
                     : FontAwesomeIcons.download,
               ),
@@ -109,9 +107,7 @@ class VideoPreviewScreenState extends ConsumerState<VideoPreviewScreen> {
           Positioned.fill(
             child: _videoPlayerController.value.isInitialized
                 ? VideoPlayer(_videoPlayerController)
-                : Container(
-                    color: Colors.black,
-                  ),
+                : Container(color: Colors.black),
           ),
           Positioned(
             bottom: 100,
@@ -121,30 +117,32 @@ class VideoPreviewScreenState extends ConsumerState<VideoPreviewScreen> {
               ),
               width: getWinWidth(context) * 0.7,
               height: getWinHeight(context) * 0.15,
-              child: Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: Sizes.size10,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      CstTextFormField(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: Sizes.size10,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: CstTextFormField(
                         hintText: "title",
                         onChanged: (newValue) {
                           formData['title'] = newValue;
                         },
                       ),
-                      CstTextFormField(
+                    ),
+                    Expanded(
+                      child: CstTextFormField(
                         hintText: "description",
                         onChanged: (newValue) {
                           formData['description'] = newValue;
                         },
                       ),
-                      Gaps.v10,
-                    ],
-                  ),
+                    ),
+                    Gaps.v10,
+                  ],
                 ),
               ),
             ),
