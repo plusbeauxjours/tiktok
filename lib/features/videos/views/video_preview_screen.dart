@@ -118,14 +118,14 @@ class VideoPreviewScreenState extends ConsumerState<VideoPreviewScreen> {
             bottom: 100,
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.transparent.withOpacity(0.18),
+                color: Colors.transparent.withOpacity(0.35),
               ),
-              width: getWinWidth(context),
-              height: getWinHeight(context),
+              width: getWinWidth(context) * 0.7,
+              height: getWinHeight(context) * 0.15,
               child: Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: Sizes.size4,
+                    horizontal: Sizes.size10,
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

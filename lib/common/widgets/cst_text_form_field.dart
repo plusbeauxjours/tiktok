@@ -11,7 +11,7 @@ class CstTextFormField extends StatelessWidget {
     this.hintText,
     this.validator,
     this.onSaved,
-    required this.onChanged,
+    this.onChanged,
   });
 
   @override
