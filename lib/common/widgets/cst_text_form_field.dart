@@ -4,12 +4,14 @@ class CstTextFormField extends StatelessWidget {
   final String? hintText;
   final String? Function(String?)? validator;
   final void Function(String?)? onSaved;
+  final void Function(String)? onChanged;
 
   const CstTextFormField({
     super.key,
     this.hintText,
     this.validator,
     this.onSaved,
+    required this.onChanged,
   });
 
   @override
@@ -17,6 +19,7 @@ class CstTextFormField extends StatelessWidget {
     return TextFormField(
       validator: validator,
       onSaved: onSaved,
+      onChanged: onChanged,
       decoration: InputDecoration(
         hintText: hintText,
         enabledBorder: UnderlineInputBorder(

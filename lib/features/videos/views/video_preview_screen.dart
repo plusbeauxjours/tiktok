@@ -5,7 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gallery_saver/gallery_saver.dart';
+import 'package:tiktok/common/widgets/cst_text_form_field.dart';
+import 'package:tiktok/constants/gaps.dart';
+import 'package:tiktok/constants/sizes.dart';
 import 'package:tiktok/features/videos/view_models/timeline_view_model.dart';
+import 'package:tiktok/features/videos/view_models/upload_videos_view_model.dart';
+import 'package:tiktok/utils/utils.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPreviewScreen extends ConsumerStatefulWidget {
@@ -26,6 +31,7 @@ class VideoPreviewScreenState extends ConsumerState<VideoPreviewScreen> {
   late final VideoPlayerController _videoPlayerController;
 
   bool _savedVideo = false;
+  Map<String, String> formData = {};
 
   Future<void> _initVideo() async {
     _videoPlayerController = VideoPlayerController.file(
@@ -35,7 +41,6 @@ class VideoPreviewScreenState extends ConsumerState<VideoPreviewScreen> {
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(true);
     await _videoPlayerController.setVolume(0);
-    // await _videoPlayerController.play();
 
     setState(() {});
   }
@@ -66,7 +71,11 @@ class VideoPreviewScreenState extends ConsumerState<VideoPreviewScreen> {
   }
 
   void _onUploadPressed() async {
-    ref.read(timelineProvider.notifier).uploadVideo();
+    ref.read(uploadVideoProvider.notifier).uploadVideo(
+          File(widget.video.path),
+          context,
+          formData,
+        );
   }
 
   @override
@@ -95,9 +104,54 @@ class VideoPreviewScreenState extends ConsumerState<VideoPreviewScreen> {
           )
         ],
       ),
-      body: _videoPlayerController.value.isInitialized
-          ? VideoPlayer(_videoPlayerController)
-          : null,
+      body: Stack(
+        alignment: Alignment.center,
+        children: [
+          Positioned.fill(
+            child: _videoPlayerController.value.isInitialized
+                ? VideoPlayer(_videoPlayerController)
+                : Container(
+                    color: Colors.black,
+                  ),
+          ),
+          Positioned(
+            bottom: 100,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.transparent.withOpacity(0.18),
+              ),
+              width: getWinWidth(context),
+              height: getWinHeight(context),
+              child: Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: Sizes.size4,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      CstTextFormField(
+                        hintText: "title",
+                        onChanged: (newValue) {
+                          formData['title'] = newValue;
+                        },
+                      ),
+                      CstTextFormField(
+                        hintText: "description",
+                        onChanged: (newValue) {
+                          formData['description'] = newValue;
+                        },
+                      ),
+                      Gaps.v10,
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
