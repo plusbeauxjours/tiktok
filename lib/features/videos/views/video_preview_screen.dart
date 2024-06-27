@@ -8,7 +8,6 @@ import 'package:gallery_saver/gallery_saver.dart';
 import 'package:tiktok/common/widgets/cst_text_form_field.dart';
 import 'package:tiktok/constants/gaps.dart';
 import 'package:tiktok/constants/sizes.dart';
-import 'package:tiktok/features/videos/view_models/timeline_view_model.dart';
 import 'package:tiktok/features/videos/view_models/upload_videos_view_model.dart';
 import 'package:tiktok/utils/utils.dart';
 import 'package:video_player/video_player.dart';
@@ -95,10 +94,10 @@ class VideoPreviewScreenState extends ConsumerState<VideoPreviewScreen> {
               ),
             ),
           IconButton(
-            onPressed: ref.watch(timelineProvider).isLoading
+            onPressed: ref.watch(uploadVideoProvider).isLoading
                 ? () {}
                 : _onUploadPressed,
-            icon: ref.watch(timelineProvider).isLoading
+            icon: ref.watch(uploadVideoProvider).isLoading
                 ? const CircularProgressIndicator()
                 : const FaIcon(FontAwesomeIcons.cloudArrowUp),
           )
