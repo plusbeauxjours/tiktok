@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:video_player/video_player.dart';
 import 'package:tiktok/features/authentications/repos/authentication_repo.dart';
 import 'package:tiktok/features/users/view_models/users_view_models.dart';
 import 'package:tiktok/features/videos/models/video_model.dart';
@@ -25,6 +26,23 @@ class UploadVideoViewModel extends AsyncNotifier<void> {
   ) async {
     final user = ref.read(authRepo).user;
     final userProfile = ref.read(usersProvider).value;
+
+    final videoPlayerController = VideoPlayerController.file(video);
+    await videoPlayerController.initialize();
+    final videoDuration = videoPlayerController.value.duration;
+    final videoSize = await video.length();
+
+    if (videoDuration > const Duration(seconds: 20)) {
+      if (!context.mounted) return;
+      showFirebaseErrorSnack(context, "Video must be less than 20 seconds.");
+      return;
+    }
+    if (videoSize > 35 * 1024 * 1024) {
+      if (!context.mounted) return;
+      showFirebaseErrorSnack(context, "Video must be less than 35MB.");
+      return;
+    }
+
     if (userProfile != null) {
       state = const AsyncValue.loading();
       state = await AsyncValue.guard(() async {

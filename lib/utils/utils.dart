@@ -153,9 +153,11 @@ void showFirebaseErrorSnack(BuildContext context, Object? error) {
       label: 'OK',
     ),
     content: Text(
-      error != null && error is FirebaseException && error.message != null
-          ? error.message!
-          : "Something went wrong",
+      error is String
+          ? error
+          : error != null && error is FirebaseException && error.message != null
+              ? error.message!
+              : "Something went wrong",
     ),
   ));
 }
