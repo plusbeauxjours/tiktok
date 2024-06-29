@@ -6,11 +6,18 @@ import 'package:tiktok/features/videos/repos/videos_repo.dart';
 
 class TimelineViewModel extends AsyncNotifier<List<VideoModel>> {
   late final VideosRepository _repository;
-  final List<VideoModel> _list = [];
+  List<VideoModel> _list = [];
 
   @override
   FutureOr<List<VideoModel>> build() async {
     _repository = ref.read(videosRepo);
+    final result = await _repository.fetchVideo();
+    final newList = result.docs.map(
+      (doc) => VideoModel.fromJson(
+        doc.data(),
+      ),
+    );
+    _list = newList.toList();
     return _list;
   }
 }

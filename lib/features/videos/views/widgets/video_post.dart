@@ -5,6 +5,7 @@ import 'package:tiktok/constants/gaps.dart';
 import 'package:tiktok/constants/rawData/foreground_image.dart';
 import 'package:tiktok/constants/rawData/video_data.dart';
 import 'package:tiktok/constants/sizes.dart';
+import 'package:tiktok/features/videos/models/video_model.dart';
 import 'package:tiktok/features/videos/view_models/playback_config_view_model.dart';
 import 'package:tiktok/features/videos/views/widgets/video_bgm_info.dart';
 import 'package:tiktok/features/videos/views/widgets/video_button.dart';
@@ -17,15 +18,15 @@ import 'package:visibility_detector/visibility_detector.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class VideoPost extends ConsumerStatefulWidget {
-  final int index;
-  final String video;
   final VoidCallback onVideoFinished;
+  final VideoModel videoData;
+  final int index;
 
   const VideoPost({
     Key? key,
     required this.onVideoFinished,
+    required this.videoData,
     required this.index,
-    required this.video,
   }) : super(key: key);
 
   @override
@@ -40,13 +41,13 @@ class VideoPostState extends ConsumerState<VideoPost>
   bool _isPaused = false;
   bool _isMute = false;
 
-  final String _descText = descText;
   final List<String> _tags = tags;
   final String _bgmInfo = bgmInfo;
   final Duration _animationDuration = const Duration(milliseconds: 200);
 
   void _initVideoPlayer() async {
-    _videoPlayerController = VideoPlayerController.asset(widget.video);
+    _videoPlayerController =
+        VideoPlayerController.asset(widget.videoData.fileUrl);
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(true);
     if (kIsWeb) {
@@ -145,7 +146,10 @@ class VideoPostState extends ConsumerState<VideoPost>
           Positioned.fill(
             child: _videoPlayerController.value.isInitialized
                 ? VideoPlayer(_videoPlayerController)
-                : Container(color: Colors.black),
+                : Image.network(
+                    widget.videoData.thumbnailUrl,
+                    fit: BoxFit.cover,
+                  ),
           ),
           Positioned.fill(
             child: GestureDetector(onTap: _onTogglePause),
@@ -195,9 +199,9 @@ class VideoPostState extends ConsumerState<VideoPost>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    '@plusbeauxjours',
-                    style: TextStyle(
+                  Text(
+                    '@${widget.videoData.creator}',
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: Sizes.size20,
                       fontWeight: FontWeight.bold,
@@ -205,7 +209,7 @@ class VideoPostState extends ConsumerState<VideoPost>
                   ),
                   Gaps.v10,
                   VideoIntroText(
-                    descText: _descText,
+                    descText: widget.videoData.description,
                     mainTextBold: FontWeight.normal,
                   ),
                   Gaps.v10,
@@ -224,24 +228,26 @@ class VideoPostState extends ConsumerState<VideoPost>
             right: Sizes.size10,
             child: Column(
               children: [
-                const CircleAvatar(
+                CircleAvatar(
                   radius: Sizes.size24,
                   backgroundColor: Colors.black,
                   foregroundColor: Colors.white,
-                  foregroundImage: NetworkImage(foregroundImage),
-                  child: Text('plusbeauxjours'),
+                  foregroundImage: NetworkImage(
+                    "https://firebasestorage.googleapis.com/v0/b/tiktok-abc-xyz.appspot.com/o/avatars%2F${widget.videoData.creatorUid}?alt=media",
+                  ),
+                  child: Text(widget.videoData.creator),
                 ),
                 Gaps.v24,
                 VideoButton(
                   icon: FontAwesomeIcons.solidHeart,
-                  text: S.of(context).likeCount(98798711111987),
+                  text: S.of(context).likeCount(widget.videoData.likes),
                 ),
                 Gaps.v24,
                 GestureDetector(
                   onTap: () => _onCommentsTap(context),
                   child: VideoButton(
                     icon: FontAwesomeIcons.solidComment,
-                    text: S.of(context).commentCount(65656),
+                    text: S.of(context).commentCount(widget.videoData.comments),
                   ),
                 ),
                 Gaps.v24,
