@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok/constants/gaps.dart';
-import 'package:tiktok/constants/rawData/foreground_image.dart';
 import 'package:tiktok/constants/rawData/video_data.dart';
 import 'package:tiktok/constants/sizes.dart';
 import 'package:tiktok/features/videos/models/video_model.dart';
@@ -233,9 +232,14 @@ class VideoPostState extends ConsumerState<VideoPost>
                   backgroundColor: Colors.black,
                   foregroundColor: Colors.white,
                   foregroundImage: NetworkImage(
-                    "https://firebasestorage.googleapis.com/v0/b/tiktok-abc-xyz.appspot.com/o/avatars%2F${widget.videoData.creatorUid}?alt=media",
+                    "https://firebasestorage.googleapis.com/v0/b/tiktok-10313.appspot.com/o/avatars%2F${widget.videoData.creatorUid}?alt=media",
                   ),
-                  child: Text(widget.videoData.creator),
+                  child: Text(
+                    widget.videoData.creator,
+                    style: const TextStyle(
+                      fontSize: Sizes.size8,
+                    ),
+                  ),
                 ),
                 Gaps.v24,
                 VideoButton(
