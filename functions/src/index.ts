@@ -26,13 +26,34 @@ export const onVideoCreated = functions.firestore
     await file.makePublic();
     await snapshot.ref.update({ thumbnailUrl: file.publicUrl() });
     const db = admin.firestore();
+    await db.collection("users").doc(video.creatorUid).collection("videos").doc(snapshot.id).set({
+      thumbnailUrl: file.publicUrl(),
+      videoId: snapshot.id,
+    });
+  });
+
+export const onLikedCreated = functions.firestore
+  .document("likes/{likeId}")
+  .onCreate(async (snapshot, context) => {
+    const db = admin.firestore();
+    const [videoId, _] = snapshot.id.split("---");
     await db
-      .collection("users")
-      .doc(video.creatorUid)
       .collection("videos")
-      .doc(snapshot.id)
-      .set({
-        thumbnailUrl: file.publicUrl(),
-        videoId: snapshot.id,
+      .doc(videoId)
+      .update({
+        likes: admin.firestore.FieldValue.increment(1),
+      });
+  });
+
+export const onLikedRemoved = functions.firestore
+  .document("likes/{likeId}")
+  .onDelete(async (snapshot, context) => {
+    const db = admin.firestore();
+    const [videoId, _] = snapshot.id.split("---");
+    await db
+      .collection("videos")
+      .doc(videoId)
+      .update({
+        likes: admin.firestore.FieldValue.increment(-1),
       });
   });
