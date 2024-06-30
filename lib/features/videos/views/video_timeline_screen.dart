@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tiktok/constants/rawData/video_data.dart';
 import 'package:tiktok/features/videos/view_models/timeline_view_model.dart';
 import 'package:tiktok/features/videos/views/widgets/video_post.dart';
 
@@ -16,7 +15,7 @@ class VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
 
   final _scrollDuration = const Duration(milliseconds: 250);
   final _scrollCurve = Curves.linear;
-  final List<String> _videos = [...videos];
+  int _itemCount = 0;
 
   void _onPageChanged(int page) {
     _pageController.animateToPage(
@@ -24,8 +23,8 @@ class VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
       duration: _scrollDuration,
       curve: _scrollCurve,
     );
-    if (page == _videos.length - 1) {
-      // ref.watch(timelineProvider.notifier).fetchNextPage();
+    if (page == _itemCount - 1) {
+      ref.watch(timelineProvider.notifier).fetchNextPage();
     }
   }
 
@@ -61,6 +60,7 @@ class VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
             ),
           ),
           data: (videos) {
+            _itemCount = videos.length;
             return RefreshIndicator(
               onRefresh: _onRefresh,
               displacement: 50,
