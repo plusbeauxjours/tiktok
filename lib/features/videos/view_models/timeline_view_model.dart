@@ -14,7 +14,8 @@ class TimelineViewModel extends AsyncNotifier<List<VideoModel>> {
     );
     final videos = result.docs.map(
       (doc) => VideoModel.fromJson(
-        doc.data(),
+        json: doc.data(),
+        videoId: doc.id,
       ),
     );
     return videos.toList();
