@@ -16,7 +16,7 @@ class VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
 
   final _scrollDuration = const Duration(milliseconds: 250);
   final _scrollCurve = Curves.linear;
-  List<String> _videos = [...videos];
+  final List<String> _videos = [...videos];
 
   void _onPageChanged(int page) {
     _pageController.animateToPage(
@@ -25,8 +25,7 @@ class VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
       curve: _scrollCurve,
     );
     if (page == _videos.length - 1) {
-      _videos = [..._videos, ...videos];
-      setState(() {});
+      // ref.watch(timelineProvider.notifier).fetchNextPage();
     }
   }
 
@@ -61,12 +60,13 @@ class VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
               style: const TextStyle(color: Colors.white),
             ),
           ),
-          data: (videos) => RefreshIndicator(
-            onRefresh: _onRefresh,
-            displacement: 50,
-            edgeOffset: 20,
-            color: Theme.of(context).primaryColor,
-            child: PageView.builder(
+          data: (videos) {
+            return RefreshIndicator(
+              onRefresh: _onRefresh,
+              displacement: 50,
+              edgeOffset: 20,
+              color: Theme.of(context).primaryColor,
+              child: PageView.builder(
                 controller: _pageController,
                 scrollDirection: Axis.vertical,
                 onPageChanged: _onPageChanged,
@@ -75,11 +75,13 @@ class VideoTimelineScreenState extends ConsumerState<VideoTimelineScreen> {
                   final videoData = videos[index];
                   return VideoPost(
                     onVideoFinished: _onVideoFinished,
-                    videoData: videoData,
                     index: index,
+                    videoData: videoData,
                   );
-                }),
-          ),
+                },
+              ),
+            );
+          },
         );
   }
 }

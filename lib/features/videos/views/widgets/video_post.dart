@@ -45,8 +45,9 @@ class VideoPostState extends ConsumerState<VideoPost>
   final Duration _animationDuration = const Duration(milliseconds: 200);
 
   void _initVideoPlayer() async {
-    _videoPlayerController =
-        VideoPlayerController.asset(widget.videoData.fileUrl);
+    _videoPlayerController = VideoPlayerController.networkUrl(
+      Uri.parse(widget.videoData.fileUrl),
+    );
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(true);
     if (kIsWeb) {
