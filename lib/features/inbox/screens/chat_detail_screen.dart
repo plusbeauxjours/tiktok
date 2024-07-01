@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok/constants/gaps.dart';
 import 'package:tiktok/constants/sizes.dart';
+import 'package:tiktok/features/inbox/view_models/messages_view_models.dart';
 import 'package:tiktok/features/inbox/widgets/avatar_form.dart';
 import 'package:tiktok/utils/utils.dart';
 
@@ -37,9 +38,9 @@ class ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
 
   void _onSendPress(String text) {
     if (!_isThereMessage) return;
-    print('send a message: $text');
+    final text = _editingController.text;
+    ref.read(messagesProvider.notifier).sendMessage(text);
     _editingController.text = '';
-    setState(() {});
   }
 
   @override
@@ -50,6 +51,7 @@ class ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isLoading = ref.watch(messagesProvider).isLoading;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: isDarkMode(context, ref)
