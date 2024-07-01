@@ -6,7 +6,11 @@ class MessageRepo {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   Future<void> sendMessage(MessageModel message) async {
-    await _db.collection('chat_rooms').doc("").collection('texts').add(
+    await _db
+        .collection('chat_rooms')
+        .doc("bwzgrtl6dHvSM7pLTMZf")
+        .collection('texts')
+        .add(
           message.toJson(),
         );
   }
