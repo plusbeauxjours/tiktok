@@ -36,24 +36,32 @@ export const onLikedCreated = functions.firestore
   .document("likes/{likeId}")
   .onCreate(async (snapshot, context) => {
     const db = admin.firestore();
-    const [videoId, _] = snapshot.id.split("---");
+    const [videoId, userId] = snapshot.id.split("---");
     await db
       .collection("videos")
       .doc(videoId)
       .update({
         likes: admin.firestore.FieldValue.increment(1),
       });
+
+    const thumbnailUrl = (await db.collection("videos").doc(videoId).get()).data()!.thumbnailUrl;
+
+    const query = db.collection("users").doc(userId).collection("likes").doc(videoId);
+    await query.set({ thumbnailUrl: thumbnailUrl as String, videoId: videoId });
   });
 
 export const onLikedRemoved = functions.firestore
   .document("likes/{likeId}")
   .onDelete(async (snapshot, context) => {
     const db = admin.firestore();
-    const [videoId, _] = snapshot.id.split("---");
+    const [videoId, userId] = snapshot.id.split("---");
     await db
       .collection("videos")
       .doc(videoId)
       .update({
         likes: admin.firestore.FieldValue.increment(-1),
       });
+
+    const query = db.collection("users").doc(userId).collection("likes").doc("videoId");
+    await query.delete();
   });

@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok/constants/gaps.dart';
 import 'package:tiktok/constants/rawData/video_data.dart';
 import 'package:tiktok/constants/sizes.dart';
+import 'package:tiktok/features/authentications/repos/authentication_repo.dart';
 import 'package:tiktok/features/videos/models/video_model.dart';
 import 'package:tiktok/features/videos/view_models/playback_config_view_model.dart';
 import 'package:tiktok/features/videos/view_models/video_post_view_model.dart';
@@ -142,137 +143,155 @@ class VideoPostState extends ConsumerState<VideoPost>
   }
 
   @override
-  Widget build(BuildContext context) {
-    return VisibilityDetector(
-      key: Key('${widget.index}'),
-      onVisibilityChanged: _onVisibilityChanged,
-      child: Stack(
-        children: [
-          Positioned.fill(
-            child: _videoPlayerController.value.isInitialized
-                ? VideoPlayer(_videoPlayerController)
-                : Image.network(
-                    widget.videoData.thumbnailUrl,
-                    fit: BoxFit.cover,
-                  ),
-          ),
-          Positioned.fill(
-            child: GestureDetector(onTap: _onTogglePause),
-          ),
-          Positioned.fill(
-            child: IgnorePointer(
-              child: Center(
-                child: AnimatedBuilder(
-                  animation: _animationController,
-                  builder: (BuildContext context, Widget? child) {
-                    return Transform.scale(
-                      scale: _animationController.value,
-                      child: child,
-                    );
-                  },
-                  child: AnimatedOpacity(
-                    opacity: _isPaused ? 1 : 0,
-                    duration: _animationDuration,
-                    child: const FaIcon(
-                      FontAwesomeIcons.play,
-                      color: Colors.white,
-                      size: Sizes.size52,
+  Widget build(BuildContext context) => ref
+      .watch(
+        videoPostProvider(
+          '${widget.videoData.id}000${ref.read(authRepo).user!.uid}',
+        ),
+      )
+      .when(
+        data: (like) => VisibilityDetector(
+          key: Key('${widget.index}'),
+          onVisibilityChanged: _onVisibilityChanged,
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: _videoPlayerController.value.isInitialized
+                    ? VideoPlayer(_videoPlayerController)
+                    : Image.network(
+                        widget.videoData.thumbnailUrl,
+                        fit: BoxFit.cover,
+                      ),
+              ),
+              Positioned.fill(
+                child: GestureDetector(onTap: _onTogglePause),
+              ),
+              Positioned.fill(
+                child: IgnorePointer(
+                  child: Center(
+                    child: AnimatedBuilder(
+                      animation: _animationController,
+                      builder: (BuildContext context, Widget? child) {
+                        return Transform.scale(
+                          scale: _animationController.value,
+                          child: child,
+                        );
+                      },
+                      child: AnimatedOpacity(
+                        opacity: _isPaused ? 1 : 0,
+                        duration: _animationDuration,
+                        child: const FaIcon(
+                          FontAwesomeIcons.play,
+                          color: Colors.white,
+                          size: Sizes.size52,
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ),
-          Positioned(
-            left: 20,
-            top: 40,
-            child: IconButton(
-              icon: FaIcon(
-                _isMute
-                    ? FontAwesomeIcons.volumeOff
-                    : FontAwesomeIcons.volumeHigh,
-                color: Colors.white,
+              Positioned(
+                left: 20,
+                top: 40,
+                child: IconButton(
+                  icon: FaIcon(
+                    _isMute
+                        ? FontAwesomeIcons.volumeOff
+                        : FontAwesomeIcons.volumeHigh,
+                    color: Colors.white,
+                  ),
+                  onPressed: () => _onPlaybackConfigChanged(toggle: true),
+                ),
               ),
-              onPressed: () => _onPlaybackConfigChanged(toggle: true),
-            ),
-          ),
-          Positioned(
-            bottom: 20,
-            left: 10,
-            child: SizedBox(
-              width: getWinWidth(context) - 100,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '@${widget.videoData.creator}',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: Sizes.size20,
-                      fontWeight: FontWeight.bold,
-                    ),
+              Positioned(
+                bottom: 20,
+                left: 10,
+                child: SizedBox(
+                  width: getWinWidth(context) - 100,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '@${widget.videoData.creator}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: Sizes.size20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Gaps.v10,
+                      VideoIntroText(
+                        descText: widget.videoData.description,
+                        mainTextBold: FontWeight.normal,
+                      ),
+                      Gaps.v10,
+                      VideoIntroText(
+                        descText: _tags.join(', '),
+                        mainTextBold: FontWeight.w600,
+                      ),
+                      Gaps.v10,
+                      VideoBgmInfo(bgmInfo: _bgmInfo),
+                    ],
                   ),
-                  Gaps.v10,
-                  VideoIntroText(
-                    descText: widget.videoData.description,
-                    mainTextBold: FontWeight.normal,
-                  ),
-                  Gaps.v10,
-                  VideoIntroText(
-                    descText: _tags.join(', '),
-                    mainTextBold: FontWeight.w600,
-                  ),
-                  Gaps.v10,
-                  VideoBgmInfo(bgmInfo: _bgmInfo),
-                ],
+                ),
               ),
-            ),
-          ),
-          Positioned(
-            bottom: Sizes.size20,
-            right: Sizes.size10,
-            child: Column(
-              children: [
-                CircleAvatar(
-                  radius: Sizes.size24,
-                  backgroundColor: Colors.black,
-                  foregroundColor: Colors.white,
-                  foregroundImage: NetworkImage(
-                    "https://firebasestorage.googleapis.com/v0/b/tiktok-10313.appspot.com/o/avatars%2F${widget.videoData.creatorUid}?alt=media",
-                  ),
-                  child: Text(
-                    widget.videoData.creator,
-                    style: const TextStyle(
-                      fontSize: Sizes.size8,
+              Positioned(
+                bottom: Sizes.size20,
+                right: Sizes.size10,
+                child: Column(
+                  children: [
+                    CircleAvatar(
+                      radius: Sizes.size24,
+                      backgroundColor: Colors.black,
+                      foregroundColor: Colors.white,
+                      foregroundImage: NetworkImage(
+                        "https://firebasestorage.googleapis.com/v0/b/tiktok-10313.appspot.com/o/avatars%2F${widget.videoData.creatorUid}?alt=media",
+                      ),
+                      child: Text(
+                        widget.videoData.creator,
+                        style: const TextStyle(
+                          fontSize: Sizes.size8,
+                        ),
+                      ),
                     ),
-                  ),
+                    Gaps.v24,
+                    GestureDetector(
+                      onTap: _onLikeTap,
+                      child: VideoButton(
+                        color: like.isLikeVideo ? Colors.red : Colors.white,
+                        icon: FontAwesomeIcons.solidHeart,
+                        text: S.of(context).likeCount(like.likeCount),
+                      ),
+                    ),
+                    Gaps.v24,
+                    GestureDetector(
+                      onTap: () => _onCommentsTap(context),
+                      child: VideoButton(
+                        icon: FontAwesomeIcons.solidComment,
+                        text: S
+                            .of(context)
+                            .commentCount(widget.videoData.comments),
+                      ),
+                    ),
+                    Gaps.v24,
+                    const VideoButton(
+                      icon: FontAwesomeIcons.share,
+                      text: 'Share',
+                    ),
+                  ],
                 ),
-                Gaps.v24,
-                GestureDetector(
-                  onTap: _onLikeTap,
-                  child: VideoButton(
-                    icon: FontAwesomeIcons.solidHeart,
-                    text: S.of(context).likeCount(widget.videoData.likes),
-                  ),
-                ),
-                Gaps.v24,
-                GestureDetector(
-                  onTap: () => _onCommentsTap(context),
-                  child: VideoButton(
-                    icon: FontAwesomeIcons.solidComment,
-                    text: S.of(context).commentCount(widget.videoData.comments),
-                  ),
-                ),
-                Gaps.v24,
-                const VideoButton(
-                  icon: FontAwesomeIcons.share,
-                  text: 'Share',
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
-    );
-  }
+        ),
+        error: (error, stackTrace) => Center(
+          child: Text(
+            'Could not load videos. $error',
+            style: const TextStyle(color: Colors.white),
+          ),
+        ),
+        loading: () => const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
 }
