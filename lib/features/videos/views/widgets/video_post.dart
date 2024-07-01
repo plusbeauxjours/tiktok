@@ -139,14 +139,18 @@ class VideoPostState extends ConsumerState<VideoPost>
   }
 
   void _onLikeTap() {
-    ref.read(videoPostProvider(widget.videoData.id).notifier).likeVideo();
+    ref
+        .read(videoPostProvider(
+                '${widget.videoData.id}---${ref.read(authRepo).user!.uid}')
+            .notifier)
+        .likeVideo();
   }
 
   @override
   Widget build(BuildContext context) => ref
       .watch(
         videoPostProvider(
-          '${widget.videoData.id}000${ref.read(authRepo).user!.uid}',
+          '${widget.videoData.id}---${ref.read(authRepo).user!.uid}',
         ),
       )
       .when(

@@ -33,7 +33,7 @@ class VideosRepository {
   }
 
   Future<VideoLikeModel> isLiked(String videoId, String userId) async {
-    final likeQuery = _db.collection("likes").doc("${videoId}000$userId");
+    final likeQuery = _db.collection("likes").doc("$videoId---$userId");
     final videoQuery = _db.collection("videos").doc(videoId);
 
     final like = await likeQuery.get();
