@@ -7,7 +7,7 @@ import 'package:tiktok/features/videos/views/video_timeline_screen.dart';
 
 final List<String> tabs = [
   'Top',
-  'Users',
+  "users",
   'Videos',
   'Sounds',
   'LIVE',

@@ -7,9 +7,9 @@ class MessageRepo {
 
   Future<void> sendMessage(MessageModel message) async {
     await _db
-        .collection('chat_rooms')
+        .collection("chat_rooms")
         .doc("bwzgrtl6dHvSM7pLTMZf")
-        .collection('texts')
+        .collection("texts")
         .add(
           message.toJson(),
         );
