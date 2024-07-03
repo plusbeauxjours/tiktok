@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
@@ -144,9 +143,7 @@ class MainNavigationScreenState extends ConsumerState<MainNavigationScreen> {
               color:
                   _selectedIndex == 0 || isDark ? Colors.black : Colors.white,
               child: Padding(
-                padding: EdgeInsets.only(
-                    bottom:
-                        MediaQuery.of(context).padding.bottom + Sizes.size12),
+                padding: const EdgeInsets.all(Sizes.size12),
                 child: CustomNavigation(
                   selectedIndex: _selectedIndex,
                   onTap: _onTap,

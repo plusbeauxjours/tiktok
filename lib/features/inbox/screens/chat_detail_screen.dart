@@ -168,19 +168,14 @@ class ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
                   builder: (BuildContext context, bool isKeyboardVisible) {
                     return BottomAppBar(
                       notchMargin: 0,
-                      height: Platform.isIOS
-                          ? isKeyboardVisible
-                              ? 85
-                              : 120
-                          : 85,
+                      height: 85,
                       elevation: 0,
                       color: isDarkMode(context, ref)
                           ? Colors.grey.shade800
                           : Colors.grey.shade100,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                          vertical: Sizes.size10,
-                          horizontal: Sizes.size14,
+                          vertical: Sizes.size4,
                         ),
                         child: Row(
                           children: [
@@ -201,25 +196,14 @@ class ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
                                 ),
                                 constraints: BoxConstraints(
                                   maxWidth:
-                                      MediaQuery.of(context).size.width - 134,
+                                      MediaQuery.of(context).size.width - 100,
                                 ),
                                 filled: true,
                                 fillColor: isDarkMode(context, ref)
                                     ? Colors.grey.shade700
                                     : Colors.grey.shade200,
-                                suffixIcon: Container(
-                                  width: Sizes.size20,
-                                  alignment: Alignment.center,
-                                  child: FaIcon(
-                                    FontAwesomeIcons.faceSmile,
-                                    color: isDarkMode(context, ref)
-                                        ? Colors.white
-                                        : Colors.black,
-                                  ),
-                                ),
                               ),
                             ),
-                            Gaps.h10,
                             TextButton(
                               style: TextButton.styleFrom(
                                 backgroundColor: _isThereMessage
