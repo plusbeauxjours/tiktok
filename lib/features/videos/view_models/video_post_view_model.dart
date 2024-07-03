@@ -14,7 +14,7 @@ class VideoPostViewModel extends FamilyAsyncNotifier<VideoLikeModel, String> {
   @override
   FutureOr<VideoLikeModel> build(String arg) {
     _repository = ref.read(videosRepo);
-    final idsStr = arg.split("---");
+    final idsStr = arg.split("___");
     _videoId = idsStr[0];
     _userId = idsStr[1];
     return isLikedVideo();

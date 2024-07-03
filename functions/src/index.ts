@@ -36,7 +36,7 @@ export const onLikedCreated = functions.firestore
   .document("likes/{likeId}")
   .onCreate(async (snapshot, context) => {
     const db = admin.firestore();
-    const [videoId, userId] = snapshot.id.split("---");
+    const [videoId, userId] = snapshot.id.split("___");
     await db
       .collection("videos")
       .doc(videoId)
@@ -54,7 +54,7 @@ export const onLikedRemoved = functions.firestore
   .document("likes/{likeId}")
   .onDelete(async (snapshot, context) => {
     const db = admin.firestore();
-    const [videoId, userId] = snapshot.id.split("---");
+    const [videoId, userId] = snapshot.id.split("___");
     await db
       .collection("videos")
       .doc(videoId)
