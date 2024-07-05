@@ -49,7 +49,8 @@ export const onLikedCreated = functions.firestore
       const user = await (await db.collection("users").doc(creatorUid).get()).data();
       if (user) {
         const token = user.token;
-        await admin.messaging().sendToDevice(token, {
+        const message = {
+          token,
           data: {
             screen: "123",
           },
@@ -57,7 +58,8 @@ export const onLikedCreated = functions.firestore
             title: "someone liked you video",
             body: "Likes + 1 ! Congrats! 💖",
           },
-        });
+        };
+        await admin.messaging().send(message);
       }
     }
   });
