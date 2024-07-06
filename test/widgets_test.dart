@@ -5,11 +5,13 @@ import 'package:tiktok/features/authentications/widgets/form_button.dart';
 void main() {
   group("Form Button Tests", () {
     testWidgets("Enabled State", (WidgetTester tester) async {
-      // pumpWidget은 주어진 widget으로부터 UI를 그린다.
       await tester.pumpWidget(
-        const Directionality(
-          textDirection: TextDirection.ltr,
-          child: FormButton(disabled: false),
+        Theme(
+          data: ThemeData(primaryColor: Colors.red),
+          child: const Directionality(
+            textDirection: TextDirection.ltr,
+            child: FormButton(disabled: false),
+          ),
         ),
       );
       expect(find.text("Next"), findsOneWidget);
@@ -21,13 +23,23 @@ void main() {
             .color,
         Colors.white,
       );
+      expect(
+        (tester
+                .firstWidget<AnimatedContainer>(find.byType(AnimatedContainer))
+                .decoration as BoxDecoration)
+            .color,
+        Colors.red,
+      );
     });
+
     testWidgets("Disabled State", (WidgetTester tester) async {
-      // pumpWidget은 주어진 widget으로부터 UI를 그린다.
       await tester.pumpWidget(
-        const Directionality(
-          textDirection: TextDirection.ltr,
-          child: FormButton(disabled: false),
+        const MediaQuery(
+          data: MediaQueryData(),
+          child: Directionality(
+            textDirection: TextDirection.ltr,
+            child: FormButton(disabled: true),
+          ),
         ),
       );
       expect(find.text("Next"), findsOneWidget);
@@ -37,7 +49,44 @@ void main() {
                 find.byType(AnimatedDefaultTextStyle))
             .style
             .color,
-        Colors.grey,
+        Colors.grey.shade400,
+      );
+    });
+
+    testWidgets("Disabled State DarkMode", (WidgetTester tester) async {
+      await tester.pumpWidget(
+        const MediaQuery(
+          data: MediaQueryData(platformBrightness: Brightness.dark),
+          child: Directionality(
+            textDirection: TextDirection.ltr,
+            child: FormButton(disabled: true),
+          ),
+        ),
+      );
+      expect(
+        (tester
+                .firstWidget<AnimatedContainer>(find.byType(AnimatedContainer))
+                .decoration as BoxDecoration)
+            .color,
+        Colors.grey.shade800,
+      );
+    });
+    testWidgets("Disabled State Light Mode", (WidgetTester tester) async {
+      await tester.pumpWidget(
+        const MediaQuery(
+          data: MediaQueryData(platformBrightness: Brightness.light),
+          child: Directionality(
+            textDirection: TextDirection.ltr,
+            child: FormButton(disabled: true),
+          ),
+        ),
+      );
+      expect(
+        (tester
+                .firstWidget<AnimatedContainer>(find.byType(AnimatedContainer))
+                .decoration as BoxDecoration)
+            .color,
+        Colors.grey.shade300,
       );
     });
   });
