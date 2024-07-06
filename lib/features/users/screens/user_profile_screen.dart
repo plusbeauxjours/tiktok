@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok/constants/sizes.dart';
 import 'package:tiktok/features/settings/screens/settings_screen.dart';
 import 'package:tiktok/features/users/view_models/profile_state_view_model.dart';
-import 'package:tiktok/features/users/view_models/users_view_models.dart';
+import 'package:tiktok/features/users/view_models/users_view_model.dart';
 import 'package:tiktok/features/users/widgets/user_info.dart';
 import 'package:tiktok/utils/utils.dart';
 

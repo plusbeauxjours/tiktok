@@ -6,7 +6,7 @@ import 'package:tiktok/common/widgets/cst_text_field.dart';
 import 'package:tiktok/constants/gaps.dart';
 import 'package:tiktok/constants/sizes.dart';
 import 'package:tiktok/features/users/view_models/profile_state_view_model.dart';
-import 'package:tiktok/features/users/view_models/users_view_models.dart';
+import 'package:tiktok/features/users/view_models/users_view_model.dart';
 
 class UserProfileBody extends ConsumerStatefulWidget {
   final String bio;

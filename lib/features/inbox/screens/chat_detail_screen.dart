@@ -7,7 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok/constants/gaps.dart';
 import 'package:tiktok/constants/sizes.dart';
 import 'package:tiktok/features/authentications/repos/authentication_repo.dart';
-import 'package:tiktok/features/inbox/view_models/messages_view_models.dart';
+import 'package:tiktok/features/inbox/view_models/messages_view_model.dart';
 import 'package:tiktok/features/inbox/widgets/avatar_form.dart';
 import 'package:tiktok/utils/utils.dart';
 

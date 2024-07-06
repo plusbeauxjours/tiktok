@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiktok/features/authentications/repos/authentication_repo.dart';
 import 'package:tiktok/features/authentications/view_models/signup_view_model.dart';
-import 'package:tiktok/features/users/models/user_profile_models.dart';
+import 'package:tiktok/features/users/models/user_profile_model.dart';
 import 'package:tiktok/features/users/repos/user_repo.dart';
 
 class UsersViewModel extends AsyncNotifier<UserProfileModel> {

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tiktok/features/users/models/user_profile_models.dart';
+import 'package:tiktok/features/users/models/user_profile_model.dart';
 
 class UserRepository {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
