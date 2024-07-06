@@ -49,7 +49,7 @@ void main() {
                 find.byType(AnimatedDefaultTextStyle))
             .style
             .color,
-        Colors.grey.shade400,
+        Colors.grey,
       );
     });
 
@@ -68,7 +68,7 @@ void main() {
                 .firstWidget<AnimatedContainer>(find.byType(AnimatedContainer))
                 .decoration as BoxDecoration)
             .color,
-        Colors.grey.shade800,
+        Colors.grey,
       );
     });
     testWidgets("Disabled State Light Mode", (WidgetTester tester) async {
