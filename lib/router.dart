@@ -6,6 +6,7 @@ import 'package:tiktok/features/authentications/repos/authentication_repo.dart';
 import 'package:tiktok/features/authentications/screens/signup_screen.dart';
 import 'package:tiktok/features/inbox/screens/activity_screen.dart';
 import 'package:tiktok/features/inbox/screens/chat_detail_screen.dart';
+import 'package:tiktok/features/inbox/screens/chat_user_list_screen.dart';
 import 'package:tiktok/features/inbox/screens/chats_screen.dart';
 import 'package:tiktok/features/main_navigation/screens/main_navigation_screen.dart';
 import 'package:tiktok/features/notifications/notifications_provider.dart';
@@ -59,6 +60,11 @@ final routerProvider = Provider((ref) {
               name: ActivityScreen.routeName,
               path: ActivityScreen.routeURL,
               builder: (context, state) => const ActivityScreen(),
+            ),
+            GoRoute(
+              path: ChatUserListScreen.routeURL,
+              name: ChatUserListScreen.routeName,
+              builder: (context, state) => const ChatUserListScreen(),
             ),
             GoRoute(
               name: ChatsScreen.routeName,

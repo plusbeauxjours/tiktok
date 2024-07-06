@@ -31,7 +31,7 @@ class _InboxScreenState extends State<InboxScreen> {
           IconButton(
             onPressed: _onDmPressed,
             icon: const FaIcon(
-              FontAwesomeIcons.paperPlane,
+              FontAwesomeIcons.plus,
               size: Sizes.size20,
             ),
           )
