@@ -39,9 +39,9 @@ class SignUpScreen extends ConsumerWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Gaps.v80,
-                  Text(
-                    S.of(context).signUpTitle("TikTok"),
-                    style: const TextStyle(
+                  const Text(
+                    "Sign up for TikTok",
+                    style: TextStyle(
                       fontSize: Sizes.size24,
                       fontWeight: FontWeight.w700,
                     ),
@@ -151,7 +151,7 @@ class SignUpScreen extends ConsumerWidget {
                   GestureDetector(
                     onTap: () => _onLoginTap(context),
                     child: Text(
-                      S.of(context).logIn('x'),
+                      "Log in",
                       style: TextStyle(
                         fontSize: Sizes.size16,
                         fontWeight: FontWeight.w600,
