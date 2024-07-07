@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiktok/features/authentications/repos/authentication_repo.dart';
-import 'package:tiktok/features/users/view_models/users_view_model.dart';
+import 'package:tiktok/features/user/view_models/user_view_model.dart';
 import 'package:tiktok/utils/utils.dart';
 
 class SocialAuthViewModel extends AsyncNotifier<void> {
@@ -19,7 +19,7 @@ class SocialAuthViewModel extends AsyncNotifier<void> {
     BuildContext context,
   ) async {
     state = const AsyncValue.loading();
-    final users = ref.read(usersProvider.notifier);
+    final users = ref.read(userProvider.notifier);
     state = await AsyncValue.guard(() async {
       final userCredential = await _repository.githubSignIn(
         context,
@@ -40,7 +40,7 @@ class SocialAuthViewModel extends AsyncNotifier<void> {
     BuildContext context,
   ) async {
     state = const AsyncValue.loading();
-    final users = ref.read(usersProvider.notifier);
+    final users = ref.read(userProvider.notifier);
     state = await AsyncValue.guard(() async {
       final userCredential = await _repository.googleSignIn(
         context,

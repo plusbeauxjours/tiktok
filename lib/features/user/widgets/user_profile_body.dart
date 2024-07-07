@@ -5,8 +5,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok/common/widgets/cst_text_field.dart';
 import 'package:tiktok/constants/gaps.dart';
 import 'package:tiktok/constants/sizes.dart';
-import 'package:tiktok/features/users/view_models/profile_state_view_model.dart';
-import 'package:tiktok/features/users/view_models/users_view_model.dart';
+import 'package:tiktok/features/user/view_models/profile_state_view_model.dart';
+import 'package:tiktok/features/user/view_models/user_view_model.dart';
 
 class UserProfileBody extends ConsumerStatefulWidget {
   final String bio;
@@ -36,7 +36,7 @@ class _UserProfileBodyState extends ConsumerState<UserProfileBody> {
     _isBioEdit = !_isBioEdit;
     ref.read(editProvider.notifier).toggleEditMode();
     if (!_isBioEdit && widget.bio != _bio) {
-      ref.read(usersProvider.notifier).onUpdateUserBio(_bio);
+      ref.read(userProvider.notifier).onUpdateUserBio(_bio);
     }
     setState(() {});
   }
@@ -44,7 +44,7 @@ class _UserProfileBodyState extends ConsumerState<UserProfileBody> {
   void _toggleLinkEdit() {
     _isLinkEdit = !_isLinkEdit;
     if (!_isLinkEdit && widget.link != _link) {
-      ref.read(usersProvider.notifier).onUpdateUserLink(_link);
+      ref.read(userProvider.notifier).onUpdateUserLink(_link);
     }
     setState(() {});
   }

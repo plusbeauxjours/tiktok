@@ -3,8 +3,8 @@ import 'package:tiktok/common/widgets/web_container.dart';
 import 'package:tiktok/constants/breakpoints.dart';
 import 'package:tiktok/constants/gaps.dart';
 import 'package:tiktok/constants/sizes.dart';
-import 'package:tiktok/features/users/widgets/user_profile_body.dart';
-import 'package:tiktok/features/users/widgets/user_profile_header.dart';
+import 'package:tiktok/features/user/widgets/user_profile_body.dart';
+import 'package:tiktok/features/user/widgets/user_profile_header.dart';
 import 'package:tiktok/utils/utils.dart';
 
 class UserInfo extends StatelessWidget {

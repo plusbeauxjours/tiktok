@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok/constants/gaps.dart';
 import 'package:tiktok/constants/sizes.dart';
-import 'package:tiktok/features/users/widgets/avatar.dart';
+import 'package:tiktok/features/user/widgets/avatar.dart';
 
 class UserProfileHeader extends StatelessWidget {
   static const double _fontSize = Sizes.size18;

@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:video_player/video_player.dart';
 import 'package:tiktok/features/authentications/repos/authentication_repo.dart';
-import 'package:tiktok/features/users/view_models/users_view_model.dart';
+import 'package:tiktok/features/user/view_models/user_view_model.dart';
 import 'package:tiktok/features/videos/models/video_model.dart';
 import 'package:tiktok/features/videos/repos/videos_repo.dart';
 import 'package:tiktok/utils/utils.dart';
@@ -25,7 +25,7 @@ class UploadVideoViewModel extends AsyncNotifier<void> {
     Map<String, dynamic> data,
   ) async {
     final user = ref.read(authRepo).user;
-    final userProfile = ref.read(usersProvider).value;
+    final userProfile = ref.read(userProvider).value;
 
     final videoPlayerController = VideoPlayerController.file(video);
     await videoPlayerController.initialize();

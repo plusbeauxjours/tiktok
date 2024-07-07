@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tiktok/constants/sizes.dart';
 import 'package:tiktok/features/settings/screens/settings_screen.dart';
-import 'package:tiktok/features/users/view_models/profile_state_view_model.dart';
-import 'package:tiktok/features/users/view_models/users_view_model.dart';
-import 'package:tiktok/features/users/widgets/user_info.dart';
+import 'package:tiktok/features/user/view_models/profile_state_view_model.dart';
+import 'package:tiktok/features/user/view_models/user_view_model.dart';
+import 'package:tiktok/features/user/widgets/user_info.dart';
 import 'package:tiktok/utils/utils.dart';
 
 class UserProfileScreen extends ConsumerStatefulWidget {
@@ -25,7 +25,7 @@ class UserProfileScreen extends ConsumerStatefulWidget {
 class UserProfileScreenState extends ConsumerState<UserProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    return ref.watch(usersProvider).when(
+    return ref.watch(userProvider).when(
           error: (error, stackTrace) => Center(
             child: Text(error.toString()),
           ),

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tiktok/features/users/view_models/avatar_view_model.dart';
+import 'package:tiktok/features/user/view_models/avatar_view_model.dart';
 
 class Avatar extends ConsumerWidget {
   final String uid;

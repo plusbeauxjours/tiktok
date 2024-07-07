@@ -4,8 +4,8 @@ import 'dart:io';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tiktok/features/authentications/repos/authentication_repo.dart';
-import 'package:tiktok/features/users/repos/user_repo.dart';
-import 'package:tiktok/features/users/view_models/users_view_model.dart';
+import 'package:tiktok/features/user/repos/user_repo.dart';
+import 'package:tiktok/features/user/view_models/user_view_model.dart';
 import 'package:tiktok/utils/utils.dart';
 
 class AvatarViewModel extends AsyncNotifier<void> {
@@ -25,7 +25,7 @@ class AvatarViewModel extends AsyncNotifier<void> {
     state = await AsyncValue.guard(
       () async {
         await _repository.uploadAvatar(file, fileName);
-        await ref.read(usersProvider.notifier).onAvatarUpload();
+        await ref.read(userProvider.notifier).onAvatarUpload();
       },
     );
     if (!context.mounted) return;

@@ -7,7 +7,8 @@ import 'package:tiktok/constants/sizes.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tiktok/features/inbox/screens/chat_detail_screen.dart';
 import 'package:tiktok/features/inbox/view_models/chat_room_view_model.dart';
-import 'package:tiktok/features/users/models/user_profile_model.dart';
+import 'package:tiktok/features/user/models/user_profile_model.dart';
+import 'package:tiktok/features/user/view_models/user_view_model.dart';
 
 class ChatUserListScreen extends ConsumerStatefulWidget {
   static const String routeName = 'chatUserList';
@@ -53,7 +54,7 @@ class ChatUserListScreenState extends ConsumerState<ChatUserListScreen> {
     }
   }
 
-  void _onChatTap(index) {
+  void _onUserTap(index) {
     context.pushNamed(
       ChatDetailScreen.routeName,
       params: {"chatId": "$index"},
@@ -68,7 +69,7 @@ class ChatUserListScreenState extends ConsumerState<ChatUserListScreen> {
         horizontal: Sizes.size12,
       ),
       onLongPress: () => _deleteItem(index, snapshot),
-      onTap: () => _onChatTap(index),
+      onTap: () => _onUserTap(index),
       leading: CircleAvatar(
         radius: 30,
         foregroundImage: NetworkImage(
@@ -114,8 +115,9 @@ class ChatUserListScreenState extends ConsumerState<ChatUserListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Future<List<UserProfileModel>> userList =
-        ref.read(chatRoomsProvider.notifier).getUserList();
+    Future<List<UserProfileModel>> userList = ref
+        .read(chatRoomsProvider.notifier)
+        .getUserList(ref.read(userProvider).value!.uid);
 
     return Scaffold(
       appBar: AppBar(
@@ -141,7 +143,7 @@ class ChatUserListScreenState extends ConsumerState<ChatUserListScreen> {
                   padding: const EdgeInsets.symmetric(
                     vertical: Sizes.size10,
                   ),
-                  itemCount: snapshot.data!.length - 1,
+                  itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
                     return Column(
                       children: [
