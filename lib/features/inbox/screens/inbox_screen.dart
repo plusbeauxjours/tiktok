@@ -28,11 +28,16 @@ class _InboxScreenState extends State<InboxScreen> {
         elevation: 1,
         title: const Text('Inbox'),
         actions: [
-          IconButton(
-            onPressed: _onDmPressed,
-            icon: const FaIcon(
-              FontAwesomeIcons.plus,
-              size: Sizes.size20,
+          Padding(
+            padding: const EdgeInsets.only(
+              right: Sizes.size10,
+            ),
+            child: IconButton(
+              onPressed: _onDmPressed,
+              icon: const FaIcon(
+                FontAwesomeIcons.message,
+                size: Sizes.size20,
+              ),
             ),
           )
         ],

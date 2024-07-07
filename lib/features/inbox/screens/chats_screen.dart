@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tiktok/constants/breakpoints.dart';
 import 'package:tiktok/constants/gaps.dart';
 import 'package:tiktok/constants/sizes.dart';
 import 'package:go_router/go_router.dart';
@@ -8,6 +9,7 @@ import 'package:tiktok/features/inbox/models/chat_room_model.dart';
 import 'package:tiktok/features/inbox/screens/chat_detail_screen.dart';
 import 'package:tiktok/features/inbox/screens/chat_user_list_screen.dart';
 import 'package:tiktok/features/inbox/view_models/chat_room_view_model.dart';
+import 'package:tiktok/features/user/models/user_profile_model.dart';
 import 'package:tiktok/features/user/view_models/user_view_model.dart';
 
 class ChatsScreen extends ConsumerStatefulWidget {
@@ -37,6 +39,13 @@ class ChatsScreenState extends ConsumerState<ChatsScreen> {
   }
 
   ListTile _makeTile(int index, AsyncSnapshot<List<ChatRoomModel>> snapshot) {
+    final userId = ref.read(userProvider).value!.uid;
+    final targetUserId = snapshot.data![index].personIdA == userId
+        ? snapshot.data![index].personIdB
+        : snapshot.data![index].personIdA;
+    final Future<UserProfileModel> targetUserProfile =
+        ref.read(userProvider.notifier).findProfile(targetUserId);
+
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(
         vertical: Sizes.size10,
@@ -44,10 +53,28 @@ class ChatsScreenState extends ConsumerState<ChatsScreen> {
       ),
       onLongPress: () => _deleteItem(index, snapshot),
       onTap: () => _onChatRoomTap(index),
-      leading: CircleAvatar(
-        radius: 30,
-        foregroundImage: NetworkImage(
-          "https://firebasestorage.googleapis.com/v0/b/tiktok-10313.appspot.com/o/avatars%2F${snapshot.data![index].personIdA}?alt=media&date=${DateTime.now().toString()}",
+      leading: SizedBox(
+        width: 50,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            CircleAvatar(
+              radius: 20,
+              foregroundImage: NetworkImage(
+                "https://firebasestorage.googleapis.com/v0/b/tiktok-10313.appspot.com/o/avatars%2F$targetUserId?alt=media&date=${DateTime.now().toString()}",
+              ),
+            ),
+            Positioned(
+              right: -5,
+              bottom: -15,
+              child: CircleAvatar(
+                radius: 20,
+                foregroundImage: NetworkImage(
+                  "https://firebasestorage.googleapis.com/v0/b/tiktok-10313.appspot.com/o/avatars%2F$userId?alt=media&date=${DateTime.now().toString()}",
+                ),
+              ),
+            )
+          ],
         ),
       ),
       trailing: const Padding(
@@ -55,7 +82,7 @@ class ChatsScreenState extends ConsumerState<ChatsScreen> {
           horizontal: Sizes.size12,
         ),
         child: FaIcon(
-          FontAwesomeIcons.paperPlane,
+          FontAwesomeIcons.chevronRight,
           size: Sizes.size20,
         ),
       ),
@@ -63,7 +90,7 @@ class ChatsScreenState extends ConsumerState<ChatsScreen> {
         snapshot.data![index].lastText,
         style: const TextStyle(
           fontWeight: FontWeight.w300,
-          fontSize: Sizes.size14,
+          fontSize: Sizes.size10,
           color: Colors.grey,
         ),
         overflow: TextOverflow.ellipsis,
@@ -71,14 +98,23 @@ class ChatsScreenState extends ConsumerState<ChatsScreen> {
       title: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Text(
-            snapshot.data![index].personIdA == ref.read(userProvider).value!.uid
-                ? snapshot.data![index].personIdB
-                : snapshot.data![index].personIdA,
-            style: const TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: Sizes.size18,
-            ),
+          FutureBuilder<UserProfileModel>(
+            future: targetUserProfile,
+            builder: (context, profileSnapshot) {
+              if (profileSnapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              } else if (profileSnapshot.hasData) {
+                return Text(
+                  profileSnapshot.data!.name,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: Sizes.size18,
+                  ),
+                );
+              } else {
+                return const Text('Unknown');
+              }
+            },
           ),
           Gaps.h16,
         ],
@@ -88,27 +124,62 @@ class ChatsScreenState extends ConsumerState<ChatsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("⭐️");
-    print("⭐️");
-
-    print("🔥");
     Future<List<ChatRoomModel>> chatRoomList = ref
         .read(chatRoomsProvider.notifier)
         .getChatRoomList(ref.read(userProvider).value!.uid);
-    print("🔥$chatRoomList");
     return Scaffold(
-        appBar: AppBar(
-            elevation: 1,
-            title: const Text('Direct messages'),
-            actions: [
-              Padding(
-                  padding: const EdgeInsets.only(right: Sizes.size10),
-                  child: IconButton(
-                      onPressed: _onIconTap,
-                      icon: const FaIcon(FontAwesomeIcons.userPlus))),
-            ]),
-        body: const Center(
-          child: Text("to do: chatroom list11"),
-        ));
+      appBar: AppBar(
+        elevation: 1,
+        title: const Text('Direct messages'),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(
+              right: Sizes.size10,
+            ),
+            child: IconButton(
+              iconSize: Sizes.size20,
+              onPressed: _onIconTap,
+              icon: const FaIcon(FontAwesomeIcons.userPlus),
+            ),
+          ),
+        ],
+      ),
+      body: FutureBuilder(
+        future: chatRoomList,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Center(
+              child: Container(
+                constraints: const BoxConstraints(
+                  maxWidth: Breakpoints.lg,
+                ),
+                child: ListView.separated(
+                  separatorBuilder: (context, index) => const Divider(
+                    thickness: 0.5,
+                    indent: Sizes.size12,
+                    endIndent: Sizes.size12,
+                    height: 0.5,
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: Sizes.size10,
+                  ),
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        _makeTile(index, snapshot),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            );
+          }
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      ),
+    );
   }
 }

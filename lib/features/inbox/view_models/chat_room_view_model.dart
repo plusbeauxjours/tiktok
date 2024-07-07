@@ -29,7 +29,6 @@ class CharRoomViewModel extends AsyncNotifier<void> {
     final chatRooms = result.docs.map((doc) {
       return ChatRoomModel.fromJson(doc.data());
     });
-    print("🌈${chatRooms.toList()}");
     return chatRooms.toList();
   }
 }

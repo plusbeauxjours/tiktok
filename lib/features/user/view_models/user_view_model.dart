@@ -15,6 +15,7 @@ class UserViewModel extends AsyncNotifier<UserProfileModel> {
   FutureOr<UserProfileModel> build() async {
     _userRepository = ref.read(userRepo);
     _authenticationRepository = ref.read(authRepo);
+
     if (_authenticationRepository.isLoggedIn) {
       final profile = await _userRepository
           .findProfile(_authenticationRepository.user!.uid);
@@ -26,17 +27,25 @@ class UserViewModel extends AsyncNotifier<UserProfileModel> {
     return UserProfileModel.empty();
   }
 
+  Future<UserProfileModel> findProfile(String uid) async {
+    final result = await _userRepository.findProfile(uid);
+    final profile = UserProfileModel.fromJson(result!);
+    return profile;
+  }
+
   Future<void> createProfile(UserCredential userCredential) async {
     if (userCredential.user == null) {
       throw Exception("Account not created");
     }
+
     final form = ref.read(signUpForm.notifier).state;
     state = const AsyncValue.loading();
+
     final profile = UserProfileModel(
       email: userCredential.user!.email ?? "anon@anon.com",
       uid: userCredential.user!.uid,
       name: userCredential.user!.displayName ?? "Anon",
-      bio: "udefined",
+      bio: "undefined",
       link: "undefined",
       username: form['username'] ?? "undefined",
       birthday: form['birthday'] ?? "undefined",
@@ -47,21 +56,27 @@ class UserViewModel extends AsyncNotifier<UserProfileModel> {
   }
 
   Future<void> onAvatarUpload() async {
-    if (state.value == null) return;
-    state = AsyncValue.data(state.value!.copyWith(hasAvatar: true));
-    await _userRepository.updateUser(state.value!.uid, {"hasAvatar": true});
+    final currentProfile = state.value;
+    if (currentProfile == null) return;
+
+    state = AsyncValue.data(currentProfile.copyWith(hasAvatar: true));
+    await _userRepository.updateUser(currentProfile.uid, {"hasAvatar": true});
   }
 
   Future<void> onUpdateUserBio(String bio) async {
-    if (state.value == null) return;
-    state = AsyncValue.data(state.value!.copyWith(bio: bio));
-    await _userRepository.updateUser(state.value!.uid, {"bio": bio});
+    final currentProfile = state.value;
+    if (currentProfile == null) return;
+
+    state = AsyncValue.data(currentProfile.copyWith(bio: bio));
+    await _userRepository.updateUser(currentProfile.uid, {"bio": bio});
   }
 
   Future<void> onUpdateUserLink(String link) async {
-    if (state.value == null) return;
-    state = AsyncValue.data(state.value!.copyWith(link: link));
-    await _userRepository.updateUser(state.value!.uid, {"link": link});
+    final currentProfile = state.value;
+    if (currentProfile == null) return;
+
+    state = AsyncValue.data(currentProfile.copyWith(link: link));
+    await _userRepository.updateUser(currentProfile.uid, {"link": link});
   }
 }
 

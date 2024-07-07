@@ -14,11 +14,12 @@ class ChatRoomRepository {
 
   Future<QuerySnapshot<Map<String, dynamic>>> getChatRoomList(
       String userId) async {
-    print("⭐️");
     return _db
         .collection("chat_rooms")
-        .where("personIdA", isEqualTo: userId)
-        .where("personIdB", isEqualTo: userId)
+        .where(Filter.or(
+          Filter("personIdA", isEqualTo: userId),
+          Filter("personIdB", isEqualTo: userId),
+        ))
         .orderBy("createdAt", descending: true)
         .limit(20)
         .get();

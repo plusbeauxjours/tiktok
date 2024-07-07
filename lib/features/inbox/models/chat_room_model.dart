@@ -1,8 +1,8 @@
 class ChatRoomModel {
   final String chatId;
-  final int messageAt;
+  final String messageAt;
   final String lastText;
-  final String createdId;
+  final String createdAt;
   final String personIdA;
   final String personIdB;
 
@@ -10,7 +10,7 @@ class ChatRoomModel {
     required this.chatId,
     required this.messageAt,
     required this.lastText,
-    required this.createdId,
+    required this.createdAt,
     required this.personIdA,
     required this.personIdB,
   });
@@ -19,7 +19,7 @@ class ChatRoomModel {
       : chatId = json['chatId'],
         messageAt = json['messageAt'],
         lastText = json['lastText'],
-        createdId = json['createdId'],
+        createdAt = json['createdAt'],
         personIdA = json['personIdA'],
         personIdB = json['personIdB'];
 
@@ -28,7 +28,7 @@ class ChatRoomModel {
       "chatId": chatId,
       "messageAt": messageAt,
       "lastText": lastText,
-      "createdId": createdId,
+      "createdAt": createdAt,
       "personIdA": personIdA,
       "personIdB": personIdB
     };
