@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,7 +6,8 @@ import 'package:tiktok/constants/gaps.dart';
 import 'package:tiktok/constants/sizes.dart';
 import 'package:tiktok/features/authentications/repos/authentication_repo.dart';
 import 'package:tiktok/features/inbox/view_models/messages_view_model.dart';
-import 'package:tiktok/features/inbox/widgets/avatar_form.dart';
+import 'package:tiktok/features/user/models/user_profile_model.dart';
+import 'package:tiktok/features/user/view_models/user_view_model.dart';
 import 'package:tiktok/utils/utils.dart';
 
 class ChatDetailScreen extends ConsumerStatefulWidget {
@@ -33,15 +32,19 @@ class ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
   final bool isLoading = false;
 
   void _onMessageChanged(String text) {
-    _isThereMessage = text.isNotEmpty;
-    setState(() {});
+    setState(() {
+      _isThereMessage = text.isNotEmpty;
+    });
   }
 
-  void _onSendPress(String text) {
+  void _onSendPress() {
     if (!_isThereMessage) return;
     final text = _editingController.text;
-    ref.read(messagesProvider.notifier).sendMessage(text);
-    _editingController.text = '';
+    ref.read(messagesProvider(widget.chatId).notifier).sendMessage(text);
+    _editingController.clear();
+    setState(() {
+      _isThereMessage = false;
+    });
   }
 
   @override
@@ -52,39 +55,49 @@ class ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isLoading = ref.watch(messagesProvider).isLoading;
+    final isLoading = ref.watch(messagesProvider(widget.chatId)).isLoading;
+    final userId = ref.read(userProvider).value!.uid;
+    final targetUserId =
+        widget.chatId.split("___").firstWhere((id) => id != userId);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: isDarkMode(context, ref)
             ? Colors.grey.shade800
             : Colors.grey.shade100,
-        title: ListTile(
-          contentPadding: EdgeInsets.zero,
-          horizontalTitleGap: Sizes.size8,
-          leading: const AvatarForm(),
-          title: Text(
-            'plusbeauxjours (${widget.chatId})',
-            style: const TextStyle(
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          subtitle: const Text('Active now'),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              FaIcon(
-                FontAwesomeIcons.flag,
-                color: Theme.of(context).iconTheme.color,
-                size: Sizes.size20,
-              ),
-              Gaps.h32,
-              FaIcon(
-                FontAwesomeIcons.ellipsis,
-                color: Theme.of(context).iconTheme.color,
-                size: Sizes.size20,
-              )
-            ],
-          ),
+        title: FutureBuilder<UserProfileModel>(
+          future: ref.read(userProvider.notifier).findProfile(targetUserId),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator();
+            } else if (snapshot.hasData) {
+              return ListTile(
+                contentPadding: EdgeInsets.zero,
+                horizontalTitleGap: Sizes.size8,
+                leading: CircleAvatar(
+                  radius: 24,
+                  foregroundImage: NetworkImage(
+                    "https://firebasestorage.googleapis.com/v0/b/tiktok-10313.appspot.com/o/avatars%2F$targetUserId?alt=media&date=${DateTime.now().toString()}",
+                  ),
+                  child: Text(
+                    snapshot.data!.name[0],
+                    style: const TextStyle(
+                      fontSize: Sizes.size16,
+                    ),
+                  ),
+                ),
+                title: Text(
+                  snapshot.data!.name,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: Sizes.size14,
+                  ),
+                ),
+              );
+            } else {
+              return const Text('Unknown');
+            }
+          },
         ),
       ),
       body: GestureDetector(
@@ -95,7 +108,7 @@ class ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
               : Colors.grey.shade100,
           child: Stack(
             children: [
-              ref.watch(chatProvider).when(
+              ref.watch(chatProvider(widget.chatId)).when(
                     data: (data) {
                       return ListView.separated(
                         reverse: true,
@@ -179,29 +192,26 @@ class ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
                         ),
                         child: Row(
                           children: [
-                            TextField(
-                              controller: _editingController,
-                              onChanged: _onMessageChanged,
-                              onSubmitted: isLoading ? null : _onSendPress,
-                              decoration: InputDecoration(
-                                hintText: 'Send a message...',
-                                contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: Sizes.size12,
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    Sizes.size20,
+                            Expanded(
+                              child: TextField(
+                                controller: _editingController,
+                                onChanged: _onMessageChanged,
+                                decoration: InputDecoration(
+                                  hintText: 'Send a message...',
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: Sizes.size12,
                                   ),
-                                  borderSide: BorderSide.none,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(
+                                      Sizes.size20,
+                                    ),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  filled: true,
+                                  fillColor: isDarkMode(context, ref)
+                                      ? Colors.grey.shade700
+                                      : Colors.grey.shade200,
                                 ),
-                                constraints: BoxConstraints(
-                                  maxWidth:
-                                      MediaQuery.of(context).size.width - 100,
-                                ),
-                                filled: true,
-                                fillColor: isDarkMode(context, ref)
-                                    ? Colors.grey.shade700
-                                    : Colors.grey.shade200,
                               ),
                             ),
                             TextButton(
@@ -216,9 +226,8 @@ class ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
                                   Sizes.size10,
                                 ),
                               ),
-                              onPressed: () => isLoading
-                                  ? null
-                                  : _onSendPress(_editingController.text),
+                              onPressed:
+                                  isLoading ? null : () => _onSendPress(),
                               child: FaIcon(
                                 isLoading
                                     ? FontAwesomeIcons.hourglass

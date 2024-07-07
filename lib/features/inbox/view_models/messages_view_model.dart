@@ -6,11 +6,13 @@ import 'package:tiktok/features/authentications/repos/authentication_repo.dart';
 import 'package:tiktok/features/inbox/models/message_model.dart';
 import 'package:tiktok/features/inbox/repos/message_repo.dart';
 
-class MessagesViewModel extends AsyncNotifier<void> {
+class MessagesViewModel extends FamilyAsyncNotifier<void, String> {
   late final MessageRepo _repo;
+  late final String _chatRoomId;
 
   @override
-  FutureOr<void> build() {
+  FutureOr<void> build(String arg) {
+    _chatRoomId = arg;
     _repo = ref.read(messageRepo);
   }
 
@@ -23,21 +25,23 @@ class MessagesViewModel extends AsyncNotifier<void> {
         userId: user!.uid,
         createdAt: DateTime.now().millisecondsSinceEpoch,
       );
-      await _repo.sendMessage(message);
+      await _repo.sendMessage(_chatRoomId, message);
     });
   }
 }
 
-final messagesProvider = AsyncNotifierProvider<MessagesViewModel, void>(
+final messagesProvider =
+    AsyncNotifierProvider.family<MessagesViewModel, void, String>(
   () => MessagesViewModel(),
 );
 
-final chatProvider = StreamProvider.autoDispose<List<MessageModel>>((ref) {
+final chatProvider = StreamProvider.family
+    .autoDispose<List<MessageModel>, String>((ref, chatRoomId) {
   final db = FirebaseFirestore.instance;
 
   return db
       .collection("chat_rooms")
-      .doc("bwzgrtl6dHvSM7pLTMZf")
+      .doc(chatRoomId)
       .collection("texts")
       .orderBy("createdAt")
       .snapshots()

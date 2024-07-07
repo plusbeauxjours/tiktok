@@ -72,6 +72,25 @@ class ChatsScreenState extends ConsumerState<ChatsScreen> {
                 foregroundImage: NetworkImage(
                   "https://firebasestorage.googleapis.com/v0/b/tiktok-10313.appspot.com/o/avatars%2F$targetUserId?alt=media&date=${DateTime.now().toString()}",
                 ),
+                child: FutureBuilder<UserProfileModel>(
+                  future: targetUserProfile,
+                  builder: (context, profileSnapshot) {
+                    if (profileSnapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    } else if (profileSnapshot.hasData) {
+                      return Text(
+                        profileSnapshot.data!.name[0],
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: Sizes.size14,
+                        ),
+                      );
+                    } else {
+                      return const Text("");
+                    }
+                  },
+                ),
               ),
             )
           ],
