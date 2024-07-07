@@ -54,10 +54,21 @@ class ChatUserListScreenState extends ConsumerState<ChatUserListScreen> {
     }
   }
 
-  void _onUserTap(index) {
+  void _onUserTap(
+    int index,
+    AsyncSnapshot<List<UserProfileModel>> snapshot,
+  ) async {
+    final chatRoomNotifier = ref.read(chatRoomsProvider.notifier);
+    final personIdA = ref.read(userProvider).value!.uid;
+    final personIdB = snapshot.data![index].uid;
+
+    var chatRoomId = await chatRoomNotifier.findChatRoom(personIdA, personIdB);
+    chatRoomId ??= await chatRoomNotifier.createChatRoom(personIdA, personIdB);
+
+    if (!mounted) return;
     context.pushNamed(
       ChatDetailScreen.routeName,
-      params: {"chatId": "$index"},
+      params: {"chatId": chatRoomId.chatId},
     );
   }
 
@@ -69,7 +80,7 @@ class ChatUserListScreenState extends ConsumerState<ChatUserListScreen> {
         horizontal: Sizes.size12,
       ),
       onLongPress: () => _deleteItem(index, snapshot),
-      onTap: () => _onUserTap(index),
+      onTap: () => _onUserTap(index, snapshot),
       leading: CircleAvatar(
         radius: 30,
         foregroundImage: NetworkImage(

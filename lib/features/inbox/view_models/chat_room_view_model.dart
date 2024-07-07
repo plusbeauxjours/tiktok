@@ -31,6 +31,43 @@ class CharRoomViewModel extends AsyncNotifier<void> {
     });
     return chatRooms.toList();
   }
+
+  Future<ChatRoomModel> createChatRoom(
+      String userId, String targetUserId) async {
+    final chatRoom = ChatRoomModel(
+      chatId: "${userId}___$targetUserId",
+      lastText: "",
+      personIdA: userId,
+      personIdB: targetUserId,
+      messageAt: DateTime.now().millisecondsSinceEpoch,
+      createdAt: DateTime.now().millisecondsSinceEpoch,
+    );
+    await _chatRoomRepo.createChatRoom(chatRoom);
+    return chatRoom;
+  }
+
+  Future<ChatRoomModel?> findChatRoom(
+      String userId, String targetUserId) async {
+    final result = await _chatRoomRepo.findChatRoom(userId, targetUserId);
+    if (result != null) {
+      final chatRoom = ChatRoomModel.fromJson(result);
+      return chatRoom;
+    }
+    return null;
+  }
+
+  Future<void> updateChatRoomLastText(String chatId, String lastText) async {
+    final [personIdA, personIdB] = chatId.split("___");
+    final result = await _chatRoomRepo.findChatRoom(personIdA, personIdB);
+    final chatRoom = ChatRoomModel.fromJson(result!);
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      chatRoom.copyWith(
+        lastText: lastText,
+        messageAt: DateTime.now().millisecondsSinceEpoch,
+      );
+    });
+  }
 }
 
 final chatRoomsProvider = AsyncNotifierProvider<CharRoomViewModel, void>(

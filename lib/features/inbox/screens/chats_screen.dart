@@ -31,14 +31,14 @@ class ChatsScreenState extends ConsumerState<ChatsScreen> {
 
   void _deleteItem(int index, AsyncSnapshot<List<ChatRoomModel>> snapshot) {}
 
-  void _onChatRoomTap(index) {
+  void _onChatRoomTap(int index, AsyncSnapshot<List<ChatRoomModel>> snapshot) {
     context.pushNamed(
       ChatDetailScreen.routeName,
-      params: {"chatId": "$index"},
+      params: {"chatId": snapshot.data![index].chatId},
     );
   }
 
-  ListTile _makeTile(int index, AsyncSnapshot<List<ChatRoomModel>> snapshot) {
+  ListTile makeTile(int index, AsyncSnapshot<List<ChatRoomModel>> snapshot) {
     final userId = ref.read(userProvider).value!.uid;
     final targetUserId = snapshot.data![index].personIdA == userId
         ? snapshot.data![index].personIdB
@@ -52,7 +52,7 @@ class ChatsScreenState extends ConsumerState<ChatsScreen> {
         horizontal: Sizes.size12,
       ),
       onLongPress: () => _deleteItem(index, snapshot),
-      onTap: () => _onChatRoomTap(index),
+      onTap: () => _onChatRoomTap(index, snapshot),
       leading: SizedBox(
         width: 50,
         child: Stack(
@@ -61,7 +61,7 @@ class ChatsScreenState extends ConsumerState<ChatsScreen> {
             CircleAvatar(
               radius: 20,
               foregroundImage: NetworkImage(
-                "https://firebasestorage.googleapis.com/v0/b/tiktok-10313.appspot.com/o/avatars%2F$targetUserId?alt=media&date=${DateTime.now().toString()}",
+                "https://firebasestorage.googleapis.com/v0/b/tiktok-10313.appspot.com/o/avatars%2F$userId?alt=media&date=${DateTime.now().toString()}",
               ),
             ),
             Positioned(
@@ -70,7 +70,7 @@ class ChatsScreenState extends ConsumerState<ChatsScreen> {
               child: CircleAvatar(
                 radius: 20,
                 foregroundImage: NetworkImage(
-                  "https://firebasestorage.googleapis.com/v0/b/tiktok-10313.appspot.com/o/avatars%2F$userId?alt=media&date=${DateTime.now().toString()}",
+                  "https://firebasestorage.googleapis.com/v0/b/tiktok-10313.appspot.com/o/avatars%2F$targetUserId?alt=media&date=${DateTime.now().toString()}",
                 ),
               ),
             )
@@ -167,7 +167,7 @@ class ChatsScreenState extends ConsumerState<ChatsScreen> {
                   itemBuilder: (context, index) {
                     return Column(
                       children: [
-                        _makeTile(index, snapshot),
+                        makeTile(index, snapshot),
                       ],
                     );
                   },

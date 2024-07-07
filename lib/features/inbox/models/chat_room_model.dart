@@ -1,36 +1,54 @@
 class ChatRoomModel {
   final String chatId;
-  final String messageAt;
   final String lastText;
-  final String createdAt;
   final String personIdA;
   final String personIdB;
+  final int messageAt;
+  final int createdAt;
 
   ChatRoomModel({
     required this.chatId,
-    required this.messageAt,
     required this.lastText,
-    required this.createdAt,
     required this.personIdA,
     required this.personIdB,
+    required this.messageAt,
+    required this.createdAt,
   });
 
   ChatRoomModel.fromJson(Map<String, dynamic> json)
       : chatId = json['chatId'],
-        messageAt = json['messageAt'],
         lastText = json['lastText'],
-        createdAt = json['createdAt'],
         personIdA = json['personIdA'],
-        personIdB = json['personIdB'];
+        personIdB = json['personIdB'],
+        messageAt = json['messageAt'],
+        createdAt = json['createdAt'];
 
   Map<String, dynamic> toJson() {
     return {
       "chatId": chatId,
-      "messageAt": messageAt,
       "lastText": lastText,
-      "createdAt": createdAt,
       "personIdA": personIdA,
-      "personIdB": personIdB
+      "personIdB": personIdB,
+      "messageAt": messageAt,
+      "createdAt": createdAt,
     };
+  }
+
+  ChatRoomModel copyWith({
+    String? chatId,
+    String? lastText,
+    String? personIdA,
+    String? personIdB,
+    int? messageAt,
+    int? createdAt,
+  }) {
+    return ChatRoomModel(
+      chatId: chatId ?? this.chatId,
+      lastText: lastText ?? this.lastText,
+      personIdA: personIdA ?? this.personIdA,
+      personIdB: personIdB ?? this.personIdB,
+      messageAt: messageAt ?? this.messageAt,
+      createdAt: createdAt ?? this.createdAt,
+    );
   }
 }
