@@ -79,3 +79,29 @@ export const onLikedRemoved = functions.firestore
     const query = db.collection("users").doc(userId).collection("likes").doc("videoId");
     await query.delete();
   });
+
+export const onMessageCreated = functions.firestore
+  .document("chat_rooms/{chatId}/messages/{messageId}")
+  .onCreate(async (snapshot, context) => {
+    const db = admin.firestore();
+    const chatId = context.params.chatId;
+    const lastMessage = snapshot.data().text;
+    await db.collection("chat_rooms").doc(chatId).update({
+      messageAt: Date.now(),
+      lastMessage,
+    });
+  });
+
+export const onMessageUpdated = functions.firestore
+  .document("chat_rooms/{chatId}/messages/{messageId}")
+  .onUpdate(async (change, context) => {
+    const db = admin.firestore();
+    const chatId = context.params.chatId;
+    const lastMessage = "[Message has deleted]";
+    if (change.after.data().hasDeleted) {
+      await db.collection("chat_rooms").doc(chatId).update({
+        messageAt: Date.now(),
+        lastMessage,
+      });
+    }
+  });

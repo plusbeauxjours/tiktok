@@ -106,7 +106,7 @@ class ChatsScreenState extends ConsumerState<ChatsScreen> {
         ),
       ),
       subtitle: Text(
-        snapshot.data![index].lastText,
+        snapshot.data![index].lastMessage,
         style: const TextStyle(
           fontWeight: FontWeight.w300,
           fontSize: Sizes.size10,

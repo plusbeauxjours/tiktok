@@ -1,6 +1,6 @@
 class ChatRoomModel {
   final String chatId;
-  final String lastText;
+  final String lastMessage;
   final String personIdA;
   final String personIdB;
   final int messageAt;
@@ -8,7 +8,7 @@ class ChatRoomModel {
 
   ChatRoomModel({
     required this.chatId,
-    required this.lastText,
+    required this.lastMessage,
     required this.personIdA,
     required this.personIdB,
     required this.messageAt,
@@ -17,7 +17,7 @@ class ChatRoomModel {
 
   ChatRoomModel.fromJson(Map<String, dynamic> json)
       : chatId = json['chatId'],
-        lastText = json['lastText'],
+        lastMessage = json['lastMessage'],
         personIdA = json['personIdA'],
         personIdB = json['personIdB'],
         messageAt = json['messageAt'],
@@ -26,7 +26,7 @@ class ChatRoomModel {
   Map<String, dynamic> toJson() {
     return {
       "chatId": chatId,
-      "lastText": lastText,
+      "lastMessage": lastMessage,
       "personIdA": personIdA,
       "personIdB": personIdB,
       "messageAt": messageAt,
@@ -36,7 +36,7 @@ class ChatRoomModel {
 
   ChatRoomModel copyWith({
     String? chatId,
-    String? lastText,
+    String? lastMessage,
     String? personIdA,
     String? personIdB,
     int? messageAt,
@@ -44,7 +44,7 @@ class ChatRoomModel {
   }) {
     return ChatRoomModel(
       chatId: chatId ?? this.chatId,
-      lastText: lastText ?? this.lastText,
+      lastMessage: lastMessage ?? this.lastMessage,
       personIdA: personIdA ?? this.personIdA,
       personIdB: personIdB ?? this.personIdB,
       messageAt: messageAt ?? this.messageAt,

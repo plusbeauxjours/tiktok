@@ -31,18 +31,6 @@ class ChatRoomRepository {
         .collection("chat_rooms")
         .doc(chatRoom.chatId)
         .set(chatRoom.toJson());
-    await _db
-        .collection("users")
-        .doc(chatRoom.personIdA)
-        .collection("chat_rooms")
-        .doc("${chatRoom.personIdA}___${chatRoom.personIdB}")
-        .set(chatRoom.toJson());
-    await _db
-        .collection("users")
-        .doc(chatRoom.personIdB)
-        .collection("chat_rooms")
-        .doc("${chatRoom.personIdA}___${chatRoom.personIdB}")
-        .set(chatRoom.toJson());
     return null;
   }
 

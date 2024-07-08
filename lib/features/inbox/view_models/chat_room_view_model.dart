@@ -36,7 +36,7 @@ class CharRoomViewModel extends AsyncNotifier<void> {
       String userId, String targetUserId) async {
     final chatRoom = ChatRoomModel(
       chatId: "${userId}___$targetUserId",
-      lastText: "",
+      lastMessage: "",
       personIdA: userId,
       personIdB: targetUserId,
       messageAt: DateTime.now().millisecondsSinceEpoch,
@@ -56,14 +56,15 @@ class CharRoomViewModel extends AsyncNotifier<void> {
     return null;
   }
 
-  Future<void> updateChatRoomLastText(String chatId, String lastText) async {
+  Future<void> updateChatRoomlastMessage(
+      String chatId, String lastMessage) async {
     final [personIdA, personIdB] = chatId.split("___");
     final result = await _chatRoomRepo.findChatRoom(personIdA, personIdB);
     final chatRoom = ChatRoomModel.fromJson(result!);
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       chatRoom.copyWith(
-        lastText: lastText,
+        lastMessage: lastMessage,
         messageAt: DateTime.now().millisecondsSinceEpoch,
       );
     });
