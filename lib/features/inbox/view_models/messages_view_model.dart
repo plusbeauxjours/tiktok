@@ -21,11 +21,19 @@ class MessagesViewModel extends FamilyAsyncNotifier<void, String> {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final message = MessageModel(
+        messageId: "",
         text: text,
         userId: user!.uid,
         createdAt: DateTime.now().millisecondsSinceEpoch,
+        hasDeleted: false,
       );
       await _repo.sendMessage(_chatRoomId, message);
+    });
+  }
+
+  Future<void> deleteMessage(String chatId, String messageId) async {
+    state = await AsyncValue.guard(() async {
+      await _repo.deleteMessage(chatId, messageId);
     });
   }
 }
@@ -42,7 +50,7 @@ final chatProvider = StreamProvider.family
   return db
       .collection("chat_rooms")
       .doc(chatRoomId)
-      .collection("texts")
+      .collection("messages")
       .orderBy("createdAt")
       .snapshots()
       .map((event) => event.docs

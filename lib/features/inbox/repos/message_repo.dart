@@ -6,9 +6,23 @@ class MessageRepo {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   Future<void> sendMessage(String chatId, MessageModel message) async {
-    await _db.collection("chat_rooms").doc(chatId).collection("texts").add(
-          message.toJson(),
-        );
+    await _db
+        .collection("chat_rooms")
+        .doc(chatId)
+        .collection("messages")
+        .add(message.toJson())
+        .then((value) async => await value.update({
+              "messageId": value.id,
+            }));
+  }
+
+  Future<void> deleteMessage(String chatId, String messageId) async {
+    await _db
+        .collection("chat_rooms")
+        .doc(chatId)
+        .collection("messages")
+        .doc(messageId)
+        .update({"hasDeleted": true});
   }
 }
 

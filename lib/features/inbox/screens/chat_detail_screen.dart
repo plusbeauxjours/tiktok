@@ -47,6 +47,12 @@ class ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
     });
   }
 
+  void _onMessageDeleteLongPressed(String chatId, String messageId) {
+    ref
+        .read(messagesProvider(widget.chatId).notifier)
+        .deleteMessage(chatId, messageId);
+  }
+
   @override
   void dispose() {
     _editingController.dispose();
@@ -150,11 +156,22 @@ class ChatDetailScreenState extends ConsumerState<ChatDetailScreen> {
                                     ),
                                   ),
                                 ),
-                                child: Text(
-                                  message.text,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: Sizes.size16,
+                                child: GestureDetector(
+                                  onLongPress: !message.hasDeleted && isMine
+                                      ? () {
+                                          _onMessageDeleteLongPressed(
+                                              widget.chatId,
+                                              data[index].messageId);
+                                        }
+                                      : null,
+                                  child: Text(
+                                    message.hasDeleted && isMine
+                                        ? "[Message has deleted]"
+                                        : message.text,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: Sizes.size16,
+                                    ),
                                   ),
                                 ),
                               ),
