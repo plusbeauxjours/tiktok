@@ -18,14 +18,7 @@ class InterestsScreen extends StatefulWidget {
 
 class _InterestsScreenState extends State<InterestsScreen> {
   final ScrollController _scrollController = ScrollController();
-
   bool _showTitle = false;
-
-  void _onScroll() {
-    // 과도한 setState() 호출 방지
-    if (_scrollController.offset > 100 && _showTitle) return;
-    setState(() => _showTitle = _scrollController.offset > 100);
-  }
 
   @override
   void initState() {
@@ -39,78 +32,119 @@ class _InterestsScreenState extends State<InterestsScreen> {
     super.dispose();
   }
 
+  void _onScroll() {
+    if (_scrollController.offset > 100) {
+      if (!_showTitle) setState(() => _showTitle = true);
+    } else {
+      if (_showTitle) setState(() => _showTitle = false);
+    }
+  }
+
+  void _onNextTap() {
+    navPush(context, const TutorialScreen());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: AnimatedOpacity(
-            opacity: _showTitle ? 1 : 0,
-            duration: const Duration(milliseconds: 300),
-            child: const Text('Choose your interests')),
+      appBar: _buildAppBar(),
+      body: _buildBody(),
+      bottomNavigationBar: _buildBottomNavigationBar(),
+    );
+  }
+
+  AppBar _buildAppBar() {
+    return AppBar(
+      title: AnimatedOpacity(
+        opacity: _showTitle ? 1 : 0,
+        duration: const Duration(
+          milliseconds: 300,
+        ),
+        child: const Text('Choose your interests'),
       ),
-      body: Scrollbar(
+    );
+  }
+
+  Widget _buildBody() {
+    return Scrollbar(
+      controller: _scrollController,
+      child: SingleChildScrollView(
         controller: _scrollController,
-        child: SingleChildScrollView(
-          controller: _scrollController,
-          child: Padding(
-            padding: const EdgeInsets.only(
-                left: Sizes.size24, right: Sizes.size24, bottom: Sizes.size16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Gaps.v32,
-                const Text(
-                  'Choose your interests',
-                  style: TextStyle(
-                    fontSize: Sizes.size40,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Gaps.v20,
-                const Text(
-                  'Get better video recommendations',
-                  style: TextStyle(
-                    fontSize: Sizes.size20,
-                  ),
-                ),
-                Gaps.v40,
-                Wrap(
-                  spacing: Sizes.size16,
-                  runSpacing: Sizes.size16,
-                  children: [
-                    for (var interest in interests)
-                      InterestButton(interest: interest)
-                  ],
-                ),
-              ],
-            ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(
+            Sizes.size24,
+            0,
+            Sizes.size24,
+            Sizes.size16,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Gaps.v32,
+              _buildTitle(),
+              Gaps.v20,
+              _buildSubtitle(),
+              Gaps.v40,
+              _buildInterestsList(),
+            ],
           ),
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(
-          bottom: Sizes.size40,
-          top: Sizes.size16,
-          left: Sizes.size24,
-          right: Sizes.size24,
-        ),
-        child: GestureDetector(
-          onTap: () => navPush(context, const TutorialScreen()),
-          child: Container(
-            padding: const EdgeInsets.symmetric(
-              vertical: Sizes.size16 + Sizes.size2,
-            ),
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
-            ),
-            child: const Text(
-              'Next',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
-                fontSize: Sizes.size16,
-              ),
+    );
+  }
+
+  Widget _buildTitle() {
+    return const Text(
+      'Choose your interests',
+      style: TextStyle(
+        fontSize: Sizes.size40,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
+  Widget _buildSubtitle() {
+    return const Text(
+      'Get better video recommendations',
+      style: TextStyle(
+        fontSize: Sizes.size20,
+      ),
+    );
+  }
+
+  Widget _buildInterestsList() {
+    return Wrap(
+      spacing: Sizes.size16,
+      runSpacing: Sizes.size16,
+      children: [
+        for (var interest in interests)
+          InterestButton(
+            interest: interest,
+          )
+      ],
+    );
+  }
+
+  Widget _buildBottomNavigationBar() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+          Sizes.size24, Sizes.size16, Sizes.size24, Sizes.size40),
+      child: GestureDetector(
+        onTap: _onNextTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+            vertical: Sizes.size16 + Sizes.size2,
+          ),
+          decoration: BoxDecoration(
+            color: Theme.of(context).primaryColor,
+          ),
+          child: const Text(
+            'Next',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+              fontSize: Sizes.size16,
             ),
           ),
         ),
