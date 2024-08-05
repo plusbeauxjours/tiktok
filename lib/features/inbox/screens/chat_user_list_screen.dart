@@ -22,11 +22,10 @@ class ChatUserListScreen extends ConsumerStatefulWidget {
 
 class ChatUserListScreenState extends ConsumerState<ChatUserListScreen> {
   final GlobalKey<AnimatedListState> _key = GlobalKey<AnimatedListState>();
-
   final List<int> _items = [];
-
   final Duration _duration = const Duration(milliseconds: 300);
 
+  // 아이템 추가 메서드
   void _addItem() {
     if (_key.currentState != null) {
       _key.currentState!.insertItem(
@@ -37,6 +36,7 @@ class ChatUserListScreenState extends ConsumerState<ChatUserListScreen> {
     }
   }
 
+  // 아이템 삭제 메서드
   void _deleteItem(int index, AsyncSnapshot<List<UserProfileModel>> snapshot) {
     if (_key.currentState != null) {
       _key.currentState!.removeItem(
@@ -54,6 +54,7 @@ class ChatUserListScreenState extends ConsumerState<ChatUserListScreen> {
     }
   }
 
+  // 사용자 탭 처리 메서드
   Future<void> _onUserTap(
     int index,
     AsyncSnapshot<List<UserProfileModel>> snapshot,
@@ -72,6 +73,7 @@ class ChatUserListScreenState extends ConsumerState<ChatUserListScreen> {
     );
   }
 
+  // ListTile 위젯 생성 메서드
   ListTile _buildListTile(
       int index, AsyncSnapshot<List<UserProfileModel>> snapshot) {
     final user = snapshot.data![index];
@@ -82,44 +84,64 @@ class ChatUserListScreenState extends ConsumerState<ChatUserListScreen> {
       ),
       onLongPress: () => _deleteItem(index, snapshot),
       onTap: () => _onUserTap(index, snapshot),
-      leading: CircleAvatar(
-        radius: 30,
-        foregroundImage: NetworkImage(
-          "https://firebasestorage.googleapis.com/v0/b/tiktok-10313.appspot.com/o/avatars%2F${user.uid}?alt=media&date=${DateTime.now().toString()}",
-        ),
-        child: Text(user.name[0]),
+      leading: _buildAvatar(user),
+      trailing: _buildTrailingIcon(),
+      subtitle: _buildSubtitle(user),
+      title: _buildTitle(user),
+    );
+  }
+
+  // 아바타 위젯 생성 메서드
+  Widget _buildAvatar(UserProfileModel user) {
+    return CircleAvatar(
+      radius: 30,
+      foregroundImage: NetworkImage(
+        "https://firebasestorage.googleapis.com/v0/b/tiktok-10313.appspot.com/o/avatars%2F${user.uid}?alt=media&date=${DateTime.now().toString()}",
       ),
-      trailing: const Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: Sizes.size12,
-        ),
-        child: FaIcon(
-          FontAwesomeIcons.paperPlane,
-          size: Sizes.size20,
-        ),
+      child: Text(user.name[0]),
+    );
+  }
+
+  // 트레일링 아이콘 위젯 생성 메서드
+  Widget _buildTrailingIcon() {
+    return const Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: Sizes.size12,
       ),
-      subtitle: Text(
-        user.bio,
-        style: const TextStyle(
-          fontWeight: FontWeight.w300,
-          fontSize: Sizes.size14,
-          color: Colors.grey,
-        ),
-        overflow: TextOverflow.ellipsis,
+      child: FaIcon(
+        FontAwesomeIcons.paperPlane,
+        size: Sizes.size20,
       ),
-      title: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Text(
-            user.name,
-            style: const TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: Sizes.size18,
-            ),
+    );
+  }
+
+  // 서브타이틀 위젯 생성 메서드
+  Widget _buildSubtitle(UserProfileModel user) {
+    return Text(
+      user.bio,
+      style: const TextStyle(
+        fontWeight: FontWeight.w300,
+        fontSize: Sizes.size14,
+        color: Colors.grey,
+      ),
+      overflow: TextOverflow.ellipsis,
+    );
+  }
+
+  // 타이틀 위젯 생성 메서드
+  Widget _buildTitle(UserProfileModel user) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Text(
+          user.name,
+          style: const TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: Sizes.size18,
           ),
-          Gaps.h16,
-        ],
-      ),
+        ),
+        Gaps.h16,
+      ],
     );
   }
 
@@ -136,32 +158,36 @@ class ChatUserListScreenState extends ConsumerState<ChatUserListScreen> {
             .getUserList(ref.read(userProvider).value!.uid),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return Center(
-              child: Container(
-                constraints: const BoxConstraints(
-                  maxWidth: Breakpoints.lg,
-                ),
-                child: ListView.separated(
-                  separatorBuilder: (context, index) => const Divider(
-                    thickness: 0.5,
-                    indent: Sizes.size12,
-                    endIndent: Sizes.size12,
-                    height: 0.5,
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    vertical: Sizes.size10,
-                  ),
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) =>
-                      _buildListTile(index, snapshot),
-                ),
-              ),
-            );
+            return _buildUserList(snapshot);
           }
           return const Center(
             child: CircularProgressIndicator(),
           );
         },
+      ),
+    );
+  }
+
+  // 사용자 목록 위젯 생성 메서드
+  Widget _buildUserList(AsyncSnapshot<List<UserProfileModel>> snapshot) {
+    return Center(
+      child: Container(
+        constraints: const BoxConstraints(
+          maxWidth: Breakpoints.lg,
+        ),
+        child: ListView.separated(
+          separatorBuilder: (context, index) => const Divider(
+            thickness: 0.5,
+            indent: Sizes.size12,
+            endIndent: Sizes.size12,
+            height: 0.5,
+          ),
+          padding: const EdgeInsets.symmetric(
+            vertical: Sizes.size10,
+          ),
+          itemCount: snapshot.data!.length,
+          itemBuilder: (context, index) => _buildListTile(index, snapshot),
+        ),
       ),
     );
   }
