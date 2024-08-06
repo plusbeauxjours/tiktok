@@ -18,18 +18,14 @@ class BirthdayScreen extends ConsumerStatefulWidget {
 
 class BirthdayScreenState extends ConsumerState<BirthdayScreen> {
   final TextEditingController _birthdayController = TextEditingController();
-
-  DateTime initDate = DateTime.now();
-  late DateTime minDate = DateTime(
-    initDate.year - 12,
-    initDate.month,
-    initDate.day,
-  );
+  final DateTime _initDate = DateTime.now();
+  late final DateTime _minDate;
 
   @override
   void initState() {
     super.initState();
-    _setTextFieldDate(initDate);
+    _minDate = DateTime(_initDate.year - 12, _initDate.month, _initDate.day);
+    _setTextFieldDate(_initDate);
   }
 
   @override
@@ -42,20 +38,19 @@ class BirthdayScreenState extends ConsumerState<BirthdayScreen> {
     final state = ref.read(signUpForm.notifier).state;
     ref.read(signUpForm.notifier).state = {
       ...state,
-      "birthday": _birthdayController.value.text,
+      "birthday": _birthdayController.text,
     };
     ref.read(signUpProvider.notifier).signUp(context);
-    // context.goNamed(InterestsScreen.routeName);
   }
 
   void _setTextFieldDate(DateTime date) {
-    _birthdayController.value =
-        TextEditingValue(text: DateFormat('yyyy. MM. dd').format(date));
+    _birthdayController.text = DateFormat('yyyy. MM. dd').format(date);
   }
 
   @override
   Widget build(BuildContext context) {
     final isWebScreen = MediaQuery.of(context).size.width > Breakpoints.lg;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -69,52 +64,56 @@ class BirthdayScreenState extends ConsumerState<BirthdayScreen> {
             Gaps.v40,
             const BirthdayHeader(),
             Gaps.v28,
-            TextField(
-              enabled: false,
-              controller: _birthdayController,
-              decoration: InputDecoration(
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Theme.of(context).disabledColor,
-                  ),
-                ),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Theme.of(context).disabledColor,
-                  ),
-                ),
-              ),
-              cursorColor: Theme.of(context).primaryColor,
-            ),
+            _buildBirthdayTextField(),
             Gaps.v28,
-            GestureDetector(
-              onTap: _onNextTap,
-              child: FormButton(
-                disabled: ref.watch(signUpProvider).isLoading,
-              ),
-            ),
-            Gaps.v96,
-            if (isWebScreen)
-              BirthdayDatePicker(
-                initialDateTime: initDate,
-                minimumDate: minDate,
-                maximumDate: initDate,
-                onDateTimeChanged: _setTextFieldDate,
-              ),
+            _buildNextButton(),
+            if (isWebScreen) Gaps.v96,
+            if (isWebScreen) _buildDatePicker(),
           ],
         ),
       ),
-      bottomNavigationBar: !isWebScreen
-          ? BottomAppBar(
-              height: MediaQuery.of(context).size.height * 0.3,
-              child: BirthdayDatePicker(
-                initialDateTime: initDate,
-                minimumDate: minDate,
-                maximumDate: initDate,
-                onDateTimeChanged: _setTextFieldDate,
-              ),
-            )
-          : null,
+      bottomNavigationBar: isWebScreen ? null : _buildBottomDatePicker(),
+    );
+  }
+
+  Widget _buildBirthdayTextField() {
+    return TextField(
+      enabled: false,
+      controller: _birthdayController,
+      decoration: InputDecoration(
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Theme.of(context).disabledColor),
+        ),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Theme.of(context).disabledColor),
+        ),
+      ),
+      cursorColor: Theme.of(context).primaryColor,
+    );
+  }
+
+  Widget _buildNextButton() {
+    return GestureDetector(
+      onTap: _onNextTap,
+      child: FormButton(
+        disabled: ref.watch(signUpProvider).isLoading,
+      ),
+    );
+  }
+
+  Widget _buildDatePicker() {
+    return BirthdayDatePicker(
+      initialDateTime: _initDate,
+      minimumDate: _minDate,
+      maximumDate: _initDate,
+      onDateTimeChanged: _setTextFieldDate,
+    );
+  }
+
+  Widget _buildBottomDatePicker() {
+    return BottomAppBar(
+      height: MediaQuery.of(context).size.height * 0.3,
+      child: _buildDatePicker(),
     );
   }
 }
