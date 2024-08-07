@@ -16,25 +16,21 @@ class LoginFormScreen extends ConsumerStatefulWidget {
 
 class LoginFormScreenState extends ConsumerState<LoginFormScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  Map<String, String> formData = {};
+  final Map<String, String> _formData = {};
 
   void _onSubmitTap() {
-    if (_formKey.currentState != null) {
-      if (_formKey.currentState!.validate()) {
-        _formKey.currentState?.save();
-        ref.read(loginProvider.notifier).login(
-              formData["email"]!,
-              formData["password"]!,
-              context,
-            );
-        // goRouteGoNamed(context, InterestsScreen.routeName);
-      }
+    if (_formKey.currentState?.validate() ?? false) {
+      _formKey.currentState?.save();
+      ref.read(loginProvider.notifier).login(
+            _formData["email"]!,
+            _formData["password"]!,
+            context,
+          );
     }
   }
 
   void _onSavedFn(String field, String? newValue) {
-    if (newValue != null) formData[field] = newValue;
+    if (newValue != null) _formData[field] = newValue;
   }
 
   @override
@@ -46,32 +42,22 @@ class LoginFormScreenState extends ConsumerState<LoginFormScreen> {
           title: const Text('Login'),
         ),
         body: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: Sizes.size36,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: Sizes.size36),
           child: Form(
             key: _formKey,
             child: Column(
               children: [
                 CstTextFormField(
                   hintText: 'Email',
-                  validator: (value) {
-                    if (value != null && value.isEmpty) {
-                      return "Please write your email";
-                    }
-                    return null;
-                  },
+                  validator: (value) =>
+                      value?.isEmpty ?? true ? "Please write your email" : null,
                   onSaved: (newValue) => _onSavedFn('email', newValue),
                 ),
                 Gaps.v16,
                 CstTextFormField(
                   hintText: 'Password',
-                  validator: (value) {
-                    if (value != null && value.isEmpty) {
-                      return 'Please write password';
-                    }
-                    return null;
-                  },
+                  validator: (value) =>
+                      value?.isEmpty ?? true ? 'Please write password' : null,
                   onSaved: (newValue) => _onSavedFn('password', newValue),
                 ),
                 Gaps.v28,
