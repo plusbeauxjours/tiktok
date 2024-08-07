@@ -8,12 +8,6 @@ import 'package:tiktok/features/authentications/widgets/form_button.dart';
 import 'package:tiktok/features/authentications/view_models/signup_view_model.dart';
 import 'package:tiktok/utils/utils.dart';
 
-class EmailScreenArgs {
-  final String username;
-
-  EmailScreenArgs({required this.username});
-}
-
 class EmailScreen extends ConsumerStatefulWidget {
   final String username;
 
@@ -50,7 +44,6 @@ class EmailScreenState extends ConsumerState<EmailScreen> {
 
   String? _isEmailValid() {
     if (_email.isEmpty) return null;
-
     final regExp = RegExp(
         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
     if (!regExp.hasMatch(_email)) return 'Email is Not valid';
