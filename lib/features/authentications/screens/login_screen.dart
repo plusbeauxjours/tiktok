@@ -9,8 +9,8 @@ import 'package:tiktok/features/authentications/widgets/auth_button.dart';
 import 'package:tiktok/utils/utils.dart';
 
 class LoginScreen extends ConsumerWidget {
-  static String routeName = "login";
-  static String routeURL = "/login";
+  static const String routeName = "login";
+  static const String routeURL = "/login";
 
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -35,68 +35,75 @@ class LoginScreen extends ConsumerWidget {
                 opacity: 0.7,
                 child: Text(
                   "Manage your account, check notifications, comment on videos, and more.",
-                  style: TextStyle(
-                    fontSize: Sizes.size16,
-                  ),
+                  style: TextStyle(fontSize: Sizes.size16),
                   textAlign: TextAlign.center,
                 ),
               ),
               Gaps.v40,
-              GestureDetector(
+              _buildAuthButton(
+                icon: FontAwesomeIcons.user,
+                text: 'Use email & password',
                 onTap: () => navPush(context, const LoginFormScreen()),
-                child: const AuthButton(
-                  icon: FaIcon(FontAwesomeIcons.user),
-                  text: 'Use email & password',
-                ),
               ),
               Gaps.v16,
-              GestureDetector(
+              _buildAuthButton(
+                icon: FontAwesomeIcons.github,
+                text: "Continue with Github",
                 onTap: () =>
                     ref.read(socialAuthProvider.notifier).githubSignIn(context),
-                child: const AuthButton(
-                  icon: FaIcon(FontAwesomeIcons.github),
-                  text: "Continue with Github",
-                ),
               ),
               Gaps.v16,
-              GestureDetector(
+              _buildAuthButton(
+                icon: FontAwesomeIcons.google,
+                text: 'Continue with Google',
                 onTap: () =>
                     ref.read(socialAuthProvider.notifier).googleSignIn(context),
-                child: const AuthButton(
-                  icon: FaIcon(FontAwesomeIcons.google),
-                  text: 'Continue with Google',
-                ),
               ),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: Container(
-        color: isDarkMode(context, ref)
-            ? Theme.of(context).appBarTheme.backgroundColor
-            : Colors.grey.shade50,
-        child: Padding(
-          padding: const EdgeInsets.only(
-            top: Sizes.size32,
-            bottom: Sizes.size64,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text("Don't have an account?"),
-              Gaps.h5,
-              GestureDetector(
-                onTap: () => navPop(context),
-                child: Text(
-                  'Sign up',
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontWeight: FontWeight.w600,
-                  ),
+      bottomNavigationBar: _buildBottomBar(context, ref),
+    );
+  }
+
+  Widget _buildAuthButton({
+    required IconData icon,
+    required String text,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: AuthButton(icon: FaIcon(icon), text: text),
+    );
+  }
+
+  Widget _buildBottomBar(BuildContext context, WidgetRef ref) {
+    return Container(
+      color: isDarkMode(context, ref)
+          ? Theme.of(context).appBarTheme.backgroundColor
+          : Colors.grey.shade50,
+      child: Padding(
+        padding: const EdgeInsets.only(
+          top: Sizes.size32,
+          bottom: Sizes.size64,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text("Don't have an account?"),
+            Gaps.h5,
+            GestureDetector(
+              onTap: () => navPop(context),
+              child: Text(
+                'Sign up',
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
