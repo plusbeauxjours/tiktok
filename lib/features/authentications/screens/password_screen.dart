@@ -18,32 +18,30 @@ class PasswordScreen extends ConsumerStatefulWidget {
 
 class PasswordScreenState extends ConsumerState<PasswordScreen> {
   final TextEditingController _passwordController = TextEditingController();
-
   String _password = '';
   bool _obscureText = true;
 
   @override
   void initState() {
     super.initState();
-
-    _passwordController.addListener(() {
-      setState(() {
-        _password = _passwordController.text;
-      });
-    });
+    _passwordController.addListener(_updatePassword);
   }
 
   @override
   void dispose() {
+    _passwordController.removeListener(_updatePassword);
     _passwordController.dispose();
     super.dispose();
   }
 
-  bool _isTherePassword() {
-    return _password.isNotEmpty &&
-        _password.length >= 8 &&
-        _password.length <= 20;
+  void _updatePassword() {
+    setState(() {
+      _password = _passwordController.text;
+    });
   }
+
+  bool _isPasswordLengthValid() =>
+      _password.isNotEmpty && _password.length >= 8 && _password.length <= 20;
 
   bool _isPasswordValid() {
     final regExp = RegExp(
@@ -51,38 +49,21 @@ class PasswordScreenState extends ConsumerState<PasswordScreen> {
     return regExp.hasMatch(_password);
   }
 
-  void _onScaffoldTap() {
-    FocusScope.of(context).unfocus();
-  }
-
   void _onSubmit() {
     if (!_isPasswordValid()) return;
-    final state = ref.read(signUpForm.notifier).state;
-    ref.read(signUpForm.notifier).state = {
-      ...state,
-      "password": _password,
-    };
+    ref
+        .read(signUpForm.notifier)
+        .update((state) => {...state, "password": _password});
     Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const BirthdayScreen(),
-      ),
-    );
+        context, MaterialPageRoute(builder: (_) => const BirthdayScreen()));
   }
 
-  void _toggleObscureText() {
-    _obscureText = !_obscureText;
-    setState(() {});
-  }
-
-  void _onClearTap() {
-    _passwordController.clear();
-  }
+  void _toggleObscureText() => setState(() => _obscureText = !_obscureText);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: _onScaffoldTap,
+      onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -111,7 +92,7 @@ class PasswordScreenState extends ConsumerState<PasswordScreen> {
                 hintText: 'Make it strong!',
                 suffix: SuffixIcons(
                   obscureText: _obscureText,
-                  onClearTap: _onClearTap,
+                  onClearTap: () => _passwordController.clear(),
                   toggleObscureText: _toggleObscureText,
                 ),
               ),
@@ -121,32 +102,14 @@ class PasswordScreenState extends ConsumerState<PasswordScreen> {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               Gaps.v10,
-              Row(
-                children: [
-                  FaIcon(
-                    FontAwesomeIcons.circleCheck,
-                    size: Sizes.size20,
-                    color: _isTherePassword()
-                        ? Colors.green
-                        : Theme.of(context).disabledColor,
-                  ),
-                  Gaps.h5,
-                  const Text('8 to 20 characters'),
-                ],
+              _buildPasswordRequirement(
+                _isPasswordLengthValid(),
+                '8 to 20 characters',
               ),
               Gaps.v5,
-              Row(
-                children: [
-                  FaIcon(
-                    FontAwesomeIcons.circleCheck,
-                    size: Sizes.size20,
-                    color: _isPasswordValid()
-                        ? Colors.green
-                        : Theme.of(context).disabledColor,
-                  ),
-                  Gaps.h5,
-                  const Text('Letters, numbers, and special characters'),
-                ],
+              _buildPasswordRequirement(
+                _isPasswordValid(),
+                'Letters, numbers, and special characters',
               ),
               Gaps.v28,
               GestureDetector(
@@ -157,6 +120,20 @@ class PasswordScreenState extends ConsumerState<PasswordScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildPasswordRequirement(bool isValid, String text) {
+    return Row(
+      children: [
+        FaIcon(
+          FontAwesomeIcons.circleCheck,
+          size: Sizes.size20,
+          color: isValid ? Colors.green : Theme.of(context).disabledColor,
+        ),
+        Gaps.h5,
+        Text(text),
+      ],
     );
   }
 }
