@@ -25,6 +25,62 @@ class SignUpScreen extends ConsumerWidget {
     navPush(context, const UsernameScreen());
   }
 
+  Widget _buildAuthButton(
+    BuildContext context,
+    WidgetRef ref, {
+    required IconData icon,
+    required String text,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: AuthButton(
+        icon: FaIcon(icon),
+        text: text,
+      ),
+    );
+  }
+
+  List<Widget> _buildAuthButtons(BuildContext context, WidgetRef ref) {
+    return [
+      _buildAuthButton(
+        context,
+        ref,
+        icon: FontAwesomeIcons.user,
+        text: S.of(context).emailPasswordButton,
+        onTap: () => _onEmailTap(context),
+      ),
+      Gaps.v16,
+      _buildAuthButton(
+        context,
+        ref,
+        icon: FontAwesomeIcons.github,
+        text: "Continue with Github",
+        onTap: () =>
+            ref.read(socialAuthProvider.notifier).githubSignIn(context),
+      ),
+      Gaps.v16,
+      _buildAuthButton(
+        context,
+        ref,
+        icon: FontAwesomeIcons.google,
+        text: 'Continue with Google',
+        onTap: () =>
+            ref.read(socialAuthProvider.notifier).googleSignIn(context),
+      ),
+    ];
+  }
+
+  Widget _buildOrientationLayout(
+      BuildContext context, WidgetRef ref, Orientation orientation) {
+    final buttons = _buildAuthButtons(context, ref);
+    return orientation == Orientation.portrait
+        ? Column(children: buttons)
+        : Row(
+            children:
+                buttons.map((button) => Expanded(child: button)).toList());
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return OrientationBuilder(
@@ -58,113 +114,51 @@ class SignUpScreen extends ConsumerWidget {
                     ),
                   ),
                   Gaps.v40,
-                  if (orientation == Orientation.portrait) ...[
-                    GestureDetector(
-                      onTap: () => _onEmailTap(context),
-                      child: AuthButton(
-                        icon: const FaIcon(FontAwesomeIcons.user),
-                        text: S.of(context).emailPasswordButton,
-                      ),
-                    ),
-                    Gaps.v16,
-                    GestureDetector(
-                      onTap: () => ref
-                          .read(socialAuthProvider.notifier)
-                          .githubSignIn(context),
-                      child: const AuthButton(
-                        icon: FaIcon(FontAwesomeIcons.github),
-                        text: "Continue with Github",
-                      ),
-                    ),
-                    Gaps.v16,
-                    GestureDetector(
-                      onTap: () => ref
-                          .read(socialAuthProvider.notifier)
-                          .googleSignIn(context),
-                      child: const AuthButton(
-                        icon: FaIcon(FontAwesomeIcons.google),
-                        text: 'Continue with Google',
-                      ),
-                    ),
-                  ],
-                  if (orientation == Orientation.landscape)
-                    Row(
-                      children: [
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () => _onEmailTap(context),
-                            child: AuthButton(
-                              icon: const FaIcon(FontAwesomeIcons.user),
-                              text: S.of(context).emailPasswordButton,
-                            ),
-                          ),
-                        ),
-                        Gaps.h16,
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () => ref
-                                .read(socialAuthProvider.notifier)
-                                .githubSignIn(context),
-                            child: const AuthButton(
-                              icon: FaIcon(FontAwesomeIcons.github),
-                              text: "Continue with Github",
-                            ),
-                          ),
-                        ),
-                        Gaps.h16,
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () => ref
-                                .read(socialAuthProvider.notifier)
-                                .googleSignIn(context),
-                            child: const AuthButton(
-                              icon: FaIcon(FontAwesomeIcons.github),
-                              text: "Continue with Github",
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
+                  _buildOrientationLayout(context, ref, orientation),
                 ],
               ),
             ),
           ),
-          bottomNavigationBar: Container(
-            color: isDarkMode(context, ref)
-                ? Theme.of(context).appBarTheme.backgroundColor
-                : Colors.grey.shade50,
-            child: Padding(
-              padding: const EdgeInsets.only(
-                top: Sizes.size32,
-                bottom: Sizes.size64,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    S.of(context).alreadyHaveAnAccount,
-                    style: const TextStyle(
-                      fontSize: Sizes.size16,
-                    ),
-                  ),
-                  Gaps.h5,
-                  GestureDetector(
-                    onTap: () => _onLoginTap(context),
-                    child: Text(
-                      "Log in",
-                      style: TextStyle(
-                        fontSize: Sizes.size16,
-                        fontWeight: FontWeight.w600,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          bottomNavigationBar: _buildBottomBar(context, ref),
         );
       },
+    );
+  }
+
+  Widget _buildBottomBar(BuildContext context, WidgetRef ref) {
+    return Container(
+      color: isDarkMode(context, ref)
+          ? Theme.of(context).appBarTheme.backgroundColor
+          : Colors.grey.shade50,
+      child: Padding(
+        padding: const EdgeInsets.only(
+          top: Sizes.size32,
+          bottom: Sizes.size64,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              S.of(context).alreadyHaveAnAccount,
+              style: const TextStyle(
+                fontSize: Sizes.size16,
+              ),
+            ),
+            Gaps.h5,
+            GestureDetector(
+              onTap: () => _onLoginTap(context),
+              child: Text(
+                "Log in",
+                style: TextStyle(
+                  fontSize: Sizes.size16,
+                  fontWeight: FontWeight.w600,
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
