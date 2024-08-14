@@ -17,31 +17,30 @@ class UsernameScreen extends ConsumerStatefulWidget {
 
 class UsernameScreenState extends ConsumerState<UsernameScreen> {
   final TextEditingController _usernameController = TextEditingController();
-
   String _username = '';
 
   @override
   void initState() {
     super.initState();
-
-    _usernameController.addListener(() {
-      setState(() {
-        _username = _usernameController.text;
-      });
-    });
+    _usernameController.addListener(_updateUsername);
   }
 
   @override
   void dispose() {
+    _usernameController.removeListener(_updateUsername);
     _usernameController.dispose();
     super.dispose();
   }
 
+  void _updateUsername() {
+    setState(() {
+      _username = _usernameController.text;
+    });
+  }
+
   void _onNextTap() {
     if (_username.isEmpty) return;
-    ref.read(signUpForm.notifier).state = {
-      "username": _username,
-    };
+    ref.read(signUpForm.notifier).state = {"username": _username};
     navPush(context, EmailScreen(username: _username));
   }
 
