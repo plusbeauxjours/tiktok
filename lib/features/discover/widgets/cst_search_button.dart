@@ -27,66 +27,80 @@ class CstSearchButton extends ConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        GestureDetector(
-            onTap: moveBack, child: const FaIcon(FontAwesomeIcons.chevronLeft)),
-        Expanded(
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: Sizes.size18),
-            height: Sizes.size44,
-            child: TextField(
-              controller: textEditingController,
-              onChanged: onSearchChanged,
-              onSubmitted: onSearchSubmitted,
-              cursorColor: Theme.of(context).primaryColor,
-              decoration: InputDecoration(
-                hintText: 'Search',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(Sizes.size5),
-                  borderSide: BorderSide.none,
-                ),
-                filled: true,
-                fillColor: isDarkMode(context, ref)
-                    ? Colors.grey.shade800
-                    : Colors.grey.shade200,
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: Sizes.size12),
-                prefixIcon: Container(
-                  width: Sizes.size20,
-                  alignment: Alignment.center,
-                  child: FaIcon(
-                    FontAwesomeIcons.magnifyingGlass,
-                    color: isDarkMode(context, ref)
-                        ? Colors.grey.shade500
-                        : Colors.black,
-                    size: Sizes.size18,
-                  ),
-                ),
-                suffixIcon: Container(
-                  width: Sizes.size20,
-                  alignment: Alignment.centerRight,
-                  padding: const EdgeInsets.only(
-                    left: Sizes.size10,
-                    right: Sizes.size8,
-                  ),
-                  child: AnimatedOpacity(
-                    opacity: isThereSearchValue ? 1 : 0,
-                    duration: const Duration(milliseconds: 200),
-                    child: GestureDetector(
-                      onTap: onCloseIcon,
-                      child: FaIcon(
-                        FontAwesomeIcons.solidCircleXmark,
-                        color: Colors.grey.shade600,
-                        size: Sizes.size18,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
+        _buildBackButton(),
+        Expanded(child: _buildSearchField(context, ref)),
         const FaIcon(FontAwesomeIcons.sliders),
       ],
+    );
+  }
+
+  Widget _buildBackButton() {
+    return GestureDetector(
+      onTap: moveBack,
+      child: const FaIcon(FontAwesomeIcons.chevronLeft),
+    );
+  }
+
+  Widget _buildSearchField(BuildContext context, WidgetRef ref) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: Sizes.size18),
+      height: Sizes.size44,
+      child: TextField(
+        controller: textEditingController,
+        onChanged: onSearchChanged,
+        onSubmitted: onSearchSubmitted,
+        cursorColor: Theme.of(context).primaryColor,
+        decoration: _buildInputDecoration(context, ref),
+      ),
+    );
+  }
+
+  InputDecoration _buildInputDecoration(BuildContext context, WidgetRef ref) {
+    return InputDecoration(
+      hintText: 'Search',
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(Sizes.size5),
+        borderSide: BorderSide.none,
+      ),
+      filled: true,
+      fillColor: isDarkMode(context, ref)
+          ? Colors.grey.shade800
+          : Colors.grey.shade200,
+      contentPadding: const EdgeInsets.symmetric(horizontal: Sizes.size12),
+      prefixIcon: _buildSearchIcon(context, ref),
+      suffixIcon: _buildClearIcon(context),
+    );
+  }
+
+  Widget _buildSearchIcon(BuildContext context, WidgetRef ref) {
+    return Container(
+      width: Sizes.size20,
+      alignment: Alignment.center,
+      child: FaIcon(
+        FontAwesomeIcons.magnifyingGlass,
+        color: isDarkMode(context, ref) ? Colors.grey.shade500 : Colors.black,
+        size: Sizes.size18,
+      ),
+    );
+  }
+
+  Widget _buildClearIcon(BuildContext context) {
+    return Container(
+      width: Sizes.size20,
+      alignment: Alignment.centerRight,
+      padding: const EdgeInsets.only(left: Sizes.size10, right: Sizes.size8),
+      child: AnimatedOpacity(
+        opacity: isThereSearchValue ? 1 : 0,
+        duration: const Duration(milliseconds: 200),
+        child: GestureDetector(
+          onTap: onCloseIcon,
+          child: FaIcon(
+            FontAwesomeIcons.solidCircleXmark,
+            color: Colors.grey.shade600,
+            size: Sizes.size18,
+          ),
+        ),
+      ),
     );
   }
 }
