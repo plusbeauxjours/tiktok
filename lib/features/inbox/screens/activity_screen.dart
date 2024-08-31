@@ -18,36 +18,46 @@ class ActivityScreen extends StatefulWidget {
 class _ActivityScreenState extends State<ActivityScreen>
     with SingleTickerProviderStateMixin {
   bool _showBarrier = false;
+  late final AnimationController _animationController;
+  late final Animation<double> _arrowAnimation;
+  late final Animation<Offset> _panelAnimation;
+  late final Animation<Color?> _barrierAnimation;
 
-  late final AnimationController _animationController = AnimationController(
-    vsync: this,
-    duration: const Duration(
-      milliseconds: 200,
-    ),
-  );
-
-  late final Animation<double> _arrowAnimation =
-      Tween(begin: 0.0, end: 0.5).animate(_animationController);
-
-  late final Animation<Offset> _panelAnimation = Tween(
-    begin: const Offset(0, -1),
-    end: Offset.zero,
-  ).animate(_animationController);
-
-  late final Animation<Color?> _barrierAnimation = ColorTween(
-    begin: Colors.transparent,
-    end: Colors.black38,
-  ).animate(_animationController);
-
-  void _onDismissed(String notification) {
-    notifications.remove(notification);
-    setState(() {});
+  @override
+  void initState() {
+    super.initState();
+    _initializeAnimations();
   }
 
-  void _toggleAnimations() async {
-    _animationController.isCompleted
-        ? await _animationController.reverse()
-        : _animationController.forward();
+  void _initializeAnimations() {
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
+
+    _arrowAnimation = Tween(begin: 0.0, end: 0.5).animate(_animationController);
+    _panelAnimation = Tween(
+      begin: const Offset(0, -1),
+      end: Offset.zero,
+    ).animate(_animationController);
+    _barrierAnimation = ColorTween(
+      begin: Colors.transparent,
+      end: Colors.black38,
+    ).animate(_animationController);
+  }
+
+  void _onDismissed(String notification) {
+    setState(() {
+      notifications.remove(notification);
+    });
+  }
+
+  Future<void> _toggleAnimations() async {
+    if (_animationController.isCompleted) {
+      await _animationController.reverse();
+    } else {
+      await _animationController.forward();
+    }
     setState(() {
       _showBarrier = !_showBarrier;
     });
