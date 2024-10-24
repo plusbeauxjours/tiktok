@@ -94,7 +94,7 @@ class InboxScreen extends StatelessWidget {
         ),
       ),
       subtitle: const Text(
-        'Messages from followers will appear here.',
+        'Messages from followers will appear here',
         style: TextStyle(
           fontSize: Sizes.size14,
         ),
